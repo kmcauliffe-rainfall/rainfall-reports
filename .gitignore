@@ -5,6 +5,10 @@
 .quarto
 _site/
 _output/
+states/*/index.html
+regions/*/index.html
+states/*/index_files/
+regions/*/index_files/
 **/*.pdf
 **/*.typ
 !styles/preamble.typ

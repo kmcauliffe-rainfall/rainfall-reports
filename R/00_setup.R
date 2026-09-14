@@ -16,8 +16,6 @@ if (capabilities("aqua")) {
 }
 knitr::opts_chunk$set(dev = "png", dpi = 150)
 
-.libPaths(c(path.expand("~/R/library"), .libPaths()))
-
 report_dir <- function() {
   normalizePath(getwd(), winslash = "/", mustWork = TRUE)
 }

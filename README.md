@@ -12,8 +12,17 @@ Quarto + R project for Rainfall Health TEAM whitepapers and draft state/region b
 
 ## Prerequisites
 
-- Quarto ≥ 1.5 (Typst bundled)
-- R ≥ 4.3
+- Quarto ≥ 1.5 (Typst bundled) — check with `quarto --version`
+- R ≥ 4.3 (tested on **R 4.6.x**) — check with `R --version`
+
+This repo uses **renv**. After cloning or switching R versions:
+
+```bash
+Rscript -e 'renv::restore(prompt = FALSE)'
+Rscript -e 'renv::status()'
+```
+
+If `renv::status()` reports a clean library, you are ready to render.
 
 ## Open in RStudio
 
