@@ -38,7 +38,18 @@ knitr:
 #| include: false
 REPORT_KIND <- "state"
 REPORT_ID <- "PA"
-source("../../R/report.R")
+.d <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+for (.i in 1:6) {
+  if (file.exists(file.path(.d, "R", "source_report.R"))) {
+    source(file.path(.d, "R", "source_report.R"))
+    break
+  }
+  .p <- dirname(.d)
+  if (identical(.p, .d)) {
+    stop("Could not find rainfall-reports repo root.")
+  }
+  .d <- .p
+}
 ```
 
 ::: {.draft-banner}
@@ -46,7 +57,7 @@ Draft briefing ported from the Rainfall TEAM website guide and wired to the live
 :::
 
 ::: {.wp-cover}
-![](../../assets/rainfall-logo.png){.wp-logo}
+![](`r rel_asset("rainfall-logo.png")`){.wp-logo}
 
 <p class="wp-kicker">White paper</p>
 

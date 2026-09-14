@@ -4,7 +4,7 @@ Quarto + R project for Rainfall Health TEAM whitepapers and draft state/region b
 
 ## Layout
 
-- `states/california` — full whitepaper ported from [rainfall-corp-website PR #35](https://github.com/Bettermeant-Health/rainfall-corp-website/pull/35)
+- `states/california` — full California whitepaper (also available as `california/` symlink at repo root for Finder/RStudio)
 - `states/*` — draft whitepapers from the website TEAM state guides
 - `regions/*` — draft Territory 1–4 briefings (NorCal/PNW/Rockies, SoCal/Southwest/Gulf, Northeast, South & Midwest)
 - `R/` — parameterized roster loaders and figures
@@ -14,6 +14,12 @@ Quarto + R project for Rainfall Health TEAM whitepapers and draft state/region b
 
 - Quarto ≥ 1.5 (Typst bundled)
 - R ≥ 4.3
+
+## Open in RStudio
+
+1. Open **`rainfall-reports.Rproj`** at the repo root (not a subfolder).
+2. California whitepaper source: **`states/california/index.qmd`** (shortcut: **`california/index.qmd`**).
+3. Preview: **Render** or `quarto preview states/california/index.qmd`.
 
 ## Restore and render
 

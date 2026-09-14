@@ -1,10 +1,26 @@
 # Orchestrate a report. Set REPORT_KIND and REPORT_ID before sourcing.
 
-source("../../R/00_setup.R")
-source("../../R/01_load_data.R")
-source("../../R/02_charts.R")
-source("../../R/03_exposure_figures.R")
-source("../../R/04_hrrp_figures.R")
+.report_repo_root <- function() {
+  d <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+  for (i in 1:6) {
+    if (file.exists(file.path(d, "data", "territoryHospitals.json"))) {
+      return(d)
+    }
+    parent <- dirname(d)
+    if (identical(parent, d)) {
+      break
+    }
+    d <- parent
+  }
+  stop("Could not find rainfall-reports repo root (data/territoryHospitals.json).")
+}
+
+.r_dir <- file.path(.report_repo_root(), "R")
+source(file.path(.r_dir, "00_setup.R"))
+source(file.path(.r_dir, "01_load_data.R"))
+source(file.path(.r_dir, "02_charts.R"))
+source(file.path(.r_dir, "03_exposure_figures.R"))
+source(file.path(.r_dir, "04_hrrp_figures.R"))
 
 if (!exists("REPORT_KIND") || !exists("REPORT_ID")) {
   stop("Set REPORT_KIND ('state' or 'territory') and REPORT_ID before sourcing R/report.R")
@@ -54,5 +70,5 @@ if (ca_mode) {
   build_fig4()
 }
 
-logo_path <- file.path("..", "..", "assets", "rainfall-logo.png")
-ca_sil_path <- file.path("..", "..", "assets", "california-silhouette.svg")
+logo_path <- rel_asset("rainfall-logo.png")
+ca_sil_path <- rel_asset("california-silhouette.svg")
