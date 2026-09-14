@@ -1,0 +1,51 @@
+{
+  "t1": {
+    "id": "t1",
+    "slug": "norcal-pnw-rockies",
+    "name": "NorCal, PNW & Rockies",
+    "kicker": "REGION BRIEFING",
+    "title": "CMS TEAM Region Report: NorCal, PNW & Rockies",
+    "states": ["OR", "WA", "ID", "MT", "NV", "UT", "SD", "MN", "WI", "IL", "CO"],
+    "ca_cbsas": [
+      "San Francisco-Oakland-Fremont, CA",
+      "San Jose-Sunnyvale-Santa Clara, CA",
+      "Santa Rosa-Petaluma, CA",
+      "Eureka-Arcata, CA",
+      "Crescent City, CA"
+    ]
+  },
+  "t2": {
+    "id": "t2",
+    "slug": "socal-southwest-gulf",
+    "name": "SoCal, Southwest & Gulf South",
+    "kicker": "REGION BRIEFING",
+    "title": "CMS TEAM Region Report: SoCal, Southwest & Gulf South",
+    "states": ["AZ", "NM", "TX", "OK", "KS", "NE", "IA", "MO", "LA", "AR"],
+    "ca_cbsas": [
+      "Riverside-San Bernardino-Ontario, CA",
+      "San Diego-Chula Vista-Carlsbad, CA",
+      "Bakersfield-Delano, CA",
+      "San Luis Obispo-Paso Robles, CA",
+      "Los Angeles-Long Beach-Anaheim, CA",
+      "Hanford-Corcoran, CA"
+    ]
+  },
+  "t3": {
+    "id": "t3",
+    "slug": "northeast",
+    "name": "Northeast",
+    "kicker": "REGION BRIEFING",
+    "title": "CMS TEAM Region Report: Northeast",
+    "states": ["NY", "NJ", "MA", "PA", "CT", "NH", "RI", "ME", "DC", "WV", "VA"],
+    "ca_cbsas": []
+  },
+  "t4": {
+    "id": "t4",
+    "slug": "south-midwest",
+    "name": "South & Midwest",
+    "kicker": "REGION BRIEFING",
+    "title": "CMS TEAM Region Report: South & Midwest",
+    "states": ["FL", "GA", "SC", "NC", "TN", "AL", "MS", "KY", "PR", "OH", "IN", "MI"],
+    "ca_cbsas": []
+  }
+}

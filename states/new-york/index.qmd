@@ -1,0 +1,315 @@
+---
+title: "CMS TEAM in New York: 78 Mandated Hospitals, the Nation's Largest Bundled-Payment Market"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "NY"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in New York: 78 Mandated Hospitals, the Nation's Largest Bundled-Payment Market
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>A comprehensive guide to every CMS TEAM-mandated hospital in New York — Core-Based Statistical Area (CBSA) breakdowns, major health system exposure, readmissions data, and what New York hospital leaders must do before 2027.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in New York: 78 Mandated Hospitals, the Nation's Largest Bundled-Payment Market
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 78 hospitals mandated — second nationally
+- 65 in New York–Newark–Jersey City metro
+- New York HRRP rate: 52.7% above benchmark
+- NYU Langone, Mount Sinai, Montefiore in scope
+- Hip/knee readmissions are highest-risk exposure
+
+## New York and the TEAM mandate: market scope and stakes
+
+New York State has **78 hospitals** mandated to participate in the CMS Transforming Episode Accountability Model across **six Core-Based Statistical Areas**, making it the second-largest TEAM state in the country behind California. The mandate covers an estimated **12,800 annual LEJR episodes** (lower extremity joint replacement — hip and knee) at these hospitals alone — the single highest-volume procedure type under TEAM — plus thousands of additional episodes in spinal fusion, hip fracture, major bowel, and coronary bypass categories.
+
+The geographic concentration is striking. Sixty-five of the 78 mandated hospitals — **83% of the state total** — are located within the New York–Newark–Jersey City, NY–NJ metropolitan CBSA, the nation's largest metropolitan bundled-payment market. This multi-state CBSA also contains all 44 mandated New Jersey hospitals, creating a shared post-acute ecosystem spanning two states, five boroughs, and suburban markets from Long Island to Westchester to northern New Jersey.
+
+New York's hospital market is among the most structurally complex in the country. Large nonprofit health systems (Northwell Health, Mount Sinai Health System, NYU Langone, NewYork-Presbyterian, Montefiore) coexist with city-operated public hospitals (NYC Health + Hospitals), academic medical centers, and smaller community facilities. This heterogeneity shapes TEAM performance: world-class surgical capacity does not automatically translate to low post-discharge episode costs, and several of New York's most prestigious institutions are among its highest HRRP penalty earners.
+
+(Source: [Centers for Medicare & Medicaid Services (2026); Rainfall Health analysis.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+**Fast facts**
+
+- 78 hospitals mandated (March 2026 CMS list)
+- 6 CBSAs: New York–Newark–Jersey City (65), Buffalo–Cheektowaga (8), Oneonta (2), Batavia (1), Cortland (1), Massena–Ogdensburg (1)
+- ~12,800 estimated annual LEJR episodes at TEAM hospitals
+- 52.7% of NY hospital-condition pairs exceed HRRP ERR 1.0 — above the 48.1% national average
+- ~4.2 million Medicare beneficiaries in New York State
+- Top health systems: Northwell Health, Mount Sinai, NYU Langone, Montefiore, NewYork-Presbyterian, NYC Health + Hospitals
+
+## Economic and demographic context
+
+New York's Medicare population of approximately **4.2 million beneficiaries** represents roughly 21.7% of the state's 19.3 million residents — above the national average of about 18.5% — reflecting an aging demographic concentrated in downstate suburban and outer-borough communities. The state's hospital market is dominated by large nonprofit systems that depend on Medicare as their primary revenue source, making TEAM's financial implications particularly consequential for the sector.
+
+Hospital costs in the New York metropolitan area are systematically higher than national benchmarks due to labor costs, real estate expenses, and the density of academic and specialty care. CMS sets TEAM target prices using each hospital's own historical spending blended with regional benchmarks — meaning New York hospitals' higher cost structure is partially reflected in their targets. However, the 2.0% discount factor applied by CMS to LEJR, SHFFT, and spinal fusion episode targets still creates a gap that must be closed through care coordination efficiency, not just baseline cost reductions.
+
+A landmark JAMA study by Dummit et al. (2016) analyzing the predecessor Comprehensive Joint Replacement (CJR) model — which also included New York markets — found that participating hospitals reduced episode payments by an average of $864 per episode in the first performance year. New York was disproportionately represented in that cohort. However, Finkelstein et al. (2021), analyzing mandatory bundled payments in lower extremity joint replacement, found that discharge to institutional post-acute care declined significantly under mandatory programs — a finding with direct relevance to New York, where institutional post-acute placement has historically been higher than national averages.
+
+(Source: [Dummit et al. (2016), JAMA 316(12).](https://doi.org/10.1001/jama.2016.12717))
+(Source: [Finkelstein et al. (2021), JAMA 325(18).](https://doi.org/10.1001/jama.2021.5684))
+
+## Complete hospital directory by CBSA
+
+The following table lists every CMS TEAM-mandated hospital in New York, organized by Core-Based Statistical Area. All 78 hospitals are drawn from the March 2026 CMS participant list.
+
+| CBSA | Hospitals (count) | Selected hospitals |
+| --- | --- | --- |
+| New York–Newark–Jersey City, NY–NJ | 65 | NYU Langone Hospitals · Mount Sinai Hospital · Mount Sinai West · Mount Sinai Beth Israel · Mount Sinai South Nassau · Montefiore Medical Center · Montefiore Mount Vernon · Montefiore New Rochelle · NewYork-Presbyterian Hospital · NewYork-Presbyterian/Queens · North Shore University Hospital · Long Island Jewish Medical Center · South Shore University Hospital · Huntington Hospital · Lenox Hill Hospital · Staten Island University Hospital · Maimonides Medical Center · Westchester Medical Center · White Plains Hospital · Northern Westchester Hospital · Stony Brook University Hospital · SUNY Health Science Center Brooklyn · Nassau University Medical Center · Bellevue Hospital Center · Kings County Hospital Center · Harlem Hospital Center · Elmhurst Hospital Center · Queens Hospital Center · Jacobi Medical Center · Lincoln Medical Center · Metropolitan Hospital Center · Woodhull Medical Center · Brookdale Hospital · NYC South Brooklyn Health · Jamaica Hospital · BronxCare Hospital Center · Wyckoff Heights · NYACK Hospital · Good Samaritan Suffern · Good Samaritan Medical Center · Flushing Hospital · St. John's Riverside · Richmond University Medical Center · St. Charles Hospital · John T. Mather Hospital · Phelps Hospital · Hudson Valley Hospital · Peconic Bay Medical Center · Plainview Hospital · Long Island Community Hospital · Putnam Hospital · Glen Cove Hospital · St. Francis Hospital Roslyn · St. Catherine of Siena · St. Joseph Hospital · Helen Hayes Hospital · St. John's Episcopal Hospital · NY Eye and Ear Infirmary · Terence Cardinal Cooke · Mercy Medical Center · Brooklyn Hospital · St. Barnabas Hospital · New York Community Hospital of Brooklyn · St. Joseph's Medical Center |
+| Buffalo–Cheektowaga, NY | 8 | Kaleida Health · Erie County Medical Center · Sisters of Charity Hospital · Mercy Hospital of Buffalo · Kenmore Mercy Hospital · Mount St. Mary's Hospital · Niagara Falls Memorial · Bertrand Chaffee Hospital |
+| Oneonta, NY | 2 | Mary Imogene Bassett Hospital · Aurelia Osborn Fox Memorial Hospital |
+| Batavia, NY | 1 | United Memorial Medical Center |
+| Cortland, NY | 1 | Guthrie Cortland Regional Medical Center |
+| Massena–Ogdensburg, NY | 1 | Canton-Potsdam Hospital |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## The New York–Newark–Jersey City CBSA: a shared post-acute market
+
+The New York–Newark–Jersey City, NY–NJ CBSA is not simply a large metropolitan area — it is a geographically integrated care delivery system in which a patient discharged from a Bronx hospital may recover at a skilled nursing facility in New Jersey, and vice versa. This market integration creates both competitive complexity and coordinating opportunity for TEAM management.
+
+The CBSA contains some of the country's most well-resourced hospitals. **Hospital for Special Surgery** (HSS) — internationally recognized as the top-ranked orthopedic hospital in the United States — is a TEAM participant, as are NYU Langone (ranked among the top hospitals nationally for orthopedics by U.S. News & World Report), North Shore University Hospital, Lenox Hill Hospital, and Stony Brook University Hospital. These institutions' historical episode efficiency will influence their target prices; facilities with strong prior CJR performance enter TEAM with tighter targets but also with post-acute coordination infrastructure already in place.
+
+The presence of the NYC Health + Hospitals system — including Bellevue, Kings County, Lincoln Medical, Queens Hospital, Harlem Hospital, Elmhurst, Jacobi, Woodhull, and Metropolitan — introduces a distinct policy dimension. These public hospitals disproportionately serve uninsured and dual-eligible patients, whose post-discharge resources and social determinants of health differ substantially from the commercial patient mix at neighboring academic centers. Under TEAM, risk adjustment partially accounts for patient complexity, but research has consistently found that safety-net hospitals face structural TEAM disadvantages (Navathe et al., 2020).
+
+The large Northwell Health system — which operates North Shore University Hospital, Long Island Jewish Medical Center, South Shore University Hospital, Lenox Hill, Huntington Hospital, Peconic Bay Medical Center, and others — gives it an unusual degree of coordinated leverage under TEAM. Northwell's ability to direct patients to its own post-acute partners and monitor episode costs across a vertically integrated network is a structural advantage that independent community hospitals in the same CBSA cannot match.
+
+(Source: [Navathe et al. (2020), JAMA 323(2).](https://doi.org/10.1001/jama.2019.19040))
+
+## Buffalo and upstate CBSAs
+
+Western New York's **Buffalo–Cheektowaga CBSA** adds eight hospitals, anchored by **Kaleida Health** — the region's dominant health system operating Buffalo General Medical Center, Women & Children's Hospital, Gates Vascular Institute, and affiliated facilities — and the **Erie County Medical Center**, the county's Level 1 trauma center and safety-net hospital. Sisters of Charity Hospital and Mercy Hospital of Buffalo represent the Catholic Health system presence. The smaller community hospitals (Kenmore Mercy, Mount St. Mary's, Niagara Falls Memorial, Bertrand Chaffee) serve suburban and rural catchment areas with different post-acute landscapes than the urban core.
+
+The three upstate CBSAs — **Oneonta** (Mary Imogene Bassett Hospital and Aurelia Osborn Fox Memorial), **Batavia** (United Memorial Medical Center), and **Cortland** (Guthrie Cortland Regional) — along with **Canton-Potsdam Hospital** in the Massena–Ogdensburg market, represent critical access and rural community hospitals with constrained post-acute networks. For these facilities, TEAM's 30-day episode window is particularly difficult to manage: skilled nursing facility options are geographically limited, home health capacity is strained, and patients frequently travel significant distances from their county of residence for surgical care, complicating post-discharge follow-up.
+
+## Readmissions landscape: New York under HRRP
+
+Analysis of the CMS HRRP FY2024 dataset (Dataset 9n3s-kdb3) shows that **52.7% of New York hospital-condition pairs** exceed the excess readmission ratio (ERR) threshold of 1.0 — meaning more readmissions than CMS's risk model predicts. This is above the national average of 48.1% and reflects a readmissions challenge concentrated in both urban public hospitals and high-volume academic centers.
+
+Under CMS TEAM, readmissions have compounded consequences. A patient readmitted within 30 days of discharge from a TEAM-qualifying procedure generates: (1) an additional inpatient hospitalization cost added to the episode total, increasing the risk of exceeding the target price; and (2) an HRRP penalty event for the readmission itself. The same clinical failure produces a double financial impact. For hospitals in the New York CBSA, where LEJR volume is particularly high and where the density of potential post-acute placements is high but variable in quality, managing the first 30 days post-discharge is the primary leverage point for TEAM financial performance.
+
+The hip and knee arthroplasty condition carries the highest average ERR nationally (1.00399), more than twice the gap of the next closest condition (Zuckerman et al., 2016). This is directly relevant to New York: LEJR is the highest-volume TEAM episode type, and the post-discharge window for elective joint replacement — increasingly performed as an ambulatory or same-day procedure — is the most difficult 30-day window to actively manage without dedicated discharge coordination infrastructure.
+
+(Source: [Centers for Medicare & Medicaid Services. (2024). HRRP FY2025 supplemental data, Dataset 9n3s-kdb3.](https://data.cms.gov/provider-data/dataset/9n3s-kdb3))
+(Source: [Zuckerman et al. (2016), NEJM 374(16).](https://doi.org/10.1056/NEJMsa1513024))
+
+## Financial exposure: modeling New York TEAM risk
+
+At the national average of approximately 164 LEJR episodes per TEAM hospital per year, New York's 78 hospitals would collectively account for roughly **12,800 LEJR episodes annually**. At average episode costs of $24,540 and a 2.0% discount factor, the average target price per LEJR episode is approximately $24,049 — meaning each episode that runs to the target generates $491 in net savings to Medicare per episode, but also sets the threshold hospitals must beat to earn a gain payment.
+
+For hospitals with historically above-average LEJR episode costs — common in the NYC market given higher labor and facility costs — target prices may still be higher in absolute terms, but the discount still bites. A hospital whose historical LEJR average runs $27,000 faces a target near $26,460. If actual episode spending comes in at $26,000, it earns a $460 gain per episode. If it runs to $29,000, it owes approximately $2,540 per episode beginning in PY2 under Track 3.
+
+Optum Advisory (2025) estimated that 56% of TEAM-mandated hospitals nationally are projected to lose money once downside risk begins, with average losses of $1.2 million per facility. For New York hospitals with above-average costs and above-average readmission rates, the financial exposure is material. The HFMA (2026) recommends that hospitals use Performance Year 1 (2026) — the upside-only "dress rehearsal" year — to establish baseline episode cost data, identify high-cost post-acute partners, and build PCP follow-up protocols before two-sided risk begins in 2027.
+
+(Source: [Optum Advisory (2025); Healthcare Financial Management Association (2026).](https://www.hfma.org))
+
+## What New York hospitals must prioritize in 2026
+
+1. **Establish real-time episode cost baselines.** Hospitals must obtain their CMS-issued target price files through the TEAM participant portal and model their current trajectory against those targets before the PY1 reconciliation window closes.
+2. **Build or formalize post-acute care networks.** The NYC metro area has hundreds of SNF and home health providers, but their quality and cost profiles vary dramatically. Hospitals should identify preferred post-acute partners whose episode costs align with TEAM targets — a process requiring structured data sharing agreements that take months to negotiate.
+3. **Address the 7-day PCP follow-up requirement.** TEAM requires documentation of primary care follow-up within seven days of discharge for qualifying episodes. In New York City, where primary care access is fragmented and PCP shortage areas are common, operationalizing this requirement is a significant workflow challenge for social work and discharge planning teams.
+4. **Differentiate Track 2 eligibility.** Safety-net hospitals in the NYC public hospital system — Bellevue, Kings County, Lincoln, Elmhurst, Queens — may qualify for Track 2 (5%/5% stop-gain/stop-loss) given their safety-net designations. Confirming eligibility and electing Track 2 before PY2 may reduce financial volatility for these facilities.
+5. **Integrate HRRP and TEAM quality improvement.** Given that New York's 52.7% HRRP penalty rate is above the national average, reducing 30-day readmissions at TEAM procedure types simultaneously reduces HRRP penalties and episode costs. These programs should be integrated, not operated in parallel.
+
+## Frequently asked questions
+
+### How many hospitals are mandated for CMS TEAM in New York?
+
+78 hospitals in New York State are mandated to participate in CMS TEAM, based on the March 2026 CMS participant list.
+
+### Which CBSAs in New York are included in CMS TEAM?
+
+Six CBSAs: New York–Newark–Jersey City, NY–NJ (65 hospitals); Buffalo–Cheektowaga, NY (8); Oneonta, NY (2); Batavia, NY (1); Cortland, NY (1); and Massena–Ogdensburg, NY (1).
+
+### Is Hospital for Special Surgery required to participate in CMS TEAM?
+
+Yes. Hospital for Special Surgery (HSS) is listed on the CMS TEAM participant roster in the New York–Newark–Jersey City CBSA.
+
+### Is the entire Northwell Health system mandated?
+
+Several Northwell Health hospitals are on the TEAM participant list, including North Shore University Hospital, Long Island Jewish Medical Center, South Shore University Hospital, Lenox Hill Hospital, Huntington Hospital, and Peconic Bay Medical Center, among others.
+
+### What is New York's HRRP readmission penalty rate?
+
+52.7% of New York hospital-condition pairs exceed the ERR 1.0 threshold in the CMS FY2024 HRRP dataset — above the national average of 48.1%.
+
+### Are NYC public hospitals (Health + Hospitals) included in TEAM?
+
+Yes. Multiple NYC Health + Hospitals facilities are on the TEAM roster, including Bellevue Hospital Center, Kings County Hospital Center, Lincoln Medical Center, Harlem Hospital Center, Elmhurst Hospital Center, Queens Hospital Center, Jacobi Medical Center, and Woodhull Medical Center.
+
+### When does downside financial risk begin for New York TEAM hospitals?
+
+Performance Year 1 (2026) has no downside risk. Most hospitals transition to Track 3 (20%/20% stop-gain/stop-loss) starting in Performance Year 2 (January 1, 2027).
+
+### Does CMS TEAM apply to upstate New York hospitals?
+
+Yes, but more selectively. CMS chose CBSAs based on regional surgical episode volume. The Buffalo area has 8 mandated hospitals; smaller upstate CBSAs (Oneonta, Batavia, Cortland, Massena-Ogdensburg) each have 1–2 hospitals. The vast majority of the state's TEAM exposure is concentrated in the NYC metro.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+5. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+6. Zuckerman, R. B., Sheingold, S. H., Orav, E. J., Ruhter, J., & Epstein, A. M. (2016). Readmissions, observation, and the Hospital Readmissions Reduction Program. New England Journal of Medicine, 374(16), 1543–1551. https://doi.org/10.1056/NEJMsa1513024
+9. Navathe, A. S., Liao, J. M., Emanuel, E. J., & Press, M. J. (2020). Opening a two-way street for bundled payments. JAMA, 323(2), 121–122. https://doi.org/10.1001/jama.2019.19040
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+10. Optum Advisory. (2025, November). What hospitals need to know about TEAM for 2026. Advisory.com. https://www.advisory.com/topics/policy-and-payment/hospitals-need-to-know-team
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

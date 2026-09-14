@@ -1,0 +1,243 @@
+---
+title: "CMS TEAM in Minnesota: 30 Mandated Hospitals and the Twin Cities Value-Based Care Laboratory"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "MN"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in Minnesota: 30 Mandated Hospitals and the Twin Cities Value-Based Care Laboratory
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Minnesota's integrated Twin Cities hospital market — home to Allina Health, M Health Fairview, and HealthPartners — is one of the country's most advanced value-based care environments. Here is how 30 mandated TEAM hospitals fit into that context.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in Minnesota: 30 Mandated Hospitals and the Twin Cities Value-Based Care Laboratory
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 30 hospitals across 6 CBSAs
+- Twin Cities: 21 of 30 hospitals
+- Allina, M Health Fairview, Essentia in scope
+- MN value-based care culture advantageous
+- Rural hospitals face post-acute access challenges
+
+## Minnesota's TEAM context: a value-based care head start
+
+Minnesota's **30 CMS TEAM-mandated hospitals** across **six CBSAs** occupy a distinctive position in the national TEAM landscape. The Twin Cities metropolitan area is widely regarded as one of the most mature value-based care markets in the United States: **Allina Health**, **M Health Fairview**, **HealthPartners**, **Hennepin Healthcare**, and **Park Nicollet** (now part of HealthPartners) have decades of experience in ACO models, capitated payment arrangements, and population health management. This infrastructure does not automatically translate to TEAM episode efficiency, but it creates an institutional culture and technical foundation that positions Minnesota hospitals favorably relative to first-exposure markets.
+
+Minnesota's HRRP readmission performance is not exceptional — the state does not stand out nationally in the penalty data — but its culture of measurement, transparency, and coordinated care delivery suggests that the operational transitions TEAM requires (post-acute network coordination, real-time episode cost monitoring, PCP follow-up protocols) are less organizationally novel here than elsewhere.
+
+**Fast facts**
+
+- 30 hospitals mandated across 6 CBSAs
+- Minneapolis–St. Paul–Bloomington, MN–WI: 21 hospitals (70% of state total)
+- Duluth, MN–WI: 5 hospitals (Essentia Health system)
+- Worthington, St. Cloud, Faribault–Northfield, Bemidji: 1 hospital each
+- ~1.0 million Medicare beneficiaries in Minnesota
+- Major systems: Allina Health, M Health Fairview, HealthPartners, Hennepin Healthcare, Essentia Health, Sanford Health
+- Minnesota has long operated multi-payer ACO and capitated payment models — value-based care experience is system-wide
+
+## Complete hospital directory by CBSA
+
+| CBSA | Hospitals | Named hospitals |
+| --- | --- | --- |
+| Minneapolis–St. Paul–Bloomington, MN–WI | 21 | Abbott Northwestern Hospital (Allina) · Mercy Hospital (Allina) · United Hospital (Allina) · Cambridge Medical Center (Allina) · Buffalo Hospital (Allina) · Allina Health Faribault Medical Center · Park Nicollet Methodist Hospital (HealthPartners) · Regions Hospital (HealthPartners) · St. Francis Regional Medical Center (HealthPartners) · Maple Grove Hospital (HealthPartners) · M Health Fairview University of MN Medical Center · M Health Fairview Southdale Hospital · M Health Fairview Lakes Medical Center · M Health Fairview Northland Medical Center · M Health Fairview Ridges Hospital · M Health Fairview St. John's Hospital · M Health Fairview Woodwinds Hospital · Hennepin County Medical Center · North Memorial Health · Ridgeview Medical Center · Lakeview Memorial Hospital |
+| Duluth, MN–WI | 5 | Essentia Health St. Mary's Medical Center · Essentia Health Duluth · Essentia Health Virginia · Range Regional Health Services · Aspirus St. Lukes Hospital |
+| St. Cloud, MN | 1 | St. Cloud Hospital (CentraCare Health) |
+| Worthington, MN | 1 | Sanford Worthington Medical Center |
+| Faribault–Northfield, MN | 1 | Allina Health Faribault Medical Center |
+| Bemidji, MN | 1 | Sanford Bemidji Medical Center |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## The Twin Cities health system landscape
+
+**Allina Health**, with its 12+ hospitals and 90+ clinics, is the dominant health system presence in the Minneapolis–St. Paul TEAM market. Abbott Northwestern Hospital — Allina's flagship and one of the Midwest's highest-volume cardiac and orthopedic programs — is expected to have above-average LEJR volume and is positioned as a TEAM market leader. Allina's investment in an integrated post-acute network (including Courage Kenny Rehabilitation Institute) gives it structural tools for episode management that independent hospitals lack.
+
+**M Health Fairview** — a partnership between the University of Minnesota Health system and Fairview Health Services — operates seven TEAM-mandated facilities: the flagship University of Minnesota Medical Center (Riverside campus, the state's academic medical center), Southdale, Lakes, Northland, Ridges, St. John's, and Woodwinds hospitals. The system's academic medical center history means higher surgical complexity, while its suburban hospital footprint (Southdale, Ridges, Woodwinds) processes high volumes of elective orthopedic procedures in efficient community hospital settings.
+
+**Hennepin County Medical Center** — the Level I trauma center and safety-net hospital for Hennepin County — and **North Memorial Health** both operate under structural constraints similar to New York City's public hospitals: high shares of uninsured and complex patients, limited post-acute coordination resources relative to the commercial system, and potential Track 2 eligibility given safety-net designations.
+
+## Duluth and Greater Minnesota: a rural counterpoint
+
+**Essentia Health** dominates the Duluth CBSA with four hospitals (Essentia Health St. Mary's Medical Center, Essentia Health Duluth, Essentia Health Virginia, and the affiliated Range Regional Health Services), plus the Aspirus St. Luke's Hospital rounding out the five-hospital Duluth cohort. Essentia's integrated rural health system model — serving northern Minnesota and the Iron Range communities — is explicitly designed for resource-limited care delivery, with post-acute care managed across vast geographic distances.
+
+The four single-hospital CBSAs — **St. Cloud** (CentraCare Health's St. Cloud Hospital), **Worthington** (Sanford Worthington), **Faribault–Northfield** (Allina Faribault), and **Bemidji** (Sanford Bemidji) — represent rural and small-city markets where TEAM's post-acute coordination requirements are most operationally challenging. Sanford Health's presence in both Worthington and Bemidji reflects its strategy of anchoring rural Minnesota markets with critical access and community hospitals; both facilities have limited local post-acute options and may qualify for Track 2 considerations under rural hospital designations.
+
+## Frequently asked questions
+
+### How many Minnesota hospitals are mandated for CMS TEAM?
+
+30 hospitals across 6 CBSAs, with 21 in the Minneapolis–St. Paul–Bloomington CBSA.
+
+### Is Allina Health participating in CMS TEAM?
+
+Yes. Multiple Allina Health hospitals are on the TEAM roster, including Abbott Northwestern Hospital, Mercy Hospital, United Hospital, and Cambridge Medical Center.
+
+### Does Minnesota's value-based care history help with TEAM?
+
+Yes. Minnesota's mature ACO and capitated payment culture means many systems already have post-acute network relationships, care coordination infrastructure, and measurement capabilities that are prerequisites for effective TEAM management.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+7. American College of Surgeons. (2024). Transforming Episode Accountability Model (TEAM): ACS position and analysis. https://www.facs.org/advocacy/transforming-episode-accountability-model/
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

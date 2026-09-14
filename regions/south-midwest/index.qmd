@@ -1,0 +1,267 @@
+---
+title: "CMS TEAM Region Report: South & Midwest — 164 Mandated Hospitals"
+kicker: "REGION BRIEFING"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "territory"
+REPORT_ID <- "t4"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">Region Briefing</p>
+
+# CMS TEAM Region Report: South & Midwest — 164 Mandated Hospitals
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Territory 4 covers Florida, Tennessee, the Carolinas, Georgia, Kentucky, and Midwestern TEAM markets — 164 hospitals where HCA TriStar and AdventHealth Florida define multi-site advantage.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[REGION BRIEFING]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM Region Report: South & Midwest — 164 Mandated Hospitals
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 164 hospitals — Territory 4 roster
+- Florida 40 and Tennessee 30 lead
+- Nashville CBSA: 19 TEAM hospitals
+- HCA TriStar multi-site advantage
+- AdventHealth Florida density
+
+## What is Rainfall Territory 4 under CMS TEAM?
+
+**Territory 4 (South & Midwest)** includes **164** mandated hospitals (**22.7%** of 721). States and territories: Florida, Georgia, South Carolina, North Carolina, Tennessee, Alabama, Mississippi, Kentucky, Puerto Rico, Ohio, Indiana, and Michigan.
+
+**Florida (40)** and **Tennessee (30)** dominate. The **Nashville–Davidson–Murfreesboro–Franklin** CBSA has **19** TEAM hospitals — a for-profit and regional-nonprofit battleground where HCA TriStar density is a defining feature of the Tennessee state guide.
+
+Florida’s TEAM map is uneven: Jacksonville (13), Daytona/Deltona (8), Lakeland (5), and Fort Walton (5) appear, while much of Miami-Dade was **not** selected. Hospital executives should not assume “Florida = TEAM”; CBSA membership is the rule.
+
+(Source: [CMS TEAM participant list (March 2026); Rainfall territoryHospitals.json.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+**Fast facts**
+
+- 164 mandated hospitals (March 2026)
+- Top states: Florida 40 · Tennessee 30 · Kentucky 17 · North Carolina 16 · Georgia 14 · Mississippi 12 · South Carolina 12
+- Top CBSAs: Nashville 19 · Jacksonville 13 · Memphis 10 · Daytona/Deltona 8 · Greenville SC 8 · Lexington KY 7
+- System signals: HCA (TriStar + Florida), AdventHealth, Ascension, Baptist brands
+- Map: /territory-map
+
+## How are Territory 4 hospitals distributed by state?
+
+| State / territory | TEAM hospitals (T4) |
+| --- | --- |
+| Florida | 40 |
+| Tennessee | 30 |
+| Kentucky | 17 |
+| North Carolina | 16 |
+| Georgia | 14 |
+| Mississippi | 12 |
+| South Carolina | 12 |
+| Ohio | 9 |
+| Indiana | 6 |
+| Alabama | 5 |
+| Puerto Rico | 2 |
+| Michigan | 1 |
+| Territory 4 total | 164 |
+
+## Which CBSAs concentrate the most TEAM risk?
+
+| CBSA | Hospitals |
+| --- | --- |
+| Nashville-Davidson--Murfreesboro--Franklin, TN | 19 |
+| Jacksonville, FL | 13 |
+| Memphis, TN-MS-AR | 10 |
+| Deltona-Daytona Beach-Ormond Beach, FL | 8 |
+| Greenville-Anderson-Greer, SC | 8 |
+| Lexington-Fayette, KY | 7 |
+| Lakeland-Winter Haven, FL | 5 |
+| Crestview-Fort Walton Beach-Destin, FL | 5 |
+| Greensboro-High Point, NC | 4 |
+| Raleigh-Cary, NC | 4 |
+
+## Which networks benefit most in the South & Midwest?
+
+**HCA Healthcare** is the clearest multi-state for-profit story in Territory 4 — TriStar in Tennessee, plus Florida and other Sun Belt sites. Name-pattern matching across the national roster finds on the order of **~29** HCA-family TEAM hospitals (including TriStar and HealthONE brands in other territories), the largest single brand cluster we measure.
+
+**AdventHealth** (~16 name-matched TEAM sites) concentrates in Florida and adjacent markets with owned or tightly affiliated ambulatory and post-acute capacity. **Ascension** and various **Baptist** brands add regional density.
+
+Independent hospitals in Nashville, Jacksonville, and Greenville face the classic TEAM problem: high surgical quality with weak leverage over SNF length of stay. Network guides for HCA and AdventHealth unpack the operational playbook.
+
+## What should Territory 4 hospitals prioritize?
+
+Map every TEAM CCN against **HCA and AdventHealth preferred PAC panels** in your CBSA — even if you are not in those systems, your patients may land in the same SNFs. Build competitive home-health capacity for LEJR. Use Florida and Tennessee state guides for named hospital directories, and the episode-volume analysis for procedure mix planning.
+
+## Frequently asked questions
+
+### How many CMS TEAM hospitals are in Territory 4?
+
+164 active hospitals on the March 2026 CMS participant list.
+
+### Which markets matter most?
+
+Nashville (19 hospitals), Jacksonville (13), Memphis (10), and several mid-sized Florida and Carolina CBSAs.
+
+### Is all of Florida in TEAM?
+
+No. CMS selected specific Florida CBSAs. Jacksonville, Daytona/Deltona, Lakeland, and Fort Walton appear; much of Miami was not selected.
+
+### Which network articles should I read?
+
+The HCA Healthcare and AdventHealth CMS TEAM network guides, plus the national hospital-networks advantage overview.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Rainfall Health. (2026). CMS TEAM sales territory map and hospital directory (territoryHospitals.json). Sandbox research hub."},{"id":5,"text":"Dummit, L. A., et al. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+6. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+7. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

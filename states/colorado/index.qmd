@@ -1,0 +1,240 @@
+---
+title: "CMS TEAM in Colorado: 27 Mandated Hospitals and the Denver Market's Integrated Care Advantage"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "CO"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in Colorado: 27 Mandated Hospitals and the Denver Market's Integrated Care Advantage
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Colorado's 27 TEAM-mandated hospitals are dominated by the Denver-Aurora metro, where UCHealth, Intermountain Health, AdventHealth, and HCA HealthONE have built integrated care delivery systems well-positioned for bundled payment success.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in Colorado: 27 Mandated Hospitals and the Denver Market's Integrated Care Advantage
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 27 hospitals across 5 CBSAs
+- Denver–Aurora: 21 of 27 hospitals (78%)
+- UCHealth, Intermountain, AdventHealth all in scope
+- Colorado HRRP beats national average
+- Mountain CBSAs face post-acute access limits
+
+## Colorado's TEAM market: integration, altitude, and accountability
+
+Colorado has **27 hospitals** mandated to participate in CMS TEAM across **five CBSAs**, with 21 hospitals — **78%** — concentrated in the **Denver–Aurora–Centennial, CO CBSA**. The Denver metro is one of the country's most integrated large hospital markets: **UCHealth**, **Intermountain Health** (formerly SCL Health), **AdventHealth**, and **HCA HealthONE** have collectively built large, multi-hospital systems with unified EHR platforms, shared post-acute networks, and physician integration strategies that are prerequisites for effective TEAM management.
+
+Colorado's HRRP readmission performance is generally below the national average, reflecting the state's relatively healthy demographics (lower rates of chronic disease compared to Southern states), higher median household income, and the care quality investment of its major health systems. This is a structural advantage for TEAM: hospitals that have historically managed readmissions well are more likely to manage the 30-day episode cost window efficiently, since post-discharge spending and readmission risk are closely correlated.
+
+**Fast facts**
+
+- 27 hospitals mandated across 5 CBSAs
+- Denver–Aurora–Centennial, CO: 21 hospitals (78%)
+- Fort Collins–Loveland, CO: 3 hospitals
+- Fort Morgan, Steamboat Springs, Breckenridge: 1 hospital each
+- ~900,000 Medicare beneficiaries in Colorado
+- Major systems: UCHealth, Intermountain Health, AdventHealth, HCA HealthONE, Denver Health
+- Colorado HRRP penalty rate is below the 48.1% national average — a structural advantage under TEAM
+
+## Complete hospital directory by CBSA
+
+| CBSA | Hospitals | Named hospitals |
+| --- | --- | --- |
+| Denver–Aurora–Centennial, CO | 21 | University of Colorado Hospital Authority (UCHealth) · UCHealth Broomfield Hospital · UCHealth Highlands Ranch Hospital · Intermountain Health Platte Valley Hospital · Intermountain Health Saint Joseph Hospital · AdventHealth Porter · AdventHealth Littleton · AdventHealth Parker · AdventHealth Castle Rock · HCA HealthONE Presbyterian St. Luke's · HCA HealthONE Rose · HCA HealthONE Swedish · HCA HealthONE Sky Ridge · HCA HealthONE Mountain Ridge · HCA HealthONE Aurora · Lutheran Medical Center · St. Anthony Hospital · St. Anthony North Hospital · Denver Health Medical Center · National Jewish Health · OrthoColorado Hospital at St. Anthony Medical Campus |
+| Fort Collins–Loveland, CO | 3 | Poudre Valley Hospital (UCHealth) · Medical Center of the Rockies (UCHealth) · Banner Fort Collins Medical Center |
+| Fort Morgan, CO | 1 | St. Elizabeth Hospital |
+| Steamboat Springs, CO | 1 | UCHealth Yampa Valley Medical Center |
+| Breckenridge, CO | 1 | St. Anthony Summit Hospital |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## UCHealth: the academic-community system at TEAM's center
+
+**UCHealth** — the University of Colorado Health system — is the dominant academic health system in Colorado's TEAM cohort, with mandated hospitals including University of Colorado Hospital Authority (Anschutz Medical Campus), UCHealth Broomfield Hospital, UCHealth Highlands Ranch Hospital, Poudre Valley Hospital (Fort Collins), Medical Center of the Rockies (Loveland), and UCHealth Yampa Valley Medical Center (Steamboat Springs). The Anschutz Medical Campus, adjacent to the Children's Hospital Colorado and the University of Colorado School of Medicine, is the state's academic medical center anchor — a high-volume, high-complexity institution where TEAM episode management requires careful differentiation of elective from emergent surgical cases.
+
+**HCA HealthONE** operates six TEAM-mandated Denver-area hospitals: Presbyterian St. Luke's (a major cardiac and orthopedic program), Rose, Swedish, Sky Ridge, Mountain Ridge, and Aurora. HCA's national data analytics infrastructure and BPCI Advanced experience position these facilities for systematic TEAM episode management, though the for-profit imperative creates different incentive structures than nonprofit systems for post-acute investment.
+
+## Denver Health and the safety-net dimension
+
+**Denver Health Medical Center** — the city-county safety-net hospital and Level I trauma center for Denver — presents the same structural challenge seen in New York, Massachusetts, and New Jersey: high complexity, high uninsured share, constrained post-acute coordination resources relative to private system peers. Denver Health is among the most financially resourced safety-net hospitals in the country (operating a managed care plan, pharmacy system, and primary care network), but its TEAM episode population will differ demographically from UCHealth's academic medical center next door.
+
+**National Jewish Health** — internationally recognized as the top-ranked respiratory hospital in the United States — is a TEAM participant primarily through its orthopedic and procedural programs. Its inclusion reflects the breadth of CMS's TEAM definition: facilities defined by specialty reputation may nonetheless perform TEAM-qualifying surgical procedures.
+
+## Frequently asked questions
+
+### How many Colorado hospitals are mandated for CMS TEAM?
+
+27 hospitals across 5 CBSAs, with 21 in the Denver–Aurora–Centennial metro.
+
+### Is University of Colorado Hospital in CMS TEAM?
+
+Yes. University of Colorado Hospital Authority (UCHealth) is on the TEAM participant list in the Denver–Aurora–Centennial CBSA.
+
+### Are mountain resort area hospitals (Steamboat, Breckenridge) in TEAM?
+
+Yes. UCHealth Yampa Valley Medical Center (Steamboat Springs) and St. Anthony Summit Hospital (Breckenridge) are both mandated. These facilities face unique post-acute access challenges given their geographic isolation.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+7. American College of Surgeons. (2024). Transforming Episode Accountability Model (TEAM): ACS position and analysis. https://www.facs.org/advocacy/transforming-episode-accountability-model/
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

@@ -1,0 +1,260 @@
+---
+title: "CMS TEAM in Pennsylvania: 26 Hospitals Across 13 Core-Based Statistical Areas (CBSAs), and Why Pennsylvania's TEAM Mandate Looks Nothing Like New York's"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "PA"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in Pennsylvania: 26 Hospitals Across 13 Core-Based Statistical Areas (CBSAs), and Why Pennsylvania's TEAM Mandate Looks Nothing Like New York's
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Pennsylvania has 26 mandated hospitals across 13 CBSAs — the most geographically dispersed TEAM state roster in the country. UPMC, Penn State Health, and Geisinger anchor a market where most hospitals are outside the Philadelphia and Pittsburgh metros.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in Pennsylvania: 26 Hospitals Across 13 Core-Based Statistical Areas (CBSAs), and Why Pennsylvania's TEAM Mandate Looks Nothing Like New York's
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 26 hospitals across 13 CBSAs
+- Harrisburg leads: UPMC and Penn State Health
+- Philadelphia and Pittsburgh largely excluded
+- 51% HRRP rate: above national average
+- Geisinger across multiple CBSAs
+
+## Pennsylvania's TEAM mandate: 13 CBSAs and the absence of Pittsburgh and Philadelphia
+
+Pennsylvania's CMS TEAM mandate is the most geographically fragmented of any top-10 TEAM state. With **26 hospitals across 13 CBSAs**, each CBSA contains an average of only two mandated hospitals — compared to New York's 65 hospitals in a single metro CBSA. This dispersion reflects a counterintuitive feature of CMS's CBSA selection methodology: the CMS algorithm selected markets based on regional surgical episode volume patterns, and Pennsylvania's selection concentrated on smaller regional cities and county-seat markets rather than its two largest metropolitan areas.
+
+The striking absence of **Philadelphia** and **Pittsburgh** from the TEAM mandate is the defining structural feature of Pennsylvania's cohort. The Philadelphia–Camden–Wilmington CBSA — home to Penn Medicine (Penn Presbyterian, Penn Medicine Chester County, Jefferson Health), Temple University Health, Main Line Health, and others — was not selected as a TEAM market. The Pittsburgh CBSA — UPMC's flagship territory — similarly was not selected. This means that UPMC, one of the most frequently cited organizations in value-based care discussions, participates in TEAM **not** through its Pittsburgh flagship but through its secondary market hospitals in Harrisburg, Hermitage, Erie, and other western Pennsylvania locations.
+
+**Fast facts**
+
+- 26 hospitals across 13 CBSAs — most dispersed state TEAM roster in the country
+- Pittsburgh and Philadelphia CBSAs NOT selected — UPMC's TEAM exposure is through secondary markets
+- Harrisburg–Carlisle: 5 hospitals (UPMC and Penn State Health) — largest PA market
+- ~2.9 million Medicare beneficiaries — 22.4% of population (above national average)
+- 51.0% HRRP penalty rate (vs. 48.1% national average)
+- Major systems: UPMC, Penn State Health, Geisinger Health, Lehigh Valley Health Network, St. Luke's Health Network, Trinity Health
+
+## Complete hospital directory by CBSA
+
+| CBSA | Hospitals | Named hospitals |
+| --- | --- | --- |
+| Harrisburg–Carlisle, PA | 5 | UPMC Pinnacle Hospitals · UPMC Carlisle · Penn State Health Holy Spirit Medical Center · Penn State Health Hampden Medical Center · Milton S. Hershey Medical Center (Penn State Health) |
+| Hermitage, PA | 4 | UPMC Horizon · Sharon Regional Medical Center · Grove City Hospital · Edgewood Surgical Hospital |
+| Erie, PA | 3 | UPMC Hamot · Saint Vincent Hospital (Trinity Health) · LECOM Medical Center |
+| Pottsville, PA | 3 | Lehigh Valley Hospital–Schuylkill · St. Luke's Miners Memorial Hospital · Geisinger St. Luke's Hospital |
+| Reading, PA | 3 | Reading Hospital (Tower Health) · Penn State Health St. Joseph · Surgical Institute of Reading |
+| Sunbury, PA | 1 | Geisinger Medical Center |
+| Pittsburgh, PA | 1 | Uniontown Hospital (Acuity Healthcare) |
+| Lewistown, PA | 1 | Geisinger-Lewistown Hospital |
+| DuBois, PA | 1 | Penn Highlands DuBois |
+| Oil City, PA | 1 | UPMC Northwest |
+| Meadville, PA | 1 | Meadville Medical Center |
+| Warren, PA | 1 | Warren General Hospital |
+| Indiana, PA | 1 | Indiana Regional Medical Center |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## UPMC in Pennsylvania's TEAM markets
+
+**UPMC** — the Pittsburgh-headquartered $26 billion health system that is Pennsylvania's largest employer and one of the largest nonprofit health systems in the world — participates in TEAM through its regional hospitals rather than its Pittsburgh flagship. UPMC Pinnacle Hospitals and UPMC Carlisle anchor the Harrisburg market; UPMC Horizon (Farrell/Shenango Valley) and the western Pennsylvania hospitals (UPMC Northwest in Oil City) represent the system's smaller market presence.
+
+This creates an interesting analytical scenario: UPMC's TEAM performance will be measured at hospitals that are not its primary institutional identity. UPMC Pinnacle is a large system in its own right (multiple hospitals in south-central Pennsylvania), but it operates in a market context very different from UPMC's Pittsburgh academic medical center environment. The system's post-acute network in the Harrisburg market — developed through Pinnacle's independent history before the UPMC merger — will be the key operational variable for TEAM episode management.
+
+## Penn State Health, Geisinger, and the academic-integrated system landscape
+
+**Penn State Health** occupies the most prominent academic medicine position in Pennsylvania's TEAM cohort. **Milton S. Hershey Medical Center** — the Penn State College of Medicine's teaching hospital and the region's Level I trauma center — is TEAM's Pennsylvania academic anchor, performing high volumes of the TEAM procedure types. Penn State Health Holy Spirit and Penn State Health Hampden Medical Center complete the system's Harrisburg market presence.
+
+**Geisinger Health** — the integrated health system renowned in health policy circles for its ProvenCare quality program and its insurance arm, Geisinger Health Plan — participates in TEAM through **Geisinger Medical Center** (Sunbury), **Geisinger St. Luke's Hospital** (Orwigsburg, in the Pottsville market), and **Geisinger-Lewistown Hospital** (Lewistown). Geisinger's ProvenCare program — which guarantees surgical outcomes for certain elective procedures — is precisely the type of care pathway standardization that TEAM's bundled payment structure incentivizes. Geisinger's TEAM performance will be closely watched as a benchmark for what integrated delivery system innovation can achieve under mandatory episode accountability.
+
+The **Lehigh Valley Health Network** (Lehigh Valley Hospital–Schuylkill in the Pottsville market) and **St. Luke's Health Network** (St. Luke's Miners Memorial Hospital in Pottsville) round out the central Pennsylvania market. Both systems have their primary hospitals in the Allentown–Bethlehem–Easton metro, which was not selected as a TEAM CBSA — meaning they participate in TEAM through secondary market affiliates rather than their flagship facilities.
+
+## Rural Pennsylvania and the dispersed TEAM challenge
+
+Pennsylvania's 13-CBSA distribution reflects the state's economic geography: a historic industrial economy that created dozens of mid-sized cities (Reading, Pottsville, Oil City, Warren, Indiana, DuBois, Meadville) each anchored by a community hospital serving a surrounding rural catchment area. These hospitals — **Reading Hospital** (Tower Health), **Warren General Hospital**, **Meadville Medical Center**, **Indiana Regional Medical Center**, **Penn Highlands DuBois** — operate in post-acute markets with limited SNF capacity, aging populations with complex comorbidities, and constrained care management resources.
+
+Pennsylvania's **51.0% HRRP penalty rate** — above the national average — is consistent with the demographic and structural challenges of these smaller-city markets. Under TEAM, the hospitals most at risk of exceeding target prices are precisely those in lower-resource markets where post-discharge coordination infrastructure is hardest to build and where social determinants of health create readmission risk that exceeds what any clinical protocol can fully prevent.
+
+## Frequently asked questions
+
+### How many Pennsylvania hospitals are mandated for CMS TEAM?
+
+26 hospitals across 13 CBSAs. Harrisburg leads with 5.
+
+### Is UPMC in Pittsburgh required to participate in CMS TEAM?
+
+The Pittsburgh CBSA was not selected. UPMC participates in TEAM through its secondary market hospitals: UPMC Pinnacle (Harrisburg), UPMC Carlisle, UPMC Horizon (Hermitage), and UPMC Northwest (Oil City).
+
+### Is the Philadelphia area in CMS TEAM?
+
+No. The Philadelphia–Camden–Wilmington CBSA was not selected for CMS TEAM. Penn Medicine, Jefferson Health, and Main Line Health flagship hospitals are not on the TEAM roster.
+
+### Is Geisinger Health in CMS TEAM?
+
+Yes. Geisinger participates through Geisinger Medical Center (Sunbury), Geisinger St. Luke's Hospital (Pottsville market), and Geisinger-Lewistown Hospital.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+5. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+9. Navathe, A. S., Liao, J. M., Emanuel, E. J., & Press, M. J. (2020). Opening a two-way street for bundled payments. JAMA, 323(2), 121–122. https://doi.org/10.1001/jama.2019.19040
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

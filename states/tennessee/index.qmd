@@ -1,0 +1,248 @@
+---
+title: "CMS TEAM in Tennessee: 30 Mandated Hospitals Spanning Nashville, Memphis, and the Tri-Cities"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "TN"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in Tennessee: 30 Mandated Hospitals Spanning Nashville, Memphis, and the Tri-Cities
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Vanderbilt, TriStar Health, Baptist Memorial, and 27 other Tennessee hospitals face the TEAM mandate across four Core-Based Statistical Areas (CBSAs) — a state guide covering the full hospital roster, health system dynamics, and financial preparation priorities.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in Tennessee: 30 Mandated Hospitals Spanning Nashville, Memphis, and the Tri-Cities
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 30 hospitals across 4 CBSAs
+- Nashville leads: 19 hospitals including Vanderbilt
+- HCA's TriStar has largest portfolio
+- Memphis adds 6 hospitals cross-state CBSA
+- TN HRRP rate 50.9% slightly above national
+
+## Tennessee's TEAM mandate: Nashville dominance and multi-market reach
+
+Tennessee has **30 hospitals** mandated to participate in CMS TEAM across **four CBSAs**. The state's TEAM profile is defined by Nashville's concentration — 19 of 30 hospitals, or **63% of the state total** — and by the outsized presence of HCA Healthcare's TriStar Health division, which operates the largest single-system cluster in the Nashville market. Tennessee's health system landscape reflects the industry's broader consolidation trends: three large systems (TriStar/HCA, Ascension Saint Thomas, and Vanderbilt University Medical Center) account for the majority of Nashville TEAM hospitals, while Memphis presents a more fragmented multi-system picture.
+
+Tennessee's **50.9% HRRP penalty rate** sits modestly above the 48.1% national average — not among the worst-performing states, but not a performance standout either. The state's health metrics, particularly in rural areas outside the mandated CBSAs, rank among the worst nationally on chronic disease prevalence and social determinants. The TEAM cohort, however, is concentrated in Nashville and Memphis — the state's most resourced markets — which partially insulates the TEAM population from the worst health disparities found in rural Tennessee.
+
+**Fast facts**
+
+- 30 hospitals mandated across 4 CBSAs
+- Nashville–Davidson–Murfreesboro–Franklin, TN: 19 hospitals
+- Memphis, TN–MS–AR: 6 Tennessee hospitals (multi-state CBSA)
+- Kingsport–Bristol, TN–VA: 4 hospitals
+- Union City, TN: 1 hospital
+- ~1.2 million Medicare beneficiaries in Tennessee
+- 50.9% HRRP penalty rate (vs. 48.1% national average)
+- Major systems: HCA Healthcare/TriStar Health, Ascension Saint Thomas, Vanderbilt University Medical Center, Methodist Le Bonheur Healthcare, Regional One Health
+
+## Complete hospital directory by CBSA
+
+| CBSA | Hospitals | Named hospitals |
+| --- | --- | --- |
+| Nashville–Davidson–Murfreesboro–Franklin, TN | 19 | Vanderbilt University Medical Center · Vanderbilt Wilson County Hospital · TriStar Centennial Medical Center · TriStar Skyline Medical Center · TriStar Summit Medical Center · TriStar Stonecrest Medical Center · TriStar Southern Hills Medical Center · TriStar Hendersonville Medical Center · TriStar NorthCrest Medical Center · TriStar Horizon Medical Center · Highpoint Health–Sumner with Ascension Saint Thomas · Ascension Saint Thomas Hospital · Ascension Saint Thomas Rutherford Hospital · Ascension Saint Thomas Stones River Hospital · Saint Thomas Hospital for Specialty Surgery · Maury Regional Hospital · Metro Nashville General Hospital · Williamson Medical Center · TrustPoint Hospital |
+| Memphis, TN–MS–AR | 6 | Baptist Memorial Hospital · Methodist Hospitals of Memphis · Baptist Memorial Hospital Tipton · Regional One Health · St. Francis Hospital · Saint Francis Bartlett Medical Center |
+| Kingsport–Bristol, TN–VA | 4 | Bristol Regional Medical Center · Holston Valley Medical Center · Hawkins County Memorial Hospital · Indian Path Community Hospital |
+| Union City, TN | 1 | Baptist Memorial Hospital Union City |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## TriStar Health: HCA's Tennessee TEAM footprint
+
+**TriStar Health** — the HCA Healthcare division operating in the Nashville market — has the largest single-system TEAM exposure in Tennessee with seven mandated hospitals: TriStar Centennial Medical Center (flagship), TriStar Skyline, TriStar Summit, TriStar Stonecrest, TriStar Southern Hills, TriStar Hendersonville, and TriStar Horizon. TriStar Centennial is one of the largest hospitals in Tennessee by volume, performing high numbers of elective orthopedic procedures.
+
+HCA Healthcare's experience with predecessor bundled payment programs — including BPCI Advanced — gives TriStar facilities institutional familiarity with episode cost management, target price analysis, and post-acute network optimization that many independent competitors lack. HCA operates national data analytics infrastructure that can identify episode cost drivers across its facility network, enabling TriStar to benchmark individual hospitals against system peers.
+
+**Ascension Saint Thomas** — the Catholic health system's Tennessee presence — operates four TEAM hospitals in the Nashville market: Ascension Saint Thomas Hospital (Nashville flagship), Saint Thomas Rutherford (Murfreesboro), Saint Thomas Stones River (Woodbury), and the Highpoint Health–Sumner collaborative with Ascension. Ascension's national value-based care initiatives and its size (155+ hospitals nationally) provide data infrastructure and scale advantages similar to HCA, though its integration of the legacy Saint Thomas hospitals has been an ongoing organizational challenge.
+
+## Vanderbilt: the academic anchor
+
+**Vanderbilt University Medical Center** — a nationally ranked academic medical center and the flagship of the Vanderbilt Health system — anchors the Nashville TEAM cohort from the academic medicine side. Vanderbilt Wilson County Hospital, a community affiliate, adds a suburban community hospital dimension. Vanderbilt's surgical programs in orthopedics, cardiac surgery, and neurosurgery (all TEAM-relevant procedure categories) are nationally recognized; its TEAM performance will be closely watched as a benchmark for what academic medicine can achieve under mandatory episode accountability.
+
+**Maury Regional Hospital** (Columbia, TN) and **Williamson Medical Center** (Franklin, TN) represent independent community hospitals navigating TEAM without large-system resources. Franklin is one of Tennessee's fastest-growing suburban communities; Williamson Medical Center serves a high-income, commercially insured patient mix that may support favorable TEAM performance, though Medicare episode costs are the relevant variable rather than payer mix.
+
+## Memphis and the multi-state CBSA challenge
+
+The **Memphis, TN–MS–AR CBSA** crosses three state lines, including six Tennessee hospitals, four Mississippi hospitals, and portions of western Arkansas. For TEAM management purposes, this multi-state market creates interesting post-acute coordination challenges: a patient discharged from Baptist Memorial Hospital in Memphis may appropriately place in a Mississippi SNF located in DeSoto County — a geographic detail that complicates care management follow-up and PCP coordination requirements.
+
+**Regional One Health** — formerly Regional Medical Center (the MED), the Memphis area's public Level I trauma center and academic affiliate of the University of Tennessee Health Science Center — is among the TEAM roster's most structurally challenged participants. Its safety-net mission, high uninsured share, and complex trauma patient mix create the same dynamic as urban public hospitals in New York and New Jersey: TEAM risk adjustment partially accounts for complexity, but post-discharge coordination resources are constrained relative to the private system peers in the same CBSA.
+
+## Frequently asked questions
+
+### How many Tennessee hospitals are mandated for CMS TEAM?
+
+30 hospitals across 4 CBSAs: Nashville (19), Memphis TN–MS–AR (6 Tennessee hospitals), Kingsport–Bristol (4), Union City (1).
+
+### Is Vanderbilt University Medical Center required to participate in CMS TEAM?
+
+Yes. Vanderbilt University Medical Center is on the CMS TEAM participant list in the Nashville–Davidson–Murfreesboro–Franklin, TN CBSA.
+
+### How many TriStar Health (HCA) hospitals are in CMS TEAM in Tennessee?
+
+Seven TriStar Health hospitals are on the Tennessee TEAM roster: TriStar Centennial, Skyline, Summit, Stonecrest, Southern Hills, Hendersonville, and Horizon.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+7. American College of Surgeons. (2024). Transforming Episode Accountability Model (TEAM): ACS position and analysis. https://www.facs.org/advocacy/transforming-episode-accountability-model/
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

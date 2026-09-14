@@ -1,0 +1,21 @@
+Package: rainfall.reports
+Title: Rainfall Health CMS TEAM Reports (Quarto + R)
+Version: 0.1.0
+Authors@R: person("Rainfall Health", role = c("aut", "cre"))
+Description: Reproducible Quarto reports for CMS TEAM state and territory briefings.
+Depends: R (>= 4.3)
+Imports:
+    dplyr,
+    forcats,
+    ggplot2,
+    jsonlite,
+    knitr,
+    rmarkdown,
+    scales,
+    showtext,
+    sysfonts,
+    tibble
+Suggests:
+    renv
+Encoding: UTF-8
+LazyData: true

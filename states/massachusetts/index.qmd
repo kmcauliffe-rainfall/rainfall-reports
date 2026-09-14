@@ -1,0 +1,261 @@
+---
+title: "CMS TEAM in Massachusetts: 37 Mandated Hospitals, the Academic Medicine Paradox, and a 62.5% Readmission Penalty Rate"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "MA"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in Massachusetts: 37 Mandated Hospitals, the Academic Medicine Paradox, and a 62.5% Readmission Penalty Rate
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Mass General Brigham, Beth Israel Deaconess, Boston Medical Center, and 34 other Massachusetts hospitals are mandated for TEAM. The state with the world's most prestigious medical institutions has the second-worst readmission penalty rate in the country.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in Massachusetts: 37 Mandated Hospitals, the Academic Medicine Paradox, and a 62.5% Readmission Penalty Rate
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 37 hospitals across 4 CBSAs
+- Boston metro holds 30 of 37
+- 62.5% HRRP penalty rate — 2nd nationally
+- Mass General, Brigham, BIDMC all in scope
+- Academic prestige does not guarantee low costs
+
+## The Massachusetts TEAM market: academic excellence meets accountability
+
+Massachusetts has **37 hospitals** mandated to participate in CMS TEAM across **four CBSAs**, with 30 of those — **81%** — located in the Boston–Cambridge–Newton, MA–NH metropolitan CBSA. The concentration of academic medical centers in this market is without parallel in American healthcare: **Massachusetts General Hospital**, **Brigham and Women's Hospital**, **Beth Israel Deaconess Medical Center**, **Tufts Medical Center**, and **Boston Medical Center** — institutions that collectively host hundreds of clinical trials, train thousands of physicians annually, and generate research that defines global standards of care — are all subject to the same TEAM accountability structures as every community hospital in the state.
+
+This creates an analytically important tension. The premise of TEAM is that hospital accountability for total 30-day episode costs will reduce unnecessary post-acute utilization and improve care coordination. Academic medical centers are often assumed to be better positioned to do this: they have larger care management teams, more robust IT infrastructure, and more integrated physician-hospital relationships. Yet Massachusetts's **62.5% HRRP penalty rate** — the second-highest of any state, behind only New Jersey — complicates that assumption. Even the most prestigious and well-resourced academic institutions in the world are readmitting patients at above-expected rates.
+
+**Fast facts**
+
+- 37 hospitals mandated across 4 CBSAs
+- Boston–Cambridge–Newton, MA–NH: 30 hospitals (81% of state total)
+- Providence–Warwick, RI–MA: 4 hospitals
+- Barnstable Town (Cape Cod): 2 hospitals
+- Worcester: 1 hospital (UMass Memorial)
+- 62.5% HRRP penalty rate — second highest nationally
+- ~1.2 million Medicare beneficiaries in Massachusetts
+- Major systems: Mass General Brigham, Beth Israel Lahey Health, Boston Medical Center Health System, Steward Health (legacy), Tufts Medicine, Southcoast Health
+
+## Complete hospital directory by CBSA
+
+| CBSA | Hospitals | Named hospitals |
+| --- | --- | --- |
+| Boston–Cambridge–Newton, MA–NH | 30 | Massachusetts General Hospital · Brigham and Women's Hospital · Brigham and Women's Faulkner Hospital · Beth Israel Deaconess Medical Center · Beth Israel Deaconess Hospital–Plymouth · Beth Israel Deaconess Hospital–Needham · Beth Israel Deaconess Hospital–Milton · Lahey Hospital & Medical Center Burlington · New England Baptist Hospital · Tufts Medical Center · Boston Medical Center · Boston Medical Center–Brighton · Boston Medical Center–South · Cambridge Health Alliance · Mount Auburn Hospital · Massachusetts Eye and Ear Infirmary · Newton–Wellesley Hospital · Anna Jaques Hospital · Merrimack Health Lawrence Hospital · Merrimack Health Methuen Hospital · North Shore Medical Center · Beverly Hospital · Lowell General Hospital · Emerson Hospital · MelroseWakefield Healthcare · Marlborough Hospital · MetroWest Medical Center · South Shore Hospital · Winchester Hospital · Signature Healthcare Brockton Hospital |
+| Providence–Warwick, RI–MA | 4 | Sturdy Memorial Hospital · Brown University Health Saint Anne's Hospital · Brown University Health Morton Hospital · Southcoast Hospital Group |
+| Barnstable Town, MA | 2 | Cape Cod Hospital · Falmouth Hospital |
+| Worcester, MA | 1 | UMass Memorial Medical Center |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## Mass General Brigham: the system at the center of Massachusetts TEAM
+
+**Mass General Brigham** — formed by the merger of Massachusetts General Hospital and Brigham and Women's Hospital and their affiliated networks — is the largest health system in New England and one of the most complex TEAM participants in the country. The system's mandated hospitals include Massachusetts General, Brigham and Women's, Brigham and Women's Faulkner, Newton–Wellesley, and North Shore Medical Center, representing a range of hospital types from flagship academic centers to community hospitals.
+
+The system's TEAM exposure is substantial. MGH and Brigham and Women's are among the highest-volume orthopedic programs in the country. The clinical quality is unquestioned; the TEAM question is cost management across the 30-day post-discharge window. Academic medical centers are often criticized for high variation in post-acute care utilization: a pattern where some surgeons systematically discharge patients to IRFs while others discharge to home health with equivalent clinical outcomes creates within-institution variation that is a primary driver of above-target episode costs. TEAM creates financial accountability for that variation at the institutional level.
+
+## Beth Israel Lahey Health and the merger era
+
+**Beth Israel Lahey Health** — formed by the 2019 merger of Beth Israel Deaconess Medical Center and Lahey Health — brings together BIDMC, Lahey Hospital & Medical Center Burlington, Beth Israel Deaconess Hospital Plymouth, Needham, and Milton into a single system under TEAM accountability. This recently merged system is in the process of integrating clinical protocols, EHR systems, and post-acute networks across hospitals that operated independently for decades. TEAM's data-sharing and episode management requirements add an additional integration challenge on top of the existing organizational complexity.
+
+**New England Baptist Hospital** (NEBH) — a specialty orthopedic hospital in Mission Hill, Boston, operated by Steward Health and recently acquired by Mass General Brigham in the context of Steward's bankruptcy proceedings — is a particular case study in TEAM exposure. NEBH is one of New England's highest-volume joint replacement programs. Its TEAM target prices, set against its historically efficient orthopedic episode profile, will test whether its clinical efficiency advantage holds as the model introduces external accountability benchmarks.
+
+## The academic medicine readmission paradox
+
+Massachusetts's 62.5% HRRP penalty rate demands explanation. Three hypotheses are supported by the literature. First, **complexity concentration**: Massachusetts academic centers treat disproportionately complex patients — transferred from other states, referred for specialized care — whose post-discharge needs exceed what community-level care coordination models can manage. While HRRP risk-adjusts for patient complexity, the adjustment may not fully capture the acuity of patients at quaternary academic centers.
+
+Second, **discharge culture**: academic medical centers have historically prioritized surgical throughput and bed availability over post-discharge coordination investment. The attending surgeon's responsibility traditionally ended at discharge; post-discharge management was delegated to primary care physicians or social workers without the clinical authority to intervene on episode costs in real time.
+
+Third, **market density**: the Boston metropolitan area has an extremely high density of SNFs, IRFs, and home health agencies — but also an extremely high demand for post-acute placements from many competing acute care systems. Capacity constraints in preferred post-acute partners can force inappropriate placements that increase readmission risk, regardless of the hospital's clinical quality.
+
+For TEAM, these three factors create compounding risk. The research of Zuckerman et al. (2016) found that HRRP has reduced overall readmission rates but not solved the structural drivers; TEAM's episode-level financial accountability — extending 30 days post-discharge — is the next policy instrument designed to force hospitals to address exactly these coordination failures.
+
+(Source: [Zuckerman et al. (2016), NEJM 374(16).](https://doi.org/10.1056/NEJMsa1513024))
+
+## Frequently asked questions
+
+### Are Massachusetts General Hospital and Brigham and Women's in CMS TEAM?
+
+Yes. Both are listed on the CMS TEAM participant list in the Boston–Cambridge–Newton, MA–NH CBSA.
+
+### How many Massachusetts hospitals are mandated for CMS TEAM?
+
+37 hospitals across 4 CBSAs: Boston metro (30), Providence–Warwick RI–MA (4), Barnstable Town/Cape Cod (2), Worcester (1).
+
+### Why does Massachusetts have such a high HRRP penalty rate despite elite academic medical centers?
+
+Research suggests patient complexity concentration, discharge culture at academic centers (low post-discharge coordination investment historically), and dense post-acute market capacity constraints all contribute. HRRP risk adjustment may also not fully account for quaternary care complexity.
+
+### Is New England Baptist Hospital in CMS TEAM?
+
+Yes. New England Baptist Hospital, a high-volume orthopedic specialty hospital in Boston, is on the TEAM participant roster.
+
+### Does the Barnstable Town (Cape Cod) CBSA have TEAM hospitals?
+
+Yes. Cape Cod Hospital and Falmouth Hospital are both on the TEAM roster in the Barnstable Town, MA CBSA.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+6. Zuckerman, R. B., Sheingold, S. H., Orav, E. J., Ruhter, J., & Epstein, A. M. (2016). Readmissions, observation, and the Hospital Readmissions Reduction Program. New England Journal of Medicine, 374(16), 1543–1551. https://doi.org/10.1056/NEJMsa1513024
+5. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+9. Navathe, A. S., Liao, J. M., Emanuel, E. J., & Press, M. J. (2020). Opening a two-way street for bundled payments. JAMA, 323(2), 121–122. https://doi.org/10.1001/jama.2019.19040
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

@@ -1,0 +1,280 @@
+---
+title: "CMS TEAM Region Report: NorCal, PNW & Rockies — 160 Mandated Hospitals"
+kicker: "REGION BRIEFING"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "territory"
+REPORT_ID <- "t1"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">Region Briefing</p>
+
+# CMS TEAM Region Report: NorCal, PNW & Rockies — 160 Mandated Hospitals
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Rainfall Territory 1 covers Northern California, the Pacific Northwest, and the Rockies corridor through Minnesota, Wisconsin, Illinois, and Colorado — 160 CMS TEAM hospitals and the systems that dominate them.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[REGION BRIEFING]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM Region Report: NorCal, PNW & Rockies — 160 Mandated Hospitals
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 160 hospitals — Territory 1 roster
+- NorCal 51; MN 30; CO 27
+- SF Bay 37 hospitals largest CBSA
+- Kaiser and Providence multi-site edge
+- Links California, Minnesota, Colorado guides
+
+## What is Rainfall Territory 1 under CMS TEAM?
+
+Rainfall Health’s **Territory 1 (NorCal, PNW & Rockies)** contains **160** of the **721** active CMS TEAM-mandated hospitals — **22.2%** of the national roster. The territory stretches from the San Francisco Bay Area and Northern California CBSAs through Oregon and Washington, then inland across Idaho, Montana, Nevada, Utah, and South Dakota, and east into **Minnesota, Wisconsin, Illinois, and Colorado**.
+
+California is **split** between Territory 1 and Territory 2. Territory 1 holds the Northern California CBSAs (**51** hospitals): San Francisco–Oakland–Fremont (37), San Jose–Sunnyvale–Santa Clara (6), Santa Rosa–Petaluma (5), Eureka–Arcata (2), and Crescent City (1). Southern California CBSAs sit in Territory 2. Hospital leaders comparing statewide California guides should treat the NorCal/SoCal split as operationally real for sales coverage and post-acute network design.
+
+Three metros dominate exposure: the **Bay Area** (37), **Denver–Aurora–Centennial** (21), and **Minneapolis–St. Paul–Bloomington** (21). Together they account for nearly half of Territory 1’s hospitals and a disproportionate share of LEJR and spinal-fusion volume.
+
+(Source: [CMS TEAM participant list (March 2026); Rainfall territoryHospitals.json.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+**Fast facts**
+
+- 160 mandated hospitals (March 2026)
+- 12 states + CA NorCal CBSAs
+- Top states: California (NorCal) 51 · Minnesota 30 · Colorado 27 · Oregon 17 · Illinois 12 · Wisconsin 11
+- Top CBSAs: SF–Oakland 37 · Denver 21 · Minneapolis–St. Paul 21 · Portland 17
+- Integrated-system signals: Kaiser Permanente, Providence, UCHealth, Twin Cities nonprofits
+- Interactive map: /territory-map
+
+## How are Territory 1 hospitals distributed by state?
+
+The table below rolls up every active TEAM hospital assigned to Territory 1. California’s 51 count is **NorCal only**; the state’s remaining 56 TEAM hospitals appear in the Territory 2 report.
+
+| State / area | TEAM hospitals (T1) |
+| --- | --- |
+| California (NorCal CBSAs) | 51 |
+| Minnesota | 30 |
+| Colorado | 27 |
+| Oregon | 17 |
+| Illinois | 12 |
+| Wisconsin | 11 |
+| Washington | 5 |
+| Utah | 3 |
+| Idaho | 1 |
+| Montana | 1 |
+| Nevada | 1 |
+| South Dakota | 1 |
+| Territory 1 total | 160 |
+
+## Which CBSAs concentrate the most TEAM risk?
+
+CMS selected markets at the **CBSA** level. In Territory 1, a handful of metros carry most of the coordination burden — shared SNFs, home-health agencies, and orthopedic groups that serve multiple mandated hospitals.
+
+| CBSA | Hospitals |
+| --- | --- |
+| San Francisco-Oakland-Fremont, CA | 37 |
+| Denver-Aurora-Centennial, CO | 21 |
+| Minneapolis-St. Paul-Bloomington, MN-WI | 21 |
+| Portland-Vancouver-Hillsboro, OR-WA | 17 |
+| San Jose-Sunnyvale-Santa Clara, CA | 6 |
+| Santa Rosa-Petaluma, CA | 5 |
+| Duluth, MN-WI | 5 |
+| Peoria, IL | 4 |
+| Green Bay, WI | 4 |
+| Fort Collins-Loveland, CO | 3 |
+
+## Which health systems are structurally advantaged here?
+
+**Kaiser Permanente** has one of the densest explicit brand footprints on the national TEAM roster (~19 hospitals by name match), with heavy Northern California presence — prepaid integration, employed physicians, and owned post-acute pathways that map cleanly onto 30-day episode accountability.
+
+**Providence** (~9 name-matched TEAM sites) anchors parts of the PNW and Inland West. **UCHealth** and **Intermountain Health** (including former SCL sites) shape Denver’s multi-hospital competition alongside HCA HealthONE facilities that sit in Colorado but compete in the same post-acute market.
+
+In the Twin Cities, **M Health Fairview**, **Allina**, **HealthPartners**, and **Essentia** (Duluth corridor) illustrate the nonprofit-integrated pattern: shared EHRs and employed specialty groups reduce handoff friction that typically inflates SNF and readmission spend under bundles (Dummit et al., 2016; Finkelstein et al., 2021).
+
+## What should Territory 1 hospitals prioritize before downside risk?
+
+Leaders in Bay Area, Denver, Minneapolis–St. Paul, and Portland markets should treat **post-acute network governance** as the primary TEAM workstream — not OR efficiency alone. Shared metro SNFs mean one hospital’s discharge patterns can be undercut by a competitor’s preferred-provider list.
+
+Second, align orthopedic and spine service-line finance with episode-level cost accounting. LEJR remains the volume engine nationally; hip fracture and spinal fusion drive outlier spend. Third, reconcile your hospital’s presence on the March 2026 CMS list against any internal “741” spreadsheet still circulating from September 2024 — see our hospital-count explainer.
+
+For state-level hospital directories, use the California (NorCal section), Minnesota, and Colorado guides, and the interactive territory map at **/territory-map**.
+
+## Frequently asked questions
+
+### How many CMS TEAM hospitals are in Rainfall Territory 1?
+
+160 active hospitals on the March 2026 CMS participant list, including 51 Northern California TEAM hospitals.
+
+### Is all of California in Territory 1?
+
+No. California is split: Territory 1 covers Northern California CBSAs (51 hospitals); Territory 2 covers Southern California CBSAs (56 hospitals).
+
+### What are the largest CBSAs in Territory 1?
+
+San Francisco–Oakland–Fremont (37), Denver–Aurora–Centennial (21), Minneapolis–St. Paul–Bloomington (21), and Portland–Vancouver–Hillsboro (17).
+
+### Which systems matter most in this region?
+
+Kaiser Permanente and Providence for West Coast integration; UCHealth/Intermountain/HCA HealthONE in Denver; Fairview/Allina/HealthPartners in the Twin Cities.
+
+### Where can I see the hospital list on a map?
+
+Rainfall’s interactive CMS TEAM sales territory map at /territory-map filters by territory and state.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Rainfall Health. (2026). CMS TEAM sales territory map and hospital directory (territoryHospitals.json). Sandbox research hub."},{"id":5,"text":"Dummit, L. A., et al. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+6. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+7. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

@@ -1,0 +1,242 @@
+---
+title: "CMS TEAM in Louisiana: 32 Mandated Hospitals Across Nine Markets and an Ochsner-Dominated Landscape"
+kicker: "WHITE PAPER"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "LA"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in Louisiana: 32 Mandated Hospitals Across Nine Markets and an Ochsner-Dominated Landscape
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Louisiana's 32 TEAM-mandated hospitals are spread across 9 Core-Based Statistical Areas (CBSAs), with Ochsner Health anchoring the Baton Rouge, Lafayette, and Monroe markets — a guide to every mandated hospital, readmission data, and financial preparation for Louisiana administrators.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM in Louisiana: 32 Mandated Hospitals Across Nine Markets and an Ochsner-Dominated Landscape
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 32 hospitals across 9 CBSAs
+- Ochsner Health controls multiple markets
+- Baton Rouge leads: 9 mandated hospitals
+- 51.4% HRRP rate above national average
+- ~800K Medicare beneficiaries; hurricane risk factor
+
+## Louisiana's TEAM mandate: Ochsner dominance and geographic spread
+
+Louisiana has **32 hospitals** mandated to participate in CMS TEAM across **nine Core-Based Statistical Areas** — the most CBSAs per mandated hospital count of any state, reflecting CMS's selection of smaller regional markets across the state rather than a single large metropolitan concentration. **Baton Rouge** leads with 9 hospitals; **Lafayette** and **Monroe** follow with 7 and 6 respectively; **Alexandria** has 4; and smaller markets in Hammond, Natchitoches, Slidell, Ruston, and Bogalusa each contribute 1–2 hospitals.
+
+**Ochsner Health** — Louisiana's largest health system and one of the Southeast's most academically productive nonprofit systems — is the dominant presence across multiple Louisiana TEAM markets. Ochsner operates or affiliates with hospitals in Baton Rouge, Lafayette, Monroe, and elsewhere, giving the system network-level leverage for episode cost management that no competitor in the state can match. However, Ochsner's ambitions also mean that its TEAM performance — and any gaps in its post-acute coordination infrastructure — will be visible at a system scale rather than at individual hospitals.
+
+Louisiana's **51.4% HRRP penalty rate** is above the national average of 48.1%, driven in part by the state's high prevalence of chronic disease, poverty, and health disparities in rural and small-city markets. The TEAM cohort, concentrated in Baton Rouge, Lafayette, and Monroe — the state's urban centers — is somewhat insulated from the worst rural Louisiana health challenges, but these cities still serve large low-income populations with complex chronic conditions.
+
+**Fast facts**
+
+- 32 hospitals mandated across 9 CBSAs
+- Baton Rouge: 9 hospitals | Lafayette: 7 | Monroe: 6 | Alexandria: 4
+- Hammond: 2 | Natchitoches, Slidell, Ruston, Bogalusa: 1 each
+- ~800,000 Medicare beneficiaries in Louisiana
+- 51.4% HRRP penalty rate (vs. 48.1% national average)
+- Major systems: Ochsner Health, Our Lady/Franciscan Missionaries (CHRISTUS), Pennington Biomedical/LSU Health
+- Louisiana's hospital market is highly concentrated
+- independent hospitals are rare
+
+## Complete hospital directory by CBSA
+
+| CBSA | Hospitals | Named hospitals |
+| --- | --- | --- |
+| Baton Rouge, LA | 9 | Our Lady of the Lake Regional Medical Center · Baton Rouge General Medical Center · Ochsner Medical Center–Baton Rouge · Ochsner Medical Center O'Banion · Woman's Hospital · Lane Regional Medical Center · OLOL Children's Hospital · Sage Rehabilitation Hospital · Rise Community Hospital |
+| Lafayette, LA | 7 | Ochsner Lafayette General Medical Center · Ochsner University Hospital and Clinics · Our Lady of Lourdes Regional Medical Center · Ochsner Acadia General Hospital · Abbeville General Hospital · Park Place Surgical Hospital · Lafayette Surgical Specialty Hospital |
+| Monroe, LA | 6 | Ochsner LSU Health Monroe · St. Francis Medical Center · Glenwood Regional Medical Center · Morehouse General Hospital · Richardson Medical Center · Monroe Surgical Hospital |
+| Alexandria, LA | 4 | Rapides Regional Medical Center · CHRISTUS St. Frances Cabrini Hospital · CHRISTUS Central Louisiana Surgical Hospital · Alexandria Emergency Hospital |
+| Hammond, LA | 2 | North Oaks Medical Center · Cypress Pointe Surgical Hospital |
+| Natchitoches, LA | 1 | Natchitoches Regional Medical Center |
+| Slidell–Mandeville–Covington, LA | 1 | St. Tammany Parish Hospital |
+| Ruston, LA | 1 | Northern Louisiana Medical Center |
+| Bogalusa, LA | 1 | Our Lady of the Angels Hospital |
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+## Ochsner Health: Louisiana's TEAM market anchor
+
+**Ochsner Health** — a $5 billion+ nonprofit health system headquartered in New Orleans with regional medical centers throughout Louisiana — is the most consequential single organization in Louisiana's TEAM landscape. In Baton Rouge, Ochsner Medical Center–Baton Rouge and Ochsner Medical Center O'Banion contribute two of the nine mandated hospitals. In Lafayette, Ochsner Lafayette General Medical Center, Ochsner University Hospital and Clinics, and Ochsner Acadia General Hospital represent 3 of the 7 mandated hospitals. In Monroe, Ochsner LSU Health Monroe anchors the market.
+
+Ochsner's episode management infrastructure — built through its experience with BPCI Advanced and other CMS alternative payment models — is a competitive advantage in the Louisiana TEAM market. The system's unified EHR (Epic), dedicated care management teams, and growing post-acute network give it tools for real-time episode cost tracking and intervention that smaller independent hospitals in the same CBSAs lack.
+
+**Our Lady of the Lake Regional Medical Center** (Baton Rouge) — a Franciscan Missionaries of Our Lady Health System flagship and one of Louisiana's largest hospitals by bed count — anchors the non-Ochsner portion of the Baton Rouge TEAM cohort. The Our Lady health system also operates Our Lady of Lourdes Regional Medical Center in Lafayette, **Our Lady of the Angels Hospital** in Bogalusa, and affiliates with OLOL Children's Hospital. This Catholic health system's presence creates a two-system two-system market in several Louisiana TEAM markets.
+
+## CHRISTUS Health in Alexandria: the central Louisiana market
+
+The **Alexandria, LA CBSA** presents a concentrated two-system market: **Rapides Regional Medical Center** (HCA Healthcare) and **CHRISTUS St. Frances Cabrini Hospital** (CHRISTUS Health) together account for three of the four mandated hospitals, with CHRISTUS Central Louisiana Surgical Hospital and Alexandria Emergency Hospital rounding out the cohort. Alexandria is central Louisiana's primary referral destination, drawing patients from Avoyelles, Grant, LaSalle, and Vernon parishes. TEAM's 30-day post-discharge window for this patient population — which often travels significant distances for surgical care — creates coordination challenges familiar to rural and semi-rural TEAM markets nationwide.
+
+## Frequently asked questions
+
+### How many Louisiana hospitals are in CMS TEAM?
+
+32 hospitals across 9 CBSAs, led by Baton Rouge (9), Lafayette (7), and Monroe (6).
+
+### Is Ochsner Health participating in CMS TEAM?
+
+Yes. Multiple Ochsner Health hospitals are mandated in Louisiana, including Ochsner Medical Center–Baton Rouge, Ochsner Lafayette General, Ochsner University Hospital, and Ochsner LSU Health Monroe.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

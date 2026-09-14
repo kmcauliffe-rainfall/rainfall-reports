@@ -1,0 +1,268 @@
+---
+title: "CMS TEAM Region Report: SoCal, Southwest & Gulf South — 161 Mandated Hospitals"
+kicker: "REGION BRIEFING"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "territory"
+REPORT_ID <- "t2"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">Region Briefing</p>
+
+# CMS TEAM Region Report: SoCal, Southwest & Gulf South — 161 Mandated Hospitals
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Territory 2 pairs Southern California’s Riverside–San Bernardino–Ontario Core-Based Statistical Area (CBSA) and San Diego markets with Louisiana, Oklahoma, Texas, and the Southwest — 161 TEAM hospitals where AdventHealth, Ascension, and regional systems set the pace.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[REGION BRIEFING]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM Region Report: SoCal, Southwest & Gulf South — 161 Mandated Hospitals
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 161 hospitals — Territory 2 roster
+- SoCal 56; Louisiana 32; Oklahoma 18
+- Riverside CBSA alone has 30
+- Gulf and desert markets share SNF risk
+- Pairs with Louisiana state guide
+
+## What is Rainfall Territory 2 under CMS TEAM?
+
+**Territory 2 (SoCal, Southwest & Gulf South)** holds **161** mandated hospitals — **22.3%** of the national **721**-hospital TEAM cohort. Coverage includes Southern California CBSAs (**56** hospitals), Arizona, New Mexico, Texas, Oklahoma, Kansas, Nebraska, Iowa, Missouri, Louisiana, and Arkansas.
+
+The **Riverside–San Bernardino–Ontario** CBSA alone has **30** TEAM hospitals — one of the densest single-market mandates outside New York–Newark. San Diego adds 15; Tulsa, OK adds 15. Louisiana contributes **32** hospitals across Baton Rouge, Lafayette, Monroe, Alexandria, and related CBSAs, making it Territory 2’s second-largest state footprint after SoCal.
+
+Compared with Territory 1, this region has fewer nationally famous prepaid systems and more **regional nonprofit and for-profit chains** competing for the same post-acute beds — a structural risk for episode leakage.
+
+(Source: [CMS TEAM participant list (March 2026); Rainfall territoryHospitals.json.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+**Fast facts**
+
+- 161 mandated hospitals (March 2026)
+- Top states: California (SoCal) 56 · Louisiana 32 · Oklahoma 18 · Texas 11 · New Mexico 9 · Arizona 8
+- Top CBSAs: Riverside–San Bernardino 30 · San Diego 15 · Tulsa 15 · Baton Rouge 9 · Tucson 8
+- System signals: AdventHealth, Ascension, Ochsner, regional CA and OK systems
+- Map: /territory-map
+
+## How are Territory 2 hospitals distributed by state?
+
+| State / area | TEAM hospitals (T2) |
+| --- | --- |
+| California (SoCal CBSAs) | 56 |
+| Louisiana | 32 |
+| Oklahoma | 18 |
+| Texas | 11 |
+| New Mexico | 9 |
+| Arizona | 8 |
+| Arkansas | 7 |
+| Iowa | 6 |
+| Missouri | 6 |
+| Kansas | 5 |
+| Nebraska | 3 |
+| Territory 2 total | 161 |
+
+## Which CBSAs concentrate the most TEAM risk?
+
+| CBSA | Hospitals |
+| --- | --- |
+| Riverside-San Bernardino-Ontario, CA | 30 |
+| San Diego-Chula Vista-Carlsbad, CA | 15 |
+| Tulsa, OK | 15 |
+| Baton Rouge, LA | 9 |
+| Tucson, AZ | 8 |
+| Lafayette, LA | 7 |
+| Bakersfield-Delano, CA | 6 |
+| Monroe, LA | 6 |
+| Albuquerque, NM | 5 |
+| Alexandria, LA | 4 |
+
+## Which networks benefit most in Territory 2?
+
+**AdventHealth** and **Ascension** appear repeatedly across Gulf and Sun Belt markets; their multi-hospital footprints allow preferred SNF panels and shared care pathways that independent community hospitals struggle to replicate. **Ochsner Health** is the organizing system story in Louisiana’s TEAM guide.
+
+Southern California’s Riverside–San Bernardino metro is less about a single brand and more about **dense competition**: many independent and regional hospitals share the same home-health and SNF markets, which raises the value of explicit post-acute contracts and real-time discharge visibility.
+
+For system-level strategy, see the hospital-networks advantage guide and the AdventHealth network deep-dive; for Louisiana hospital names, see the Louisiana state guide.
+
+## What should Territory 2 hospitals do now?
+
+Prioritize **CBSA-level post-acute inventory** in Riverside, San Diego, Tulsa, and Baton Rouge. Build preferred SNF panels with readmission SLAs before Track downside risk expands in 2027.
+
+Finance teams should model episode targets against local wage indices and historical PAC mix — Gulf and Southwest markets often show different SNF vs home-health balances than Northeast academic markets. Use the episode-cost analysis alongside this region report.
+
+## Frequently asked questions
+
+### How many CMS TEAM hospitals are in Territory 2?
+
+161 active hospitals on the March 2026 CMS list, including 56 Southern California TEAM hospitals.
+
+### Why is California split across territories?
+
+Rainfall’s sales coverage splits NorCal (T1, 51 hospitals) and SoCal (T2, 56 hospitals) while CMS still counts California as one state (107 total).
+
+### What is the largest CBSA in Territory 2?
+
+Riverside–San Bernardino–Ontario, CA with 30 mandated hospitals.
+
+### Which state guide pairs best with this region?
+
+The Louisiana state guide (32 hospitals) and the California state guide (SoCal CBSAs).
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Rainfall Health. (2026). CMS TEAM sales territory map and hospital directory (territoryHospitals.json). Sandbox research hub."},{"id":5,"text":"Dummit, L. A., et al. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+6. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+7. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::

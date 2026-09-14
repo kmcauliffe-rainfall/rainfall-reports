@@ -1,0 +1,305 @@
+---
+title: "CMS TEAM in California: Inside the Nation's Largest Bundled-Payment State"
+kicker: WHITE PAPER
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: false
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "state"
+REPORT_ID <- "CA"
+source("../../R/report.R")
+```
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">White paper</p>
+
+# CMS TEAM in California: Inside the Nation's Largest Bundled-Payment State
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Briefing for hospital executives preparing for CMS Transforming Episode Accountability Model (TEAM) Performance Year 2.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.55in)
+  #grid(
+    columns: (1fr, 1.15in),
+    column-gutter: 0.4in,
+    [
+      #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
+      #v(0.4em)
+      #text(size: 25pt, weight: "bold", fill: rgb("#1e293b"))[
+        CMS TEAM in California: Inside the Nation's Largest Bundled-Payment State
+      ]
+      #v(0.55em)
+      #text(size: 12.5pt, fill: rgb("#475569"))[
+        107 mandated hospitals · 11 CBSAs · before PY2 (2027)
+      ]
+      #v(1.0em)
+      #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+      #v(0.2em)
+      #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+      #v(1.3em)
+      #text(size: 9pt, fill: rgb("#64748b"))[
+        Briefing for hospital executives preparing for CMS Transforming Episode Accountability Model (TEAM) Performance Year 2.
+      ]
+    ],
+    align(center + horizon)[
+      #box(width: 1.1in, image("../../assets/california-silhouette.svg"))
+    ],
+  )
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice. Counsel review recommended before external distribution.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+California is the largest CMS TEAM state by mandated roster: **`r SCOPE_N` hospitals** across **`r SCOPE_CBSA_N` CBSAs**, covering an estimated **6.3 million** Medicare beneficiaries.^11^ California TEAM hospitals show a **55.2%** Hospital Readmissions Reduction Program (HRRP) penalty rate versus **48.1%** nationally.^6^
+
+**Methodology.** Hospital counts are computed at render time from the CMS TEAM participant roster vendored in this repository (`data/territoryHospitals.json`, March 2026 extract used sitewide).^1^ Editorial copy cites the June 2026 quarterly update; live counts reconcile to those locked anchors (see methods note in §02). Estimated lower-extremity joint replacement (LEJR) volume is approximately **17,500** episodes annually at California TEAM hospitals — more than **14%** of national TEAM LEJR volume.^2^ Kaiser Permanente is the largest single system on the California roster.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c(
+    "Mandated hospitals",
+    "CBSAs",
+    "Medicare beneficiaries",
+    "HRRP penalty rate",
+    "Est. annual LEJR"
+  ),
+  `California TEAM` = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    "Multi-market operating complexity",
+    "Scale of covered lives",
+    "Readmission risk under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits: CBSAs and regions
+
+## Figure 1 · Mandated hospitals by CBSA
+
+San Francisco–Oakland–Fremont leads California with **`r sf_n`** TEAM hospitals. Riverside–San Bernardino–Ontario (**`r riverside_n`**) is the second-largest TEAM CBSA nationally after New York.^1^
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in California by CBSA."
+#| fig-alt: "Horizontal bar chart of TEAM hospitals by California CBSA"
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+*Figure 1. CMS TEAM-mandated hospitals in California by CBSA. Source: CMS TEAM participant list; live count from repo roster extract.^1^*
+
+```{r}
+#| label: tbl-cbsa
+cbsa_table |>
+  transmute(
+    CBSA = cbsa_label,
+    Hospitals = hospitals,
+    `Share (%)` = share_pct
+  ) |>
+  knitr::kable(digits = 1)
+```
+
+**Note on Greater Los Angeles.** Much of Greater Los Angeles is **not** organized as a CMS TEAM CBSA selection in the same way as the Bay Area or Inland Empire markets; the Los Angeles–Long Beach–Anaheim row on Figure 1 reflects the limited TEAM footprint CMS listed for that CBSA, not the full hospital inventory of Southern California.^3^ Riverside–San Bernardino–Ontario (**`r riverside_n`**) is the operational center of gravity for Southern California TEAM volume outside San Diego.
+
+## Figure 2 · Mandated hospitals by region
+
+Bay Area and Inland Empire together account for **`r bay_inland_share`%** of California’s TEAM hospitals (`r bay_inland_n` of `r SCOPE_N`).
+
+```{r}
+#| label: fig-region
+#| fig-cap: "CMS TEAM-mandated hospitals by California region."
+#| fig-alt: "Horizontal bar chart of TEAM hospitals by California region"
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+*Figure 2. Regional concentration of California TEAM hospitals. X-axis label: “Number of TEAM-mandated sites per region.” Bay Area = San Francisco–Oakland–Fremont + San Jose–Sunnyvale–Santa Clara. Inland Empire = Riverside–San Bernardino–Ontario. Source: CMS participant list; Rainfall regional rollup.^1^*
+
+```{r}
+#| label: tbl-region
+region_table |>
+  filter(as.character(region) != "Other / unmapped") |>
+  transmute(
+    Region = as.character(region),
+    Hospitals = hospitals,
+    `Share (%)` = share_pct
+  ) |>
+  knitr::kable(digits = 1)
+```
+
+**Methods note (roster provenance).** `r reconciliation_note`
+
+# 03 · Episode-cost exposure (Rainfall method)
+
+Rainfall’s **California Episode Economics Analysis** applies a **17-system** exposure method to compare relative modeled episode-cost pressure across California TEAM systems.^4^ Figure 3 is **illustrative** of relative bands from that method — not a hospital-specific CMS reconciliation. Episode-cost dollars are **not** stored as a reproducible CSV in this repository; the chart uses a unitless relative index and is labeled accordingly.
+
+**Methods note (exposure dollars).** `r exposure_data_gap_note`
+
+Advisory Board’s Daily Briefing on TEAM readiness (August 18, 2025) is cited only for **external range context** on how hospitals are discussing first-cycle exposure; it is **not** a formal TEAM Financial Impact Model PDF and is not the methodology source for Figure 3.^5^
+
+Under the Rainfall method, **Zuckerberg San Francisco General** sits in a **low modeled dollar-exposure** band relative to peer California TEAM systems.^4^
+
+```{r}
+#| label: tbl-exposure-method
+knitr::kable(
+  exposure_methodology,
+  caption = "Illustrative methodology — Rainfall California Episode Economics Analysis (17-system method)"
+)
+```
+
+```{r}
+#| label: fig-exposure
+#| fig-cap: "Illustrative relative episode-cost exposure across example California TEAM systems."
+#| fig-alt: "Bar chart of illustrative relative episode-cost exposure by example system"
+#| out-width: "100%"
+knitr::include_graphics("figures/fig3-exposure.png")
+```
+
+*Figure 3. Illustrative relative exposure index from Rainfall’s California Episode Economics Analysis (17-system method).^4^ Advisory Board Daily Briefing (Aug 18, 2025) used for industry range context only — not the figure methodology.^5^ \*Zuckerberg San Francisco General: low modeled exposure under the Rainfall method.^4^*
+
+# 04 · Readmissions pressure: HRRP and LEJR
+
+California TEAM hospitals face elevated readmission penalty prevalence: **55.2%** with an HRRP penalty versus **48.1%** nationally.^6^
+
+```{r}
+#| label: fig-hrrp
+#| fig-cap: "HRRP penalty prevalence, California TEAM hospitals vs national IPPS average."
+#| fig-alt: "Bar chart comparing HRRP penalty rates"
+#| out-width: "62%"
+knitr::include_graphics("figures/fig4-hrrp.png")
+```
+
+*Figure 4. Share of hospitals with an HRRP penalty. Source: CMS HRRP FY2025 supplemental data (dataset 9n3s-kdb3).^6^ Rates reused from site chart tooling; raw hospital-level HRRP CSV is not vendored in this repo. Provenance: `r hrrp_provenance`*
+
+Hip/knee replacement excess readmission ratios remain a core LEJR risk lens for TEAM hospitals managing orthopedic episode bundles.^7^ Prior mandatory joint-replacement experience showed that shifting discharge patterns — including reductions in institutional post-acute use — can move total episode spend. Illustrative planning ranges used by operators often cite roughly a **15%** SNF-to-home-health shift corresponding to on the order of **$30–50M** in aggregate episode spend opportunity across a large multi-hospital footprint; treat as scenario planning, not a hospital-specific forecast.^8^
+
+# 05 · What changes in PY2 (2027)
+
+**Performance Year 2 begins in 2027.** Design elements hospitals should track:
+
+1. **PSI-90** quality weighting is removed after PY1 (CMS-5540-F).
+2. **Spinal fusion** enters TEAM episode logic with MS-DRGs **523–525** effective for discharges on or after **October 1, 2026** (FY2027 IPPS final rule).
+3. **HRSN / HEP** screening and related health-equity pathway elements remain **voluntary** under the FY2026 IPPS final rule framework as implemented for TEAM.
+4. **Composite Quality Score (CQS)** rolling-baseline changes discussed in **CMS-1849-P** are **proposed only** unless and until finalized — do not treat NPRM language as final policy.
+
+Primary citations for this section are CMS rulemaking documents (TEAM final rule / IPPS packages), not secondary commentary.^2^
+
+# 06 · Executive priorities and FAQ
+
+## Priorities before PY2
+
+1. **Lock the roster truth.** Reconcile internal hospital lists to the CMS June 2026 TEAM participant file by CCN and CBSA.^1^
+2. **Quantify LEJR and inbound spinal-fusion exposure** with physician and post-acute partners before October 2026 DRG go-live.
+3. **Readmissions operations.** Pair HRRP surveillance with TEAM episode dashboards so orthopedic and medical readmissions are not managed in separate silos.^6^
+4. **Post-acute network design.** Revisit SNF vs home-health routing against quality and cost, using historical CJR/BPCI lessons without copying outdated playbooks.^8^
+5. **Quality measure transitions.** Retire PSI-90-centric TEAM narratives after PY1; prepare spinal-fusion coding and documentation workflows for FY2027.
+
+## FAQ
+
+**Why do some materials say 110 California TEAM hospitals instead of 107?**  
+Use **107** as the operating count aligned to the CMS June 2026 participant list.^1^ Older decks or secondary tallies sometimes still show **110**. The **107 vs 110** clarification appears **only here** in the FAQ — not elsewhere in this paper — to avoid repeating a correction readers do not need twice.
+
+**Is Greater Los Angeles “in TEAM”?**  
+Only to the limited extent CMS listed TEAM participants in the Los Angeles–Long Beach–Anaheim CBSA. Do not equate the metro’s full hospital market with TEAM mandate status.^3^
+
+**Where should finance teams start on exposure?**  
+Start with Rainfall’s California Episode Economics Analysis method for relative system pressure,^4^ then layer hospital-specific claims once available — not with a generic national briefing alone.^5^
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+# References
+
+1. Centers for Medicare & Medicaid Services. *TEAM participant list* (June 2026 quarterly update). CMS. https://www.cms.gov/team-model-participant-list
+2. Centers for Medicare & Medicaid Services. Medicare Program: Transforming Episode Accountability Model (TEAM); Final Rule. *Federal Register*. 2024;89(166). https://www.cms.gov/priorities/innovation/innovation-models/team-model
+3. Centers for Medicare & Medicaid Services. TEAM model — geographic / CBSA participation materials. CMS Innovation Center. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+4. Rainfall Health. *California Episode Economics Analysis: 17-System Five-Year Exposure Model*. April 2026. https://www.rainfallhealth.com/cms-team/participating-hospitals/california/
+5. Advisory Board. TEAM is almost here — how hospitals are preparing for first-cycle exposure. *Daily Briefing*. August 18, 2025. https://www.advisory.com/daily-briefing/2025/08/18/hospital-team-ec
+6. Centers for Medicare & Medicaid Services. Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data. CMS Provider Data Catalog. Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+7. Zuckerman RB, Sheingold SH, Orav EJ, Ruhter J, Epstein AM. Readmissions, observation, and the Hospital Readmissions Reduction Program. *N Engl J Med*. 2016;374(16):1543-1551. https://www.nejm.org/doi/full/10.1056/NEJMsa1513024
+8. Finkelstein A, Ji Y, Mahoney N, Skinner J. Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. *JAMA*. 2021;325(18):1879-1890. https://jamanetwork.com/journals/jama/fullarticle/2698927
+9. Keny C, Ohlssen J. Comments on the Proposed Comprehensive Joint Replacement Model (CJR-X). Rainfall Health. June 8, 2026. https://www.rainfallhealth.com/documents/cms-comments/rainfall-health-cjr-x-comment-letter-2026-06-08.pdf
+10. Dummit LA, Kahvecioglu D, Marrufo G, et al. Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. *JAMA*. 2016;316(12):1267-1278. https://jamanetwork.com/journals/jama/fullarticle/2698926
+11. healthinsurance.org. Medicare in California. Accessed September 2026. https://www.healthinsurance.org/medicare/california/
+
+```{=typst}
+#v(0.8em)
+#rect(width: 100%, fill: rgb("#eff6ff"), stroke: none, inset: 12pt)[
+  #set text(size: 8.5pt, fill: rgb("#475569"), font: "DM Sans")
+  *Disclaimer.* This whitepaper is for general information. Counts follow CMS participant files cited above. Modeled exposure figures are _Rainfall Health analysis and estimates_, not CMS reconciliations and not legal, financial, regulatory, or clinical advice. No legal basis is asserted for the disclaimer beyond ordinary informational use — *flag for counsel review* before investor, client, or regulator-facing distribution.
+]
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** This whitepaper is for general information. Counts follow CMS participant files cited above. Modeled exposure figures are Rainfall Health analysis and estimates, not CMS reconciliations and not legal, financial, regulatory, or clinical advice.
+:::

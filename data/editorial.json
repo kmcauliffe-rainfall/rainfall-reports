@@ -1,0 +1,86 @@
+{
+  "CA": {
+    "medicare": "~6.3M",
+    "hrrp": "55.2% vs 48.1% national",
+    "lejr": "~17,500 (>14% national)",
+    "why_hospitals": "Largest state roster"
+  },
+  "CO": {
+    "medicare": "~1.0M",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Mountain-west TEAM density"
+  },
+  "FL": {
+    "medicare": "~4.9M",
+    "hrrp": "57.5% vs 48.1% national",
+    "lejr": "~6,556",
+    "why_hospitals": "Most geographically dispersed major TEAM state"
+  },
+  "LA": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Second-largest T2 state footprint"
+  },
+  "MA": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Academic Boston concentration"
+  },
+  "MN": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Twin Cities + statewide roster"
+  },
+  "NJ": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "NY–NJ metro overlap"
+  },
+  "NY": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Largest single-state TEAM market"
+  },
+  "PA": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Multi-system Mid-Atlantic roster"
+  },
+  "TN": {
+    "medicare": "See state guide",
+    "hrrp": "Cited in state guide (CMS HRRP)",
+    "lejr": "See state guide",
+    "why_hospitals": "Nashville CBSA density"
+  },
+  "t1": {
+    "medicare": "Territory rollup",
+    "hrrp": "See region guide",
+    "lejr": "See region guide",
+    "why_hospitals": "NorCal + PNW + Rockies coverage"
+  },
+  "t2": {
+    "medicare": "Territory rollup",
+    "hrrp": "See region guide",
+    "lejr": "See region guide",
+    "why_hospitals": "SoCal + Southwest + Gulf coverage"
+  },
+  "t3": {
+    "medicare": "Territory rollup",
+    "hrrp": "See region guide",
+    "lejr": "See region guide",
+    "why_hospitals": "Largest Rainfall TEAM territory"
+  },
+  "t4": {
+    "medicare": "Territory rollup",
+    "hrrp": "See region guide",
+    "lejr": "See region guide",
+    "why_hospitals": "Florida + Tennessee + Sun Belt"
+  }
+}

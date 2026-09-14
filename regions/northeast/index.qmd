@@ -1,0 +1,264 @@
+---
+title: "CMS TEAM Region Report: Northeast — 236 Mandated Hospitals"
+kicker: "REGION BRIEFING"
+author: "Jennifer Tim-Diamond for Rainfall Health"
+date: "September 2026"
+draft: true
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+  typst:
+    toc: false
+    columns: 1
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    mainfont: "DM Sans"
+    fontsize: 10.5pt
+    font-paths:
+      - ../../fonts
+    include-in-header:
+      - ../../styles/preamble.typ
+    title-block-style: none
+    keep-typ: false
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+knitr:
+  opts_chunk:
+    dev: png
+---
+
+```{r}
+#| label: setup
+#| include: false
+REPORT_KIND <- "territory"
+REPORT_ID <- "t3"
+source("../../R/report.R")
+```
+
+::: {.draft-banner}
+Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
+:::
+
+::: {.wp-cover}
+![](../../assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">Region Briefing</p>
+
+# CMS TEAM Region Report: Northeast — 236 Mandated Hospitals
+
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Territory 3 is the densest TEAM sales region: New York, New Jersey, Massachusetts, Pennsylvania, and neighboring Mid-Atlantic markets — 236 hospitals and the country’s hardest post-acute coordination problem.</p>
+:::
+
+```{=typst}
+#page(margin: (x: 0.7in, y: 0.75in), footer: none)[
+  #set text(font: "DM Sans", fill: rgb("#1e293b"))
+  #align(right)[
+    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+  ]
+  #v(0.7in)
+  #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[REGION BRIEFING]
+  #v(0.4em)
+  #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
+    CMS TEAM Region Report: Northeast — 236 Mandated Hospitals
+  ]
+  #v(0.55em)
+  #text(size: 12pt, fill: rgb("#475569"))[
+    Draft TEAM briefing · live roster counts
+  ]
+  #v(1.0em)
+  #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
+  #v(0.2em)
+  #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
+  #align(bottom)[
+    #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
+    #v(0.35em)
+    #text(size: 8pt, fill: rgb("#64748b"))[
+      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice.
+    ]
+  ]
+]
+```
+
+# 01 · At a glance
+
+Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+
+```{r}
+#| label: tbl-glance
+glance <- tibble::tibble(
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Value = c(
+    as.character(SCOPE_N),
+    as.character(SCOPE_CBSA_N),
+    editorial$medicare,
+    editorial$hrrp,
+    editorial$lejr
+  ),
+  `Why it matters` = c(
+    editorial$why_hospitals,
+    paste("Largest CBSA:", top_cbsa, "(", top_cbsa_n, "hospitals)"),
+    "Covered-lives scale",
+    "Readmission pressure under episode accountability",
+    "Volume concentration"
+  )
+)
+knitr::kable(glance)
+```
+
+# 02 · Where the mandate sits
+
+Largest market in this scope: **`r top_cbsa`** (`r top_cbsa_n` hospitals).
+
+```{r}
+#| label: fig-cbsa
+#| fig-cap: "CMS TEAM-mandated hospitals in this scope."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig1-cbsa.png")
+```
+
+```{r}
+#| label: tbl-cbsa
+if (identical(REPORT_KIND, "territory")) {
+  state_table |>
+    transmute(State = state, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+} else {
+  cbsa_table |>
+    transmute(CBSA = cbsa_label, Hospitals = hospitals, `Share (%)` = share_pct) |>
+    knitr::kable(digits = 1)
+}
+```
+
+```{r}
+#| label: fig-region
+#| fig-cap: "Concentration of TEAM-mandated hospitals."
+#| out-width: "100%"
+knitr::include_graphics("figures/fig2-region.png")
+```
+
+# 03 · Guide narrative (from the website TEAM report)
+
+
+### Takeaways
+
+- 236 hospitals — largest territory
+- NY–NJ metro alone: 109 hospitals
+- NY 78, NJ 44, MA 37
+- Highest HRRP pressure markets
+- Academic systems ≠ low episode cost
+
+## What is Rainfall Territory 3 under CMS TEAM?
+
+**Territory 3 (Northeast)** is the largest Rainfall TEAM region by hospital count: **236** of **721** active participants (**32.7%**). It covers New York, New Jersey, Massachusetts, Pennsylvania, Connecticut, New Hampshire, Rhode Island, Maine, the District of Columbia, West Virginia, and Virginia.
+
+The **New York–Newark–Jersey City, NY–NJ** CBSA alone contains **109** TEAM hospitals — more than many entire Rainfall territories’ mid-sized states combined. That single metropolitan market forces competing systems to share a fragmented post-acute landscape across two states.
+
+Northeast markets also show elevated **HRRP** stress in Rainfall’s national analysis (New Jersey leads states on share of hospital-condition pairs above ERR 1.0). TEAM attaches the full 30-day episode — not just the readmission event — so HRRP weakness is an early warning, not the whole bill.
+
+(Source: [CMS TEAM participant list (March 2026); HRRP dataset 9n3s-kdb3.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
+
+**Fast facts**
+
+- 236 mandated hospitals (March 2026) — largest territory
+- Top states: New York 78 · New Jersey 44 · Massachusetts 37 · Pennsylvania 26 · Virginia 18
+- Top CBSA: New York–Newark–Jersey City 109 · Boston 35 · Washington DC metro 22 · Providence 14
+- Systems: Northwell, Mount Sinai, NYU Langone, Hackensack Meridian, RWJBarnabas, Mass General Brigham, UPMC, Geisinger
+- Maryland excluded nationally (Total Cost of Care Model)
+
+## How are Territory 3 hospitals distributed by state?
+
+| State | TEAM hospitals (T3) |
+| --- | --- |
+| New York | 78 |
+| New Jersey | 44 |
+| Massachusetts | 37 |
+| Pennsylvania | 26 |
+| Virginia | 18 |
+| Rhode Island | 10 |
+| New Hampshire | 8 |
+| District of Columbia | 5 |
+| West Virginia | 4 |
+| Connecticut | 3 |
+| Maine | 3 |
+| Territory 3 total | 236 |
+
+## Which CBSAs concentrate the most TEAM risk?
+
+| CBSA | Hospitals |
+| --- | --- |
+| New York-Newark-Jersey City, NY-NJ | 109 |
+| Boston-Cambridge-Newton, MA-NH | 35 |
+| Washington-Arlington-Alexandria, DC-VA-MD-WV | 22 |
+| Providence-Warwick, RI-MA | 14 |
+| Buffalo-Cheektowaga, NY | 8 |
+| Harrisburg-Carlisle, PA | 5 |
+| Hermitage, PA | 4 |
+| New Haven, CT | 3 |
+
+## Which networks are positioned to win in the Northeast?
+
+**Multi-hospital New Jersey systems** (Hackensack Meridian, RWJBarnabas) and **New York systems** (Northwell and peer academic-community hybrids) can enforce discharge pathways across many TEAM CCNs. Brand prestige alone is not protective: several high-reputation Northeast AMCs appear in elevated HRRP cells for surgical conditions.
+
+**Boston’s academic cluster** and **Pennsylvania’s UPMC / Geisinger / Penn State** footprints create different problems — strong inpatient quality infrastructure, but still needing explicit PAC contracts where Philadelphia and Pittsburgh hospitals were largely *not* selected into TEAM while smaller CBSAs were.
+
+Deep dives: New York, New Jersey, Massachusetts, and Pennsylvania state guides; national networks advantage article.
+
+## What should Northeast hospital leaders prioritize?
+
+Treat the **NY–NJ metro as one post-acute market** even when licenses and Medicaid rules differ by state. Second, invest in **goals-of-care and geriatric pathways** for hip fracture and complex LEJR patients — Northeast age structure and institutional PAC norms make these episodes financially volatile. Third, use the HRRP analysis to triage service lines before Track risk hardens.
+
+## Frequently asked questions
+
+### How many CMS TEAM hospitals are in the Northeast territory?
+
+236 active hospitals — the largest of Rainfall’s four territories (32.7% of the national 721).
+
+### How big is the New York–Newark TEAM market?
+
+109 mandated hospitals sit in the New York–Newark–Jersey City CBSA alone.
+
+### Is Maryland included?
+
+No. Maryland hospitals are excluded from TEAM because of the Maryland Total Cost of Care Model.
+
+### Which state guides should I read next?
+
+New York, New Jersey, Massachusetts, and Pennsylvania — the four largest Territory 3 state footprints with full hospital directories.
+
+# References
+
+1. Centers for Medicare & Medicaid Services. (2026). TEAM participant list (March 2026 update). CMMI. https://www.cms.gov/priorities/innovation/innovation-models/team-model
+2. Centers for Medicare & Medicaid Services. (2024, August). Transforming Episode Accountability Model: Final Rule. Federal Register, 89(166), 68986–69178. https://www.federalregister.gov/documents/2024/08/28/2024-17021/medicare-program-hospital-inpatient-prospective-payment-systems
+3. Centers for Medicare & Medicaid Services. (2024). Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data [Data set]. CMS Provider Data Catalog, Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+4. Rainfall Health. (2026). CMS TEAM sales territory map and hospital directory (territoryHospitals.json). Sandbox research hub."},{"id":5,"text":"Dummit, L. A., et al. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
+6. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
+7. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
+
+
+
+# Named hospitals (live roster)
+
+```{r}
+#| label: tbl-directory
+hospitals |>
+  dplyr::group_by(state, cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Named hospitals` = paste(hospital, collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
+  knitr::kable()
+```
+
+::: {.wp-disclaimer}
+**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+:::
