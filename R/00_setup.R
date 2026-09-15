@@ -16,6 +16,8 @@ if (capabilities("aqua")) {
 }
 knitr::opts_chunk$set(dev = "png", dpi = 150)
 
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
 report_dir <- function() {
   normalizePath(getwd(), winslash = "/", mustWork = TRUE)
 }
@@ -84,14 +86,17 @@ rain_theme_wp <- function(base_size = 11) {
       axis.title = element_text(color = NAVY, size = 10, family = FONT_FAMILY),
       axis.title.y = element_text(margin = margin(r = 6)),
       plot.title = element_text(
-        color = NAVY, size = 12, face = "bold", hjust = 0, family = FONT_FAMILY
+        color = NAVY, size = 12, face = "bold", hjust = 0, family = FONT_FAMILY,
+        margin = margin(b = 4)
       ),
+      plot.title.position = "plot",
       plot.subtitle = element_text(
         color = GRAY, size = 9, hjust = 0, margin = margin(b = 8), family = FONT_FAMILY
       ),
       plot.caption = element_text(
-        color = GRAY, size = 8, hjust = 0, family = FONT_FAMILY
+        color = GRAY, size = 8, hjust = 0, margin = margin(t = 8), family = FONT_FAMILY
       ),
+      plot.caption.position = "plot",
       legend.text = element_text(color = GRAY, size = 8.5, family = FONT_FAMILY),
       legend.title = element_text(color = NAVY, size = 9, face = "bold", family = FONT_FAMILY),
       plot.margin = margin(8, 28, 10, 8),

@@ -1,4 +1,15 @@
-# Load CMS TEAM participant roster (March 2026 extract used sitewide).
+# Load the CMS TEAM participant roster.
+#
+# Preferred source is the vendored parse of the CMS participant list
+# (data/team_participant_list.csv), which carries each hospital's CCN and so
+# supports exact joins to other CMS datasets. The older name-and-CBSA JSON
+# extract remains as a fallback for environments where the CSV is absent.
+
+# Participant-list helpers live in 06_cms_roster.R. Source them here so this
+# file works standalone for callers that don't go through R/report.R.
+if (!exists("team_roster_csv")) {
+  source(file.path(REPO_ROOT, "R", "06_cms_roster.R"))
+}
 
 hospitals_json_path <- function() {
   path <- file.path(DATA_DIR, "territoryHospitals.json")
@@ -8,7 +19,7 @@ hospitals_json_path <- function() {
   normalizePath(path, winslash = "/", mustWork = TRUE)
 }
 
-flatten_roster <- function(path = hospitals_json_path()) {
+flatten_roster_json <- function(path = hospitals_json_path()) {
   raw <- jsonlite::fromJSON(path, simplifyVector = FALSE)
   rows <- list()
   for (st in names(raw)) {
@@ -19,7 +30,6 @@ flatten_roster <- function(path = hospitals_json_path()) {
         rows[[length(rows) + 1]] <- list(
           hospital = h$name,
           cbsa = h$cbsa,
-          tier = tier,
           state = st
         )
       }
@@ -27,13 +37,40 @@ flatten_roster <- function(path = hospitals_json_path()) {
   }
   dplyr::bind_rows(rows) |>
     dplyr::mutate(
+      # Columns the participant-list CSV carries, kept here as NA so both
+      # roster sources present the same schema to downstream code.
+      ccn = NA_character_,
+      participation = NA_character_,
+      start_date = NA_character_,
+      end_date = NA_character_,
+      newly_identified = NA_character_,
       cbsa_label = cbsa_display_name(cbsa),
       source_file = basename(path),
-      roster_label = "CMS TEAM participant list (repo extract: March 2026)"
+      roster_label = "CMS TEAM participant list (repo JSON extract)"
     )
 }
 
-load_team_hospitals <- function(states, path = hospitals_json_path()) {
+flatten_roster <- function(path = NULL) {
+  if (!is.null(path)) return(flatten_roster_json(path))
+  if (file.exists(team_roster_csv())) {
+    prov <- team_roster_provenance()
+    label <- prov$list_label %||% "CMS TEAM participant list"
+    return(
+      load_team_roster() |>
+        dplyr::select(
+          hospital, cbsa, cbsa_label, state, ccn, participation,
+          start_date, end_date, newly_identified
+        ) |>
+        dplyr::mutate(
+          source_file = basename(team_roster_csv()),
+          roster_label = label
+        )
+    )
+  }
+  flatten_roster_json()
+}
+
+load_team_hospitals <- function(states, path = NULL) {
   states <- toupper(states)
   flatten_roster(path) |>
     dplyr::filter(.data$state %in% states)
@@ -43,7 +80,7 @@ load_territories <- function() {
   jsonlite::fromJSON(file.path(DATA_DIR, "territories.json"), simplifyVector = TRUE)
 }
 
-load_territory_hospitals <- function(territory_id, path = hospitals_json_path()) {
+load_territory_hospitals <- function(territory_id, path = NULL) {
   defs <- load_territories()
   spec <- defs[[territory_id]]
   if (is.null(spec)) stop("Unknown territory: ", territory_id)

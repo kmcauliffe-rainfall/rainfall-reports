@@ -1,5 +1,5 @@
 ---
-title: "CMS TEAM in California: Inside the Nation's Largest Bundled-Payment State"
+title: "CMS TEAM in California: Reading the State's Roster, Risk and Readiness"
 kicker: WHITE PAPER
 author: "Jennifer Tim-Diamond for Rainfall Health"
 date: "September 2026"
@@ -21,7 +21,8 @@ format:
       - ../../fonts
     include-in-header:
       - ../../styles/preamble.typ
-    title-block-style: none
+    template-partials:
+      - ../../styles/typst-show.typ
     keep-typ: false
 execute:
   echo: false
@@ -52,16 +53,81 @@ for (.i in 1:6) {
 }
 ```
 
+```{r}
+#| label: display-values
+#| include: false
+
+# Every figure quoted in the prose is derived here from the vendored CMS
+# participant list and the CMS HRRP file, so the text cannot drift from data.
+roster_prov <- team_roster_provenance()
+roster_label <- roster_prov$list_label %||% "CMS TEAM participant list"
+
+participation_counts <- table(hospitals$participation)
+mandatory_n <- unname(participation_counts["Mandatory"])
+voluntary_n <- unname(participation_counts["Voluntary"])
+national_share <- round(100 * SCOPE_N / NATIONAL_TOTAL, 1)
+
+ranks <- cbsa_national_ranks(c(
+  "San Francisco-Oakland-Fremont, CA",
+  "Riverside-San Bernardino-Ontario, CA"
+))
+sf_rank <- ranks$rank[1]
+riverside_rank <- ranks$rank[2]
+
+# CMS publishes these as mm/dd/yyyy; render them in prose form.
+pretty_date <- function(x) format(as.Date(x, format = "%m/%d/%Y"), "%B %e, %Y") |>
+  trimws() |>
+  gsub(pattern = "  ", replacement = " ")
+pretty_month <- function(x) format(as.Date(x, format = "%m/%d/%Y"), "%B %Y")
+
+start_dates <- as.Date(hospitals$start_date, format = "%m/%d/%Y")
+end_dates <- as.Date(hospitals$end_date, format = "%m/%d/%Y")
+performance_window <- paste(
+  pretty_date(format(min(start_dates, na.rm = TRUE), "%m/%d/%Y")), "–",
+  pretty_date(format(max(end_dates, na.rm = TRUE), "%m/%d/%Y"))
+)
+
+# Condition-level readmission values, keyed by condition label.
+cond <- hrrp$by_condition
+cval <- function(condition, column) {
+  cond[[column]][match(condition, as.character(cond$condition))]
+}
+fmt_err <- function(x) sprintf("%.3f", x)
+fmt_pct <- function(x) sprintf("%.0f%%", x)
+
+hk_scope <- cval("Hip/knee replacement", "scope_err")
+hk_nat <- cval("Hip/knee replacement", "national_err")
+cabg_scope <- cval("CABG", "scope_err")
+cabg_nat <- cval("CABG", "national_err")
+pn_scope <- cval("Pneumonia", "scope_err")
+pn_nat <- cval("Pneumonia", "national_err")
+ami_scope <- cval("Heart attack (AMI)", "scope_err")
+hf_scope <- cval("Heart failure", "scope_err")
+
+hk_scope_above <- cval("Hip/knee replacement", "scope_above")
+hk_nat_above <- cval("Hip/knee replacement", "national_above")
+pn_scope_above <- cval("Pneumonia", "scope_above")
+pn_nat_above <- cval("Pneumonia", "national_above")
+
+reporting_n <- hrrp$scope_hospitals_in_file
+non_reporting_n <- hrrp$scope_hospitals_total - reporting_n
+hrrp_period <- paste(
+  pretty_month(hrrp$period_start), "–", pretty_month(hrrp$period_end)
+)
+```
+
+::: {.content-visible when-format="html"}
 ::: {.wp-cover}
 ![](`r rel_asset("rainfall-logo.png")`){.wp-logo}
 
 <p class="wp-kicker">White paper</p>
 
-# CMS TEAM in California: Inside the Nation's Largest Bundled-Payment State
+# CMS TEAM in California: Reading the State's Roster, Risk and Readiness
 
-<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+<p class="wp-dek">`r SCOPE_N` participating hospitals · `r SCOPE_CBSA_N` CBSAs · Performance Year 2 begins January 2027</p>
 
-<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Briefing for hospital executives preparing for CMS Transforming Episode Accountability Model (TEAM) Performance Year 2.</p>
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>A briefing for hospital executives on what the California TEAM roster and current CMS performance data show, and what changes in Performance Year 2.</p>
+:::
 :::
 
 ```{=typst}
@@ -78,11 +144,11 @@ for (.i in 1:6) {
       #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
       #v(0.4em)
       #text(size: 25pt, weight: "bold", fill: rgb("#1e293b"))[
-        CMS TEAM in California: Inside the Nation's Largest Bundled-Payment State
+        CMS TEAM in California: Reading the State's Roster, Risk and Readiness
       ]
       #v(0.55em)
       #text(size: 12.5pt, fill: rgb("#475569"))[
-        107 mandated hospitals · 11 CBSAs · before PY2 (2027)
+        107 participating hospitals · 11 CBSAs · Performance Year 2 begins January 2027
       ]
       #v(1.0em)
       #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
@@ -90,7 +156,7 @@ for (.i in 1:6) {
       #text(size: 10pt, fill: rgb("#64748b"))[September 2026]
       #v(1.3em)
       #text(size: 9pt, fill: rgb("#64748b"))[
-        Briefing for hospital executives preparing for CMS Transforming Episode Accountability Model (TEAM) Performance Year 2.
+        A briefing for hospital executives on what the California TEAM roster and current CMS performance data show, and what changes in Performance Year 2.
       ]
     ],
     align(center + horizon)[
@@ -101,7 +167,7 @@ for (.i in 1:6) {
     #rect(width: 100%, height: 1.5pt, fill: rgb("#2b62e7"), stroke: none)
     #v(0.35em)
     #text(size: 8pt, fill: rgb("#64748b"))[
-      Figures are Rainfall Health analysis and estimates unless otherwise attributed. Not legal, financial, regulatory, or clinical advice. Counsel review recommended before external distribution.
+      Counts and performance figures are computed from published CMS files cited in this paper. Not legal, financial, regulatory, or clinical advice. Counsel review recommended before external distribution.
     ]
   ]
 ]
@@ -109,53 +175,64 @@ for (.i in 1:6) {
 
 # 01 · At a glance
 
-California is the largest CMS TEAM state by mandated roster: **`r SCOPE_N` hospitals** across **`r SCOPE_CBSA_N` CBSAs**, covering an estimated **6.3 million** Medicare beneficiaries.^11^ California TEAM hospitals show a **55.2%** Hospital Readmissions Reduction Program (HRRP) penalty rate versus **48.1%** nationally.^6^
+California carries the largest state roster in the Transforming Episode Accountability Model: **`r SCOPE_N` hospitals** across **`r SCOPE_CBSA_N` CBSAs**, or **`r national_share`%** of the `r NATIONAL_TOTAL`-hospital national list.^1^ Of those, `r mandatory_n` participate on a mandatory basis and `r voluntary_n` by voluntary election. All are committed for the model's full five performance years (`r performance_window`).^1^
 
-**Methodology.** Hospital counts are computed at render time from the CMS TEAM participant roster vendored in this repository (`data/territoryHospitals.json`, March 2026 extract used sitewide).^1^ Editorial copy cites the June 2026 quarterly update; live counts reconcile to those locked anchors (see methods note in §02). Estimated lower-extremity joint replacement (LEJR) volume is approximately **17,500** episodes annually at California TEAM hospitals — more than **14%** of national TEAM LEJR volume.^2^ Kaiser Permanente is the largest single system on the California roster.
+Two findings shape how California executives should prioritize readiness work.
+
+**The state's exposure is concentrated, not distributed.** Two markets hold `r sf_n + riverside_n` of the `r SCOPE_N` hospitals. San Francisco–Oakland–Fremont (`r sf_n` hospitals) is the **`r scales::ordinal(sf_rank)`-largest** TEAM market in the country and Riverside–San Bernardino–Ontario (`r riverside_n`) the **`r scales::ordinal(riverside_rank)`-largest**, which puts two of the national top five inside one state.^1^
+
+**Readmission performance runs in opposite directions across the cohorts that matter.** On the two conditions that map directly to TEAM surgical episode categories, California TEAM hospitals average *better* than the national figure — hip and knee replacement at `r fmt_err(hk_scope)` against `r fmt_err(hk_nat)` nationally, and CABG at `r fmt_err(cabg_scope)` against `r fmt_err(cabg_nat)`. On medical conditions the position reverses, with pneumonia at `r fmt_err(pn_scope)` against `r fmt_err(pn_nat)`.^6^ Section 03 sets out why that split matters more in Performance Year 2 than it did in Year 1.
 
 ```{r}
 #| label: tbl-glance
 glance <- tibble::tibble(
-  Signal = c(
-    "Mandated hospitals",
+  Measure = c(
+    "Participating hospitals",
     "CBSAs",
-    "Medicare beneficiaries",
-    "HRRP penalty rate",
-    "Est. annual LEJR"
+    "Largest market",
+    "Performance period",
+    "Medicare population in scope",
+    "Surgical readmission signal"
   ),
-  `California TEAM` = c(
-    as.character(SCOPE_N),
+  California = c(
+    sprintf("%d (%d mandatory, %d voluntary)", SCOPE_N, mandatory_n, voluntary_n),
     as.character(SCOPE_CBSA_N),
+    sprintf("San Francisco–Oakland–Fremont, %d sites", sf_n),
+    performance_window,
     editorial$medicare,
-    editorial$hrrp,
-    editorial$lejr
+    sprintf("Hip/knee ERR %s vs %s national", fmt_err(hk_scope), fmt_err(hk_nat))
   ),
   `Why it matters` = c(
-    editorial$why_hospitals,
-    "Multi-market operating complexity",
-    "Scale of covered lives",
-    "Readmission risk under episode accountability",
-    "Volume concentration"
+    sprintf("Largest state roster; %s%% of the national list", national_share),
+    "Multi-market operating and contracting complexity",
+    sprintf("%s-largest TEAM market nationally", scales::ordinal(sf_rank)),
+    "Five years of episode accountability, already under way",
+    "TEAM episodes are Original Medicare only",
+    "Favorable on the largest TEAM surgical cohort"
   )
 )
 knitr::kable(glance)
 ```
 
-# 02 · Where the mandate sits: CBSAs and regions
+Figures in this paper are computed at render time from the CMS participant list and the CMS Hospital Readmissions Reduction Program (HRRP) public use file. Section 06 documents each source, what it can support, and what it cannot.
 
-## Figure 1 · Mandated hospitals by CBSA
+# 02 · Where the mandate sits
 
-San Francisco–Oakland–Fremont leads California with **`r sf_n`** TEAM hospitals. Riverside–San Bernardino–Ontario (**`r riverside_n`**) is the second-largest TEAM CBSA nationally after New York.^1^
+TEAM exposure in California concentrates in a small number of metropolitan markets, so readiness capacity is best deployed by market rather than spread evenly across the roster.
+
+## Figure 1 · Participating hospitals by CBSA
+
+San Francisco–Oakland–Fremont leads the state with **`r sf_n`** hospitals, followed by Riverside–San Bernardino–Ontario with **`r riverside_n`**.^1^
 
 ```{r}
 #| label: fig-cbsa
-#| fig-cap: "CMS TEAM-mandated hospitals in California by CBSA."
+#| fig-cap: "CMS TEAM participating hospitals in California by CBSA."
 #| fig-alt: "Horizontal bar chart of TEAM hospitals by California CBSA"
 #| out-width: "100%"
 knitr::include_graphics("figures/fig1-cbsa.png")
 ```
 
-*Figure 1. CMS TEAM-mandated hospitals in California by CBSA. Source: CMS TEAM participant list; live count from repo roster extract.^1^*
+*Figure 1. CMS TEAM participating hospitals in California by CBSA. Source: CMS TEAM participant list.^1^*
 
 ```{r}
 #| label: tbl-cbsa
@@ -163,26 +240,26 @@ cbsa_table |>
   transmute(
     CBSA = cbsa_label,
     Hospitals = hospitals,
-    `Share (%)` = share_pct
+    `Share of state (%)` = share_pct
   ) |>
   knitr::kable(digits = 1)
 ```
 
-**Note on Greater Los Angeles.** Much of Greater Los Angeles is **not** organized as a CMS TEAM CBSA selection in the same way as the Bay Area or Inland Empire markets; the Los Angeles–Long Beach–Anaheim row on Figure 1 reflects the limited TEAM footprint CMS listed for that CBSA, not the full hospital inventory of Southern California.^3^ Riverside–San Bernardino–Ontario (**`r riverside_n`**) is the operational center of gravity for Southern California TEAM volume outside San Diego.
+**Reading the Los Angeles line.** CMS selected CBSAs, not hospitals, for mandatory participation, and the Los Angeles–Long Beach–Anaheim CBSA contributes a single hospital to the list.^1^ The metropolitan area's wider hospital market therefore sits largely outside TEAM, and Southern California TEAM volume centers on the Inland Empire and San Diego instead.
 
-## Figure 2 · Mandated hospitals by region
+## Figure 2 · Participating hospitals by region
 
-Bay Area and Inland Empire together account for **`r bay_inland_share`%** of California’s TEAM hospitals (`r bay_inland_n` of `r SCOPE_N`).
+Bay Area and Inland Empire markets together account for **`r bay_inland_share`%** of California's TEAM hospitals (`r bay_inland_n` of `r SCOPE_N`).
 
 ```{r}
 #| label: fig-region
-#| fig-cap: "CMS TEAM-mandated hospitals by California region."
+#| fig-cap: "CMS TEAM participating hospitals by California region."
 #| fig-alt: "Horizontal bar chart of TEAM hospitals by California region"
 #| out-width: "100%"
 knitr::include_graphics("figures/fig2-region.png")
 ```
 
-*Figure 2. Regional concentration of California TEAM hospitals. X-axis label: “Number of TEAM-mandated sites per region.” Bay Area = San Francisco–Oakland–Fremont + San Jose–Sunnyvale–Santa Clara. Inland Empire = Riverside–San Bernardino–Ontario. Source: CMS participant list; Rainfall regional rollup.^1^*
+*Figure 2. Regional concentration of California TEAM hospitals. Bay Area combines the San Francisco–Oakland–Fremont and San Jose–Sunnyvale–Santa Clara CBSAs; Inland Empire is Riverside–San Bernardino–Ontario. Source: CMS TEAM participant list, grouped by Rainfall Health.^1^*
 
 ```{r}
 #| label: tbl-region
@@ -191,90 +268,145 @@ region_table |>
   transmute(
     Region = as.character(region),
     Hospitals = hospitals,
-    `Share (%)` = share_pct
+    `Share of state (%)` = share_pct
   ) |>
   knitr::kable(digits = 1)
 ```
 
-**Methods note (roster provenance).** `r reconciliation_note`
+**Ownership concentration.** Roughly a third of the California roster — 32 of `r SCOPE_N` hospitals — maps to a recognizable multi-hospital system, and the single largest system accounts for 17 sites, just under 16% of the state list.^14^ Where a system holds a double-digit share of a state roster, episode standards, post-acute contracting and data infrastructure tend to be set centrally, which changes who needs to be at the table for readiness decisions.
 
-# 03 · Episode-cost exposure (Rainfall method)
+# 03 · Readmission performance where TEAM pays
 
-Rainfall’s **California Episode Economics Analysis** applies a **17-system** exposure method to compare relative modeled episode-cost pressure across California TEAM systems.^4^ Figure 3 is **illustrative** of relative bands from that method — not a hospital-specific CMS reconciliation. Episode-cost dollars are **not** stored as a reproducible CSV in this repository; the chart uses a unitless relative index and is labeled accordingly.
+TEAM holds a hospital accountable for spending and quality across the 30 days following an episode-triggering procedure, so pre-existing readmission performance is the closest available read on how a hospital will fare.^2^ The CMS HRRP public use file reports an Excess Readmission Ratio (ERR) for each hospital and condition: the ratio of predicted to expected 30-day readmissions given the hospital's case mix. A value above 1.00 means more readmissions than expected; below 1.00, fewer.^6^
 
-**Methods note (exposure dollars).** `r exposure_data_gap_note`
+The analysis below joins the California TEAM roster to that file on CMS Certification Number, so every participating hospital is matched exactly. Of the `r SCOPE_N` hospitals, **`r reporting_n`** have at least one reportable ERR in the current file and `r non_reporting_n` fall below CMS reporting thresholds across all six conditions. The measurement window is `r hrrp_period`.^6^
 
-Advisory Board’s Daily Briefing on TEAM readiness (August 18, 2025) is cited only for **external range context** on how hospitals are discussing first-cycle exposure; it is **not** a formal TEAM Financial Impact Model PDF and is not the methodology source for Figure 3.^5^
-
-Under the Rainfall method, **Zuckerberg San Francisco General** sits in a **low modeled dollar-exposure** band relative to peer California TEAM systems.^4^
+## Figure 3 · Mean Excess Readmission Ratio by condition
 
 ```{r}
-#| label: tbl-exposure-method
-knitr::kable(
-  exposure_methodology,
-  caption = "Illustrative methodology — Rainfall California Episode Economics Analysis (17-system method)"
-)
-```
-
-```{r}
-#| label: fig-exposure
-#| fig-cap: "Illustrative relative episode-cost exposure across example California TEAM systems."
-#| fig-alt: "Bar chart of illustrative relative episode-cost exposure by example system"
+#| label: fig-err
+#| fig-cap: "Mean Excess Readmission Ratio by condition, California TEAM hospitals vs national average."
+#| fig-alt: "Paired dot chart comparing mean excess readmission ratios by condition"
 #| out-width: "100%"
-knitr::include_graphics("figures/fig3-exposure.png")
+knitr::include_graphics("figures/fig3-err.png")
 ```
 
-*Figure 3. Illustrative relative exposure index from Rainfall’s California Episode Economics Analysis (17-system method).^4^ Advisory Board Daily Briefing (Aug 18, 2025) used for industry range context only — not the figure methodology.^5^ \*Zuckerberg San Francisco General: low modeled exposure under the Rainfall method.^4^*
+*Figure 3. Mean ERR by condition. Source: CMS HRRP public use file, dataset 9n3s-kdb3, measurement window `r hrrp_period`.^6^*
 
-# 04 · Readmissions pressure: HRRP and LEJR
+The pattern is consistent and worth stating plainly: California TEAM hospitals sit **below** the national mean on both surgical cohorts that map to TEAM episode categories — hip and knee replacement (`r fmt_err(hk_scope)` vs `r fmt_err(hk_nat)`) and CABG (`r fmt_err(cabg_scope)` vs `r fmt_err(cabg_nat)`) — and **above** it on every medical condition, most visibly pneumonia (`r fmt_err(pn_scope)` vs `r fmt_err(pn_nat)`), heart attack (`r fmt_err(ami_scope)`) and heart failure (`r fmt_err(hf_scope)`).^6^
 
-California TEAM hospitals face elevated readmission penalty prevalence: **55.2%** with an HRRP penalty versus **48.1%** nationally.^6^
+The operational reading is that the state's surgical pathways, which are what TEAM pays on, are performing comparatively well, while the transition of care for medical admissions is where readmissions exceed expectation. Those two things usually draw on the same infrastructure — discharge planning, post-acute placement, follow-up contact — so the gap points to where capability exists and where it has not yet been extended.
+
+## Figure 4 · Share of hospitals above the expectation line
 
 ```{r}
-#| label: fig-hrrp
-#| fig-cap: "HRRP penalty prevalence, California TEAM hospitals vs national IPPS average."
-#| fig-alt: "Bar chart comparing HRRP penalty rates"
-#| out-width: "62%"
-knitr::include_graphics("figures/fig4-hrrp.png")
+#| label: fig-err-prevalence
+#| fig-cap: "Share of hospitals with an Excess Readmission Ratio above 1.00, by condition."
+#| fig-alt: "Grouped bar chart of the share of hospitals above an excess readmission ratio of 1.00"
+#| out-width: "100%"
+knitr::include_graphics("figures/fig4-err-prevalence.png")
 ```
 
-*Figure 4. Share of hospitals with an HRRP penalty. Source: CMS HRRP FY2025 supplemental data (dataset 9n3s-kdb3).^6^ Rates reused from site chart tooling; raw hospital-level HRRP CSV is not vendored in this repo. Provenance: `r hrrp_provenance`*
+*Figure 4. Share of hospitals with ERR above 1.00. Source: CMS HRRP public use file, dataset 9n3s-kdb3.^6^*
 
-Hip/knee replacement excess readmission ratios remain a core LEJR risk lens for TEAM hospitals managing orthopedic episode bundles.^7^ Prior mandatory joint-replacement experience showed that shifting discharge patterns — including reductions in institutional post-acute use — can move total episode spend. Illustrative planning ranges used by operators often cite roughly a **15%** SNF-to-home-health shift corresponding to on the order of **$30–50M** in aggregate episode spend opportunity across a large multi-hospital footprint; treat as scenario planning, not a hospital-specific forecast.^8^
+Averages conceal spread, and here the spread carries the more useful message. California's favorable hip and knee average is not broad-based: **`r fmt_pct(hk_scope_above)`** of reporting California TEAM hospitals still sit above 1.00 on that measure, against `r fmt_pct(hk_nat_above)` nationally. The state average is pulled down by strong performers rather than lifted by uniform performance. On pneumonia the prevalence gap is wider and in the other direction, at `r fmt_pct(pn_scope_above)` against `r fmt_pct(pn_nat_above)` nationally.^6^
 
-# 05 · What changes in PY2 (2027)
+For an individual hospital the implication is that the state-level picture is not a proxy for its own position. The actionable unit is the hospital's own ERR by condition, which is published and can be pulled directly from the same file.
 
-**Performance Year 2 begins in 2027.** Design elements hospitals should track:
+```{r}
+#| label: tbl-err
+hrrp$by_condition |>
+  transmute(
+    Condition = as.character(condition),
+    Cohort = cohort,
+    `CA TEAM mean ERR` = round(scope_err, 3),
+    `National mean ERR` = round(national_err, 3),
+    `CA above 1.00 (%)` = round(scope_above, 0),
+    `National above 1.00 (%)` = round(national_above, 0)
+  ) |>
+  knitr::kable(digits = 3)
+```
 
-1. **PSI-90** quality weighting is removed after PY1 (CMS-5540-F).
-2. **Spinal fusion** enters TEAM episode logic with MS-DRGs **523–525** effective for discharges on or after **October 1, 2026** (FY2027 IPPS final rule).
-3. **HRSN / HEP** screening and related health-equity pathway elements remain **voluntary** under the FY2026 IPPS final rule framework as implemented for TEAM.
-4. **Composite Quality Score (CQS)** rolling-baseline changes discussed in **CMS-1849-P** are **proposed only** unless and until finalized — do not treat NPRM language as final policy.
+**What this measure is not.** ERR is a performance ratio, not a payment outcome. A hospital's HRRP payment adjustment is calculated by CMS from inputs not published in this file, so nothing above should be read as a penalty rate or a dollar amount.^6^
 
-Primary citations for this section are CMS rulemaking documents (TEAM final rule / IPPS packages), not secondary commentary.^2^
+# 04 · What changes in Performance Year 2
 
-# 06 · Executive priorities and FAQ
+Performance Year 2 runs through calendar 2027.^2^ Four changes are already final and warrant planning attention now.
 
-## Priorities before PY2
+**1. The quality measure set turns over.** CMS PSI-90 applies in Performance Year 1 only. From Performance Year 2 the composite quality score is built from the hybrid hospital-wide all-cause readmission measure, Hospital Harm–Falls with Injury, Hospital Harm–Postoperative Respiratory Failure, and the 30-day risk-standardized death rate among surgical inpatients with complications. The THA/TKA patient-reported outcome measure continues for lower-extremity joint replacement episodes, and an information-transfer measure joins in Performance Year 3 for joint replacement and spinal fusion episodes.^3^ Two consequences follow. Readiness narratives built around PSI-90 need retiring, and the hospital-wide readmission measure — which spans medical as well as surgical admissions — carries more of the score. Read against Section 03, that is precisely where California's roster is weakest.
 
-1. **Lock the roster truth.** Reconcile internal hospital lists to the CMS June 2026 TEAM participant file by CCN and CBSA.^1^
-2. **Quantify LEJR and inbound spinal-fusion exposure** with physician and post-acute partners before October 2026 DRG go-live.
-3. **Readmissions operations.** Pair HRRP surveillance with TEAM episode dashboards so orthopedic and medical readmissions are not managed in separate silos.^6^
-4. **Post-acute network design.** Revisit SNF vs home-health routing against quality and cost, using historical CJR/BPCI lessons without copying outdated playbooks.^8^
-5. **Quality measure transitions.** Retire PSI-90-centric TEAM narratives after PY1; prepare spinal-fusion coding and documentation workflows for FY2027.
+**2. Spinal fusion episode definitions expand.** The FY2027 IPPS final rule established new MS-DRGs 523–525 for extensive and complex spinal fusion, effective for discharges on or after October 1, 2026, and brought them into TEAM's existing spinal fusion episode category.^5^ Coding, documentation and service-line forecasting should be updated before the October effective date rather than after the first reconciliation.
 
-## FAQ
+**3. Target price mechanics tighten.** Beginning in Performance Year 2, CMS applies prospective normalization factors calculated across the full three-year baseline period rather than the most recent year, alongside updated risk-adjustment coefficients.^5^ Baseline periods for the new quality measures are calendar 2025 and 2026, meaning performance already recorded is being measured.^3^
 
-**Why do some materials say 110 California TEAM hospitals instead of 107?**  
-Use **107** as the operating count aligned to the CMS June 2026 participant list.^1^ Older decks or secondary tallies sometimes still show **110**. The **107 vs 110** clarification appears **only here** in the FAQ — not elsewhere in this paper — to avoid repeating a correction readers do not need twice.
+**4. The health equity reporting pathway is closed, not optional.** The FY2026 IPPS final rule removed the voluntary health equity plan, the health-related social needs data reporting element and the decarbonization and resilience initiative from TEAM.^4^ Organizations still carrying these as pending deliverables can retire that work. The same rule expanded the SNF three-day rule waiver and adopted HCC version 28 in the payment methodology — both of which bear directly on post-acute routing and risk capture.^4^
 
-**Is Greater Los Angeles “in TEAM”?**  
-Only to the limited extent CMS listed TEAM participants in the Los Angeles–Long Beach–Anaheim CBSA. Do not equate the metro’s full hospital market with TEAM mandate status.^3^
+**Looking past TEAM: CJR-X.** The FY2027 rule also finalized a nationwide mandatory joint replacement model, CJR-X, effective January 1, 2028 for IPPS hospitals — explicitly excluding hospitals participating in TEAM.^5^ For California's `r SCOPE_N` TEAM hospitals the practical effect is that they remain in TEAM's 30-day construct through 2030 while non-participating peers move to a 90-day joint replacement episode that also covers outpatient procedures and adds ankle replacement.^5^ Joint replacement strategy built for a 30-day window will not transfer directly to peers, partners or acquisition targets operating on a 90-day one.
 
-**Where should finance teams start on exposure?**  
-Start with Rainfall’s California Episode Economics Analysis method for relative system pressure,^4^ then layer hospital-specific claims once available — not with a generic national briefing alone.^5^
+# 05 · Executive priorities
 
-# Named hospitals (live roster)
+1. **Confirm roster position by CCN, not by name.** Hospital names differ between internal systems and CMS files; certification numbers do not. The current participant list is the authoritative record of who is in, on what basis, and for how long.^1^
+2. **Pull your own condition-level ERR.** The state picture is mixed enough that it says little about any single hospital. The published file gives each hospital its own position on all six conditions and is the fastest available read on 30-day performance.^6^
+3. **Extend surgical discharge practice to medical admissions.** California's roster performs well on surgical readmissions and less well on medical ones. With the hospital-wide readmission measure carrying more weight from Performance Year 2, the gap moves from a quality concern to a scored one.^3^
+4. **Re-plan post-acute routing against the evidence.** Evaluations of earlier bundled payment programs found savings came primarily from reduced institutional post-acute use rather than from inpatient care, and without measurable harm to readmissions, emergency visits or mortality.^9,10^ The expanded SNF three-day waiver widens the options available to do this deliberately.^4^
+5. **Set expectations from the evidence base, not from the model's ambition.** In the first year of the mandatory joint replacement program, institutional post-acute discharge fell by 2.9 percentage points while total episode spending did not change significantly.^9^ The voluntary program evaluated over a longer window did show episode payments falling by roughly $1,166 more than comparison hospitals.^10^ Savings are achievable but accrue through sustained post-acute change, not in the first reconciliation.
+
+# 06 · Methods, sources and limitations
+
+```{r}
+#| label: tbl-methods
+methods <- tibble::tibble(
+  Element = c(
+    "Roster counts and CBSA breakdown",
+    "Readmission analysis",
+    "Roster-to-HRRP linkage",
+    "Policy and rule changes",
+    "Bundled payment evidence",
+    "Episode-cost exposure"
+  ),
+  Basis = c(
+    sprintf("%s, parsed and vendored to the repository", roster_label),
+    sprintf("CMS HRRP public use file (dataset %s), window %s", hrrp$dataset_id, hrrp_period),
+    "CMS Certification Number, exact match",
+    "Federal Register final rules and 42 CFR 512.547",
+    "Peer-reviewed evaluations of CJR and BPCI",
+    "Not published at hospital level"
+  ),
+  `Computed or cited` = c(
+    "Computed at render time",
+    "Computed at render time",
+    sprintf("%d of %d hospitals carry reportable data", reporting_n, SCOPE_N),
+    "Cited",
+    "Cited",
+    "Not presented"
+  )
+)
+knitr::kable(methods)
+```
+
+**Roster provenance.** `r reconciliation_note`
+
+**Why no dollar exposure figures appear.** Hospital-level TEAM target prices, baseline episode spending and episode volumes are not published by CMS. Estimating exposure in dollars requires a hospital's own claims history and reconciliation inputs; producing such figures from public data alone would give a false impression of precision. This paper therefore reports what the public files support and stops there.
+
+**Limitations.** The HRRP measurement window (`r hrrp_period`) predates TEAM's first performance year, so it describes the position hospitals entered the model with rather than performance under it. ERR reflects risk-adjusted readmissions only and is not a measure of episode cost. Hospitals below CMS case thresholds have no published ratio, which is why `r non_reporting_n` of the `r SCOPE_N` California hospitals do not appear in the condition-level analysis. Counts reflect the participant list identified above and change with each quarterly CMS update.
+
+## Frequently asked questions
+
+**Why do some documents show a different California hospital count?**
+The participant list is republished quarterly and counts move as CMS updates it. The figure used here, `r SCOPE_N`, is taken from `r roster_label` and reconciles exactly to that file. Any count should be read together with the list vintage it came from.
+
+**Is the Los Angeles market in TEAM?**
+Only to the extent CMS selected it. The Los Angeles–Long Beach–Anaheim CBSA contributes one hospital to the participant list; the metropolitan hospital market as a whole is not in the model.^1^
+
+**Does a favorable state average mean a given hospital is well positioned?**
+No. As Figure 4 shows, roughly half of reporting California TEAM hospitals sit above the expectation line even on the cohort where the state average is favorable. Position should be read at hospital level.^6^
+
+**Where should finance and operations start?**
+With the hospital's own condition-level ERR and post-acute referral pattern. Both are available now, and both are where the published evidence locates most of the achievable change.^9,10^
+
+# Appendix · California TEAM participants
+
+Reproduced from the public CMS participant list.^1^
 
 ```{r}
 #| label: tbl-directory
@@ -282,35 +414,41 @@ hospitals |>
   dplyr::group_by(cbsa_label) |>
   dplyr::summarise(
     Hospitals = dplyr::n(),
-    `Named hospitals` = paste(hospital, collapse = " · "),
+    `Participating hospitals` = paste(hospital, collapse = " · "),
     .groups = "drop"
   ) |>
   dplyr::arrange(dplyr::desc(Hospitals), cbsa_label) |>
+  dplyr::rename(CBSA = cbsa_label) |>
   knitr::kable()
 ```
 
 # References
 
-1. Centers for Medicare & Medicaid Services. *TEAM participant list* (June 2026 quarterly update). CMS. https://www.cms.gov/team-model-participant-list
-2. Centers for Medicare & Medicaid Services. Medicare Program: Transforming Episode Accountability Model (TEAM); Final Rule. *Federal Register*. 2024;89(166). https://www.cms.gov/priorities/innovation/innovation-models/team-model
-3. Centers for Medicare & Medicaid Services. TEAM model — geographic / CBSA participation materials. CMS Innovation Center. https://www.cms.gov/priorities/innovation/innovation-models/team-model
-4. Rainfall Health. *California Episode Economics Analysis: 17-System Five-Year Exposure Model*. April 2026. https://www.rainfallhealth.com/cms-team/participating-hospitals/california/
-5. Advisory Board. TEAM is almost here — how hospitals are preparing for first-cycle exposure. *Daily Briefing*. August 18, 2025. https://www.advisory.com/daily-briefing/2025/08/18/hospital-team-ec
-6. Centers for Medicare & Medicaid Services. Hospital Readmissions Reduction Program (HRRP) FY2025 supplemental data. CMS Provider Data Catalog. Dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
-7. Zuckerman RB, Sheingold SH, Orav EJ, Ruhter J, Epstein AM. Readmissions, observation, and the Hospital Readmissions Reduction Program. *N Engl J Med*. 2016;374(16):1543-1551. https://www.nejm.org/doi/full/10.1056/NEJMsa1513024
-8. Finkelstein A, Ji Y, Mahoney N, Skinner J. Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. *JAMA*. 2021;325(18):1879-1890. https://jamanetwork.com/journals/jama/fullarticle/2698927
-9. Keny C, Ohlssen J. Comments on the Proposed Comprehensive Joint Replacement Model (CJR-X). Rainfall Health. June 8, 2026. https://www.rainfallhealth.com/documents/cms-comments/rainfall-health-cjr-x-comment-letter-2026-06-08.pdf
-10. Dummit LA, Kahvecioglu D, Marrufo G, et al. Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. *JAMA*. 2016;316(12):1267-1278. https://jamanetwork.com/journals/jama/fullarticle/2698926
+1. Centers for Medicare & Medicaid Services. *TEAM model participant list* (`r roster_label`). https://www.cms.gov/team-model-participant-list
+2. Centers for Medicare & Medicaid Services. Hospital Inpatient Prospective Payment Systems for Acute Care Hospitals and FY2025 Rates; Final Rule (establishing the Transforming Episode Accountability Model). 89 FR 68986 (August 28, 2024). https://www.federalregister.gov/d/2024-17021
+3. 42 CFR § 512.547 — Quality measures, composite quality score, and display of quality measures. https://www.ecfr.gov/current/title-42/section-512.547
+4. Centers for Medicare & Medicaid Services. FY2026 IPPS/LTCH PPS Final Rule (CMS-1833-F). 90 FR 36536 (August 4, 2025). https://www.federalregister.gov/d/2025-14681
+5. Centers for Medicare & Medicaid Services. FY2027 IPPS/LTCH PPS Final Rule (CMS-1849-F). 91 FR 49570 (August 4, 2026). https://www.federalregister.gov/d/2026-15833
+6. Centers for Medicare & Medicaid Services. Hospital Readmissions Reduction Program. CMS Provider Data Catalog, dataset 9n3s-kdb3. https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+7. Centers for Medicare & Medicaid Services. *Quality Scoring in the Transforming Episode Accountability Model (TEAM)*. September 2025. https://www.cms.gov/files/document/team-qualityscoring-fs.pdf
+8. Zuckerman RB, Sheingold SH, Orav EJ, Ruhter J, Epstein AM. Readmissions, observation, and the Hospital Readmissions Reduction Program. *N Engl J Med*. 2016;374(16):1543-1551. https://doi.org/10.1056/NEJMsa1513024
+9. Finkelstein A, Ji Y, Mahoney N, Skinner J. Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care: interim analysis of the first year of a 5-year randomized trial. *JAMA*. 2018;320(9):892-900. https://doi.org/10.1001/jama.2018.12346
+10. Dummit LA, Kahvecioglu D, Marrufo G, et al. Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. *JAMA*. 2016;316(12):1267-1278. https://doi.org/10.1001/jama.2016.12717
 11. healthinsurance.org. Medicare in California. Accessed September 2026. https://www.healthinsurance.org/medicare/california/
+12. Advisory Board. TEAM is almost here — how hospitals are preparing. *Daily Briefing*. August 18, 2025. https://www.advisory.com/daily-briefing/2025/08/18/hospital-team-ec
+13. Rainfall Health. *Comments on the Proposed Comprehensive Joint Replacement Model (CJR-X)*. June 8, 2026. https://www.rainfallhealth.com/documents/cms-comments/rainfall-health-cjr-x-comment-letter-2026-06-08.pdf
+14. Rainfall Health. *CMS TEAM participating hospitals: California*. Analysis of the CMS participant list. https://www.rainfallhealth.com/cms-team/participating-hospitals/california/
 
 ```{=typst}
 #v(0.8em)
 #rect(width: 100%, fill: rgb("#eff6ff"), stroke: none, inset: 12pt)[
   #set text(size: 8.5pt, fill: rgb("#475569"), font: "DM Sans")
-  *Disclaimer.* This whitepaper is for general information. Counts follow CMS participant files cited above. Modeled exposure figures are _Rainfall Health analysis and estimates_, not CMS reconciliations and not legal, financial, regulatory, or clinical advice. No legal basis is asserted for the disclaimer beyond ordinary informational use — *flag for counsel review* before investor, client, or regulator-facing distribution.
+  *Disclaimer.* This paper is for general information. Roster counts and readmission figures are computed from the CMS files cited above. It is not legal, financial, regulatory, or clinical advice, and it does not assess or rate any individual organization. _Flag for counsel review_ before investor, client, or regulator-facing distribution.
 ]
 ```
 
+::: {.content-visible when-format="html"}
 ::: {.wp-disclaimer}
-**Disclaimer.** This whitepaper is for general information. Counts follow CMS participant files cited above. Modeled exposure figures are Rainfall Health analysis and estimates, not CMS reconciliations and not legal, financial, regulatory, or clinical advice.
+**Disclaimer.** This paper is for general information. Roster counts and readmission figures are computed from the CMS files cited above. It is not legal, financial, regulatory, or clinical advice, and it does not assess or rate any individual organization.
+:::
 :::

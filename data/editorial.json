@@ -1,8 +1,8 @@
 {
   "CA": {
-    "medicare": "~6.3M",
-    "hrrp": "55.2% vs 48.1% national",
-    "lejr": "~17,500 (>14% national)",
+    "medicare": "~3.5M Original Medicare (of ~7.2M total)",
+    "hrrp": "Below national mean ERR on TEAM surgical cohorts",
+    "lejr": "Not published at hospital level",
     "why_hospitals": "Largest state roster"
   },
   "CO": {
@@ -39,7 +39,7 @@
     "medicare": "See state guide",
     "hrrp": "Cited in state guide (CMS HRRP)",
     "lejr": "See state guide",
-    "why_hospitals": "NY–NJ metro overlap"
+    "why_hospitals": "NY\u2013NJ metro overlap"
   },
   "NY": {
     "medicare": "See state guide",

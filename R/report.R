@@ -17,10 +17,11 @@
 
 .r_dir <- file.path(.report_repo_root(), "R")
 source(file.path(.r_dir, "00_setup.R"))
+source(file.path(.r_dir, "06_cms_roster.R"))
 source(file.path(.r_dir, "01_load_data.R"))
 source(file.path(.r_dir, "02_charts.R"))
-source(file.path(.r_dir, "03_exposure_figures.R"))
-source(file.path(.r_dir, "04_hrrp_figures.R"))
+source(file.path(.r_dir, "03_readmission_figures.R"))
+source(file.path(.r_dir, "05_cms_hrrp.R"))
 
 if (!exists("REPORT_KIND") || !exists("REPORT_ID")) {
   stop("Set REPORT_KIND ('state' or 'territory') and REPORT_ID before sourcing R/report.R")
@@ -65,9 +66,14 @@ if (ca_mode) {
 }
 
 build_fig1_fig2(meta, REPORT_KIND)
+
+# Condition-level readmission analysis. Read from the vendored summary that
+# refresh_hrrp_summary() produces, so a render never depends on network access
+# and never changes its published numbers without a reviewed data refresh.
+hrrp <- list(status = "unavailable")
 if (ca_mode) {
-  build_fig3()
-  build_fig4()
+  hrrp <- load_hrrp_summary()
+  build_readmission_figs(hrrp)
 }
 
 logo_path <- rel_asset("rainfall-logo.png")

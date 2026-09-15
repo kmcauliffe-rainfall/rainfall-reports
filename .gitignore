@@ -12,10 +12,12 @@ regions/*/index_files/
 **/*.pdf
 **/*.typ
 !styles/preamble.typ
+!styles/typst-show.typ
 **/figures/
 outputs/
 renv/library/
 renv/staging/
+data/cache/
 .DS_Store
 
 /.quarto/

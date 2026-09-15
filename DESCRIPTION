@@ -14,7 +14,8 @@ Imports:
     scales,
     showtext,
     sysfonts,
-    tibble
+    tibble,
+    xml2
 Suggests:
     renv
 Encoding: UTF-8

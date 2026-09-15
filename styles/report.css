@@ -4,6 +4,12 @@
   --rain-muted: #64748b;
 }
 
+/* Reports that draw their own cover block don't also need Quarto's default
+   title block above it. Scoped with :has() so the site home page keeps its. */
+body:has(.wp-cover) #title-block-header {
+  display: none;
+}
+
 .wp-cover {
   border-bottom: 3px solid var(--rain-blue);
   padding: 1.25rem 0 1.4rem;

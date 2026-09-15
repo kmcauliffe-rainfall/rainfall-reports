@@ -156,6 +156,15 @@ prepare_report_tables <- function(hospitals, kind, ca_mode = FALSE) {
   )
 }
 
+#' National rank of given CBSAs by TEAM-mandated hospital count, so a state
+#' figure can be placed against the national roster rather than asserted.
+cbsa_national_ranks <- function(cbsas) {
+  ranked <- flatten_roster() |>
+    count(cbsa, name = "hospitals", sort = TRUE) |>
+    mutate(rank = row_number())
+  ranked[match(cbsas, ranked$cbsa), c("cbsa", "hospitals", "rank")]
+}
+
 ca_reconciliation <- function(meta) {
   sf_n <- meta$cbsa_table |>
     filter(cbsa == "San Francisco-Oakland-Fremont, CA") |>
@@ -168,16 +177,28 @@ ca_reconciliation <- function(meta) {
     summarise(n = sum(hospitals), .groups = "drop") |>
     pull(n)
   bay_inland_share <- as.integer(round(100 * bay_inland_n / meta$n))
+  prov <- if (exists("team_roster_provenance")) team_roster_provenance() else list()
+  source_label <- prov$list_label %||% "the vendored CMS participant list"
+  anchors_match <- identical(as.integer(meta$n), as.integer(CA_ANCHORS$ca_total)) &&
+    identical(as.integer(sf_n[1]), as.integer(CA_ANCHORS$sf_oakland)) &&
+    identical(as.integer(riverside_n[1]), as.integer(CA_ANCHORS$riverside))
   note <- paste0(
-    "Repo roster extract (`data/territoryHospitals.json`, March 2026 CMS participant file) ",
-    "yields CA total ", meta$n, "; San Francisco–Oakland–Fremont ",
-    paste(sf_n, collapse = "/"), "; Riverside–San Bernardino–Ontario ",
-    paste(riverside_n, collapse = "/"), "; Bay Area + Inland Empire ",
+    "Counts are parsed from ", source_label, " (source: ",
+    prov$source_url %||% "cms.gov", ", retrieved ", prov$retrieved_at %||% "n/a", ") and ",
+    "yield a California total of ", meta$n, ": San Francisco–Oakland–Fremont ",
+    paste(sf_n, collapse = "/"), ", Riverside–San Bernardino–Ontario ",
+    paste(riverside_n, collapse = "/"), ", Bay Area plus Inland Empire ",
     bay_inland_n, " (", bay_inland_share, "%). ",
-    "These match the locked June 2026 whitepaper anchors (",
-    CA_ANCHORS$ca_total, " / ", CA_ANCHORS$sf_oakland, " / ", CA_ANCHORS$riverside, " / ",
-    CA_ANCHORS$bay_inland_share, "%). ",
-    "If a later CMS quarterly update diverges, re-render and document the delta in the FAQ."
+    if (anchors_match) {
+      "These reconcile to the editorial anchors held for this report. "
+    } else {
+      paste0(
+        "These differ from the editorial anchors held for this report (",
+        CA_ANCHORS$ca_total, " / ", CA_ANCHORS$sf_oakland, " / ", CA_ANCHORS$riverside,
+        "); the computed figures above govern. "
+      )
+    },
+    "CMS republishes the list quarterly, so counts should always be read with their list vintage."
   )
   list(
     sf_n = sf_n,
