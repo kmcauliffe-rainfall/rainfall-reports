@@ -12,8 +12,8 @@ root <- if (file.exists("index.qmd")) {
 }
 
 reports <- c(
-  list.files(file.path(root, "states"), pattern = "index\\.qmd$", recursive = TRUE, full.names = TRUE),
-  list.files(file.path(root, "regions"), pattern = "index\\.qmd$", recursive = TRUE, full.names = TRUE)
+  list.files(file.path(root, "states"), pattern = "\\.qmd$", recursive = TRUE, full.names = TRUE),
+  list.files(file.path(root, "regions"), pattern = "\\.qmd$", recursive = TRUE, full.names = TRUE)
 )
 
 if (do_html) {

@@ -9,6 +9,8 @@ states/*/index.html
 regions/*/index.html
 states/*/index_files/
 regions/*/index_files/
+states/california/california.html
+states/california/california_files/
 **/*.pdf
 **/*.typ
 !styles/preamble.typ

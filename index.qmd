@@ -29,7 +29,7 @@ territories <- load_territories()
 #| label: tbl-states
 state_hub <- tibble::tribble(
   ~abbr, ~href, ~status,
-  "CA", "states/california/index.qmd", "Whitepaper",
+  "CA", "states/california/california.qmd", "Whitepaper",
   "CO", "states/colorado/index.qmd", "Draft",
   "FL", "states/florida/index.qmd", "Draft",
   "LA", "states/louisiana/index.qmd", "Draft",

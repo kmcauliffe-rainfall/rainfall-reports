@@ -3,6 +3,7 @@ project:
   output-dir: _site
   render:
     - index.qmd
+    - states/california/california.qmd
     - states/*/index.qmd
     - regions/*/index.qmd
 
@@ -14,7 +15,7 @@ website:
         text: Home
       - text: States
         menu:
-          - states/california/index.qmd
+          - states/california/california.qmd
           - states/colorado/index.qmd
           - states/florida/index.qmd
           - states/louisiana/index.qmd

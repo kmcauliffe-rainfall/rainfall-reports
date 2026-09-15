@@ -69,8 +69,8 @@ Rscript R/install_deps.R --no-renv
 ## Open in RStudio
 
 1. Open **`rainfall-reports.Rproj`** at the **repo root** (not a subfolder only).
-2. Edit **`states/california/index.qmd`** or **`california/index.qmd`** (same file).
-3. Preview: **Render** or `quarto preview california/index.qmd`.
+2. Edit **`states/california/california.qmd`** or **`california/california.qmd`** (same file).
+3. Preview: **Render** or `quarto preview california/california.qmd`.
 
 ## Render outputs
 
@@ -80,7 +80,7 @@ Rscript R/render_all.R pdf     # Typst PDF beside each report index.qmd
 ```
 
 - **Site home:** `_site/index.html`
-- **California HTML:** `_site/states/california/index.html`
+- **California HTML:** `_site/states/california/california.html`
 
 ## Regenerate draft copy from website MDX
 
