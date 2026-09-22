@@ -1,0 +1,18 @@
+# Copy to a report folder as `_quarto.yml` and set `render:` to your main .qmd.
+# Run tools/link_report_assets.sh once so assets/, fonts/, and styles/ symlinks exist.
+# In the .qmd, Typst paths use fonts/, styles/preamble.typ, and assets/ (not ../..).
+project:
+  type: default
+  output-dir: .
+  render:
+    - index.qmd
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+
+knitr:
+  opts_chunk:
+    dev: png

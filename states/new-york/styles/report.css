@@ -1,0 +1,65 @@
+:root {
+  --rain-navy: #1e293b;
+  --rain-blue: #2b62e7;
+  --rain-muted: #64748b;
+}
+
+/* Reports that draw their own cover block don't also need Quarto's default
+   title block above it. Scoped with :has() so the site home page keeps its. */
+body:has(.wp-cover) #title-block-header {
+  display: none;
+}
+
+.wp-cover {
+  border-bottom: 3px solid var(--rain-blue);
+  padding: 1.25rem 0 1.4rem;
+  margin-bottom: 1.75rem;
+}
+
+.wp-kicker {
+  color: var(--rain-blue);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.wp-cover h1 {
+  color: var(--rain-navy);
+  margin: 0.35rem 0 0.5rem;
+}
+
+.wp-dek {
+  color: #475569;
+  font-size: 1.1rem;
+}
+
+.wp-meta,
+.wp-disclaimer {
+  color: var(--rain-muted);
+  font-size: 0.92rem;
+}
+
+.wp-logo {
+  height: 28px;
+  float: right;
+}
+
+.wp-listen-btn {
+  font-weight: 600;
+}
+
+.wp-listen-hint {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--rain-muted);
+  font-size: 0.85rem;
+}
+
+.draft-banner {
+  background: #eff6ff;
+  border-left: 4px solid var(--rain-blue);
+  padding: 0.7rem 1rem;
+  margin: 1rem 0 1.5rem;
+  color: #475569;
+}

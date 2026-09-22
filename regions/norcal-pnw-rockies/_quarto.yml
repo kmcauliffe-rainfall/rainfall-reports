@@ -1,0 +1,17 @@
+# Copy to a report folder as `_quarto.yml` and set `render:` to your main .qmd.
+# Paths to fonts/styles in the .qmd stay as ../../styles and ../../fonts (repo root).
+project:
+  type: default
+  output-dir: .
+  render:
+    - index.qmd
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+
+knitr:
+  opts_chunk:
+    dev: png

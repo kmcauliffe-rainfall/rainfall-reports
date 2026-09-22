@@ -132,14 +132,6 @@ cbsa_display_name <- function(cbsa) {
 }
 
 rel_asset <- function(filename) {
-  rr <- normalizePath(REPO_ROOT, winslash = "/", mustWork = TRUE)
-  rd <- normalizePath(REPORT_DIR, winslash = "/", mustWork = TRUE)
-  rest <- sub(paste0("^", rr, "/?"), "", rd)
-  depth <- if (nchar(rest) == 0) {
-    0L
-  } else {
-    length(strsplit(rest, "/", fixed = TRUE)[[1]])
-  }
-  prefix <- if (depth == 0) "." else paste(rep("..", depth), collapse = "/")
-  file.path(prefix, "assets", filename)
+  # Report folders symlink `assets/` (tools/link_report_assets.sh) for Typst + HTML.
+  file.path("assets", filename)
 }

@@ -1,0 +1,259 @@
+---
+title: "Why Does Los Angeles Have Only One Hospital in Medicare's TEAM Model?"
+kicker: NEWSLETTER
+author: "Rainfall Health"
+date: "September 2026"
+description: "The country's largest hospital market almost entirely sat out Medicare's newest mandatory payment program. The reason isn't policy, and it isn't politics. It's a lottery."
+draft: false
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+    toc: false
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    link-external-icon: false
+    fig-align: center
+    lang: en
+    css: styles/report.css
+    format-links: false
+    include-in-header:
+      text: |
+        <style>
+          /* Bare source URLs are unbreakable tokens and force horizontal
+             scroll on phones. The shared .ref-link rule only covers the
+             JS-built references hub, which this article does not use. */
+          a.uri { word-break: break-all; }
+        </style>
+    include-after-body:
+      text: |
+        <script src="scripts/listen-along.js" defer></script>
+    open-graph:
+      title: "Why Does Los Angeles Have Only One Hospital in Medicare's TEAM Model?"
+      description: "The country's largest hospital market almost entirely sat out Medicare's newest mandatory payment program. The reason is a lottery."
+      locale: en_US
+    twitter-card:
+      title: "Why Does Los Angeles Have Only One Hospital in Medicare's TEAM Model?"
+      description: "The country's largest hospital market almost entirely sat out Medicare's newest mandatory payment program. The reason is a lottery."
+      card-style: summary_large_image
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# ---------------------------------------------------------------
+# Reuse the repo's roster loader rather than re-reading the CSV.
+# 00_setup.R defines REPO_ROOT and paths; 01_load_data.R defines
+# flatten_roster() and NATIONAL_TOTAL. The chart and HRRP modules
+# the white papers use are deliberately not sourced -- this piece
+# has no figures and does not need them.
+# ---------------------------------------------------------------
+
+.d <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+for (.i in 1:6) {
+  if (file.exists(file.path(.d, "R", "00_setup.R"))) break
+  .p <- dirname(.d)
+  if (identical(.p, .d)) stop("Could not find rainfall-reports repo root.")
+  .d <- .p
+}
+source(file.path(.d, "R", "00_setup.R"))
+source(file.path(.d, "R", "01_load_data.R"))
+
+roster <- flatten_roster()
+ca <- roster[roster$state == "CA", ]
+la <- ca[grepl("Los Angeles", ca$cbsa_label), ]
+
+n_national   <- nrow(roster)
+n_states     <- length(unique(roster$state))
+n_ca         <- nrow(ca)
+n_ca_cbsa    <- length(unique(ca$cbsa_label))
+n_la         <- nrow(la)
+la_hospital  <- tools::toTitleCase(tolower(la$hospital[1]))
+la_ccn       <- la$ccn[1]
+n_vol_natl   <- sum(roster$participation == "Voluntary", na.rm = TRUE)
+
+cbsa_counts  <- sort(table(ca$cbsa_label), decreasing = TRUE)
+n_sf         <- as.integer(cbsa_counts[["San Francisco–Oakland–Fremont"]])
+n_riverside  <- as.integer(cbsa_counts[["Riverside–San Bernardino–Ontario"]])
+n_sd         <- as.integer(cbsa_counts[["San Diego–Chula Vista–Carlsbad"]])
+
+# Small numbers read as words in body prose, and any number that opens a
+# sentence must be a word. These stay derived from the roster so the prose
+# cannot drift from the data.
+num_word <- function(n) {
+  words <- c("one", "two", "three", "four", "five", "six",
+             "seven", "eight", "nine", "ten", "eleven", "twelve")
+  if (!is.na(n) && n >= 1 && n <= length(words)) words[n] else format(n, big.mark = ",")
+}
+# Full name on first mention, short name thereafter.
+la_short        <- sub(" (Medical Center|Hospital|Medical Ctr).*$", "", la_hospital)
+n_la_word       <- num_word(n_la)
+n_vol_natl_word <- tools::toTitleCase(num_word(n_vol_natl))
+n_ca_cbsa_word  <- num_word(n_ca_cbsa)
+
+roster_label <- (team_roster_provenance()$list_label %||% "CMS TEAM participant list")
+render_date  <- format(Sys.Date(), "%B %e, %Y") |> trimws()
+```
+
+::: {.content-visible when-format="html"}
+::: {.wp-cover}
+![](`r rel_asset("rainfall-logo.png")`){.wp-logo}
+
+<p class="wp-kicker">Newsletter</p>
+
+# Why Does Los Angeles Have Only One Hospital in Medicare's TEAM Model?
+
+<p class="wp-dek">The country's largest hospital market almost entirely sat out Medicare's newest mandatory payment program. The reason isn't policy, and it isn't politics. It's a lottery.</p>
+
+<p class="wp-meta">Rainfall Health · September 2026</p>
+:::
+
+<div class="wp-listen-card">
+<audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
+<div class="wp-listen-panel">
+<div class="wp-listen-grid">
+<div class="wp-listen-art">
+<img src="assets/rainfall-logo.png" width="88" height="88" alt="">
+</div>
+<div class="wp-listen-main">
+<p class="wp-listen-kicker">Rainfall Health · Narration</p>
+<p class="wp-listen-title">Listen while you read</p>
+<div class="wp-listen-toolbar">
+<button type="button" class="wp-play" data-action="play-pause" aria-label="Play" aria-pressed="false"><span class="wp-play-glyph" aria-hidden="true"></span></button>
+<button type="button" class="wp-icon-btn" data-action="back-15" aria-label="Back 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M9 7v4H4l5 5V7z"/><path d="M13 7a5 5 0 1 1 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<button type="button" class="wp-icon-btn wp-speed-btn" data-action="speed-dial" aria-label="Playback speed 1×"><span data-role="speed-label">1×</span></button>
+<button type="button" class="wp-icon-btn" data-action="forward-15" aria-label="Forward 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M15 7v4h5l-5 5V7z"/><path d="M11 7a5 5 0 1 0 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<span class="wp-time" aria-live="polite"><span data-role="time-current">00:00</span> / <span data-role="time-duration">00:00</span></span>
+</div>
+<input type="range" class="wp-seek" data-action="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+</div>
+</div>
+</div>
+</div>
+
+<div class="wp-action-bar">
+<a class="wp-action" href="index-narration.txt" download="index-narration.txt">Narration script</a>
+</div>
+:::
+
+Medicare launched a new payment program in January called the Transforming Episode Accountability Model. Hospitals in it are required to be in it. There is no application and no opting out, and it runs for five years.
+
+The program pulled in `r n_national` hospitals across `r n_states` states. `r n_ca` of them are in California, more than any other state. Those California hospitals sit in `r n_ca_cbsa_word` metropolitan areas. The San Francisco Bay Area has `r n_sf`. The Inland Empire has `r n_riverside`. San Diego has `r n_sd`.
+
+Los Angeles has `r n_la_word`.
+
+Not one per hospital system, and not one per county. One hospital, `r la_hospital`, in a metropolitan area of roughly thirteen million people with more than a hundred acute-care hospitals. And here is the part that makes it strange rather than merely lopsided: `r la_short` is not there because Medicare required it. It volunteered.
+
+So Los Angeles is not just underrepresented in the program. It was left out of it, and the single Los Angeles hospital on the roster is there because it raised its hand.
+
+## First, what the program actually does
+
+Understanding why the omission matters requires a short detour into what hospitals are being signed up for.
+
+Traditionally Medicare pays for surgery in pieces. The operation is one bill. The hospital stay is another. If the patient then spends two weeks in a nursing facility, gets home-health visits, and turns up in the emergency room three weeks later, each of those is billed and paid separately, by whoever provided it. No single organization is on the hook for the total.
+
+This program collapses that. For five kinds of surgery — hip and knee replacement, spinal fusion, heart bypass, surgical repair of a broken hip, and major bowel surgery — the hospital becomes financially accountable for everything that happens to the patient for thirty days after the operation. If the total runs above what Medicare expected, the hospital pays some of the difference back. If it comes in under, the hospital keeps some of the savings. Care that used to be somebody else's cost is now the hospital's problem.
+
+That is a significant change in how a hospital has to think, and it is not optional for the hospitals selected. Which is what makes the absence of the nation's second-largest metropolitan area worth explaining.
+
+## The three explanations that don't hold up
+
+The intuitive answers all fail, and it is worth watching them fail, because the real answer is not obvious until they do.
+
+**It isn't size.** If Medicare had picked the places with the most hospitals or the most Medicare patients, Los Angeles would be at the top of the list rather than absent from it. The Bay Area, with roughly half the population, has `r n_sf` participating hospitals.
+
+**It isn't performance.** Nothing in the selection process measured how good or bad a hospital is. Quality scores affect what participating hospitals are eventually paid, but they played no part in deciding which hospitals participate. A market cannot be excluded for being too good, and it cannot be excluded for being too bad.
+
+**It isn't politics.** The selection was made by formula and published in a federal rule well before anyone knew which hospitals would be affected. There was no list of exemptions to lobby your way onto.
+
+Each of these assumes that somebody looked at Los Angeles and made a decision about it. Nobody did.
+
+## Medicare drew the map at random
+
+Here is the mechanism, and it is genuinely surprising for a program that is compulsory: Medicare did not choose the cities. It sampled them.
+
+The federal government divides the country into metropolitan and micropolitan areas — roughly, a population center plus the surrounding counties that commute into it. For this program, 803 of them were eligible. Medicare selected 188, about 23 percent, using what statisticians call stratified random sampling.
+
+Stratified means the areas were first sorted into groups with similar characteristics. Random means that within each group, the selection was a draw. Depending on which group an area landed in, its chance of being picked ran somewhere between 20 and 50 percent.
+
+Los Angeles was eligible. Los Angeles was not drawn.
+
+That is the whole answer, and it is worth sitting with how unusual it is. A mandatory federal payment program, one that will govern how hospitals are paid for five years and reaches `r n_national` of them, has a geographic footprint that was settled by a weighted coin flip.
+
+## What moved the odds
+
+The grouping was not arbitrary, even if the final draw was. Areas were sorted using four characteristics: how much Medicare had historically spent per surgical episode there, how many hospitals the area contained, how many of those were safety-net hospitals serving large low-income populations, and how much exposure the area had already had to Medicare's earlier experiments in this style of payment.
+
+That last one matters for Los Angeles.
+
+Medicare has run this kind of program before. From 2016 through the end of 2024 it operated a mandatory bundled-payment model for hip and knee replacement, and Los Angeles was in it — one of only three California metro areas required to participate. In 2018, when Medicare allowed hospitals in most of those markets to withdraw, Los Angeles was in the group that had to stay, because it was among the 34 markets with the highest episode spending in the country.
+
+So by the time the new program was being designed, Los Angeles hospitals had spent nine consecutive years under mandatory bundled payments. And Medicare had decided, deliberately, to weight this round toward places that had *not* been through that — oversampling areas with little prior exposure, and areas with more safety-net hospitals, on the reasoning that the point of a test is to learn something new.
+
+Nine years of prior participation put Los Angeles in a group with lower odds. Then the draw came up against it.
+
+## The proof that it's chance, not a rule
+
+It would be easy to stop there and conclude that Los Angeles was screened out for having already served its time. That conclusion is wrong, and the evidence against it is one state away.
+
+San Francisco–Oakland was also a mandatory market in that earlier program. Same nine years, same history, same prior-exposure profile — the very thing supposed to have kept Los Angeles out.
+
+It is now the largest participating market in California, with `r n_sf` hospitals, and one of the largest in the country.
+
+Medicare said as much in the rule itself: it intended to include some heavily-exposed areas, because a sample made up only of untested markets would not tell it what it wanted to know. Prior exposure lowered the odds. It did not disqualify anyone.
+
+Which leaves the honest version of the answer. Los Angeles was in a lower-probability group, and within that group it lost a draw that San Francisco won. There is no policy judgment underneath it to appeal or object to. The two largest hospital markets in California went opposite directions because of the difference between a 20 percent chance and a 50 percent chance, resolved once, by sampling.
+
+## The hospital that signed up anyway
+
+Which brings us back to `r la_short`.
+
+Medicare allowed a small number of hospitals outside the selected areas to join voluntarily. `r n_vol_natl_word` nationwide did. Exactly one of them is in California, and it is the one Los Angeles hospital on the roster.
+
+It is worth being precise about what that means. Every other California hospital in this program was told to be there. `r la_short` looked at a five-year commitment to absorb financial risk for a month of care after major surgery, in a market where no competitor was under the same obligation, and chose it.
+
+There are reasonable readings of that decision. A hospital with nine years of bundled-payment experience already has the discharge planning, the post-acute relationships, and the cost data the model rewards, so the marginal cost of participating is low and the potential upside is real. There is also a strategic reading: the skills this program demands are ones Medicare has signaled it will require everywhere soon enough, and building them under a program you chose is easier than building them under one imposed on you.
+
+## Los Angeles didn't escape. It got deferred.
+
+The last point is the one that matters most for anyone running a hospital in a market that was skipped, and it undercuts any sense of relief.
+
+Medicare has already finalized a second mandatory bundled-payment program, this one specifically for joint replacement, starting January 1, 2028. It is nationwide. It covers essentially every acute-care hospital in the country that is *not* already in the current program — which is to say, it is aimed squarely at the markets the lottery passed over.
+
+Its episode window is 90 days, not 30.
+
+So the practical result of Los Angeles losing the draw is not exemption. It is a two-year delay, followed by enrollment in a program with an accountability window three times longer. Hospitals in the Bay Area will spend those two years learning to manage a 30-day window. Hospitals in Los Angeles will start in 2028 on a 90-day one.
+
+The one Los Angeles hospital that volunteered is exempt from the 2028 program, because participation in the current one excludes you from it.
+
+Whether that was the reasoning, only `r la_short` knows. But it is, at minimum, a defensible bet.
+
+---
+
+::: {.wp-disclaimer}
+**About the data.** Hospital counts in this article are computed at render time from the `r roster_label`, the same file Medicare publishes as the official participant roster. The Los Angeles figure refers to the Los Angeles–Long Beach–Anaheim metropolitan area; the hospital is `r la_hospital`, Medicare certification number `r la_ccn`. Built `r render_date`.
+
+**Disclaimer.** Rainfall Health is not a hospital, health system, or health care provider. This article is prepared by health care industry professionals, not clinicians, and does not constitute clinical, legal, financial, or regulatory advice. It does not assess, rate, or make claims about the quality of care provided by any individual hospital or organization.
+:::
+
+## Sources
+
+Centers for Medicare & Medicaid Services. (2026). *Transforming Episode Accountability Model participant list* (`r roster_label`). <https://www.cms.gov/team-model-participant-list>
+
+Centers for Medicare & Medicaid Services. *Transforming Episode Accountability Model (TEAM)*. <https://www.cms.gov/priorities/innovation/innovation-models/team-model>
+
+Centers for Medicare & Medicaid Services. (2024). *Hospital inpatient prospective payment systems for acute care hospitals, fiscal year 2025 rates* (Final rule). 89 Fed. Reg. 68986. Establishes the selected core-based statistical areas and the stratified sampling methodology. <https://www.federalregister.gov/d/2024-17021>
+
+Centers for Medicare & Medicaid Services. *Comprehensive Care for Joint Replacement Model*. Ran April 2016 through December 31, 2024. <https://www.cms.gov/priorities/innovation/innovation-models/cjr>
+
+Centers for Medicare & Medicaid Services. *CJR-X (Comprehensive Care for Joint Replacement Expanded) Model*. <https://www.cms.gov/priorities/innovation/innovation-models/cjr-x>
+
+Kim, N., & Jacobson, M. (2025). The spillover effects of Medicare's comprehensive care for joint replacement (CJR) model in California. *PLOS ONE, 20*(4), e0319582. Identifies Los Angeles–Long Beach–Anaheim, San Francisco–Oakland–Hayward, and Modesto as California's three mandatory CJR markets. <https://doi.org/10.1371/journal.pone.0319582>
+
+Further reading on the model is available at [rainfallhealth.com/cms-team](https://www.rainfallhealth.com/cms-team/).

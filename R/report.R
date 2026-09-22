@@ -22,6 +22,7 @@ source(file.path(.r_dir, "01_load_data.R"))
 source(file.path(.r_dir, "02_charts.R"))
 source(file.path(.r_dir, "03_readmission_figures.R"))
 source(file.path(.r_dir, "05_cms_hrrp.R"))
+source(file.path(.r_dir, "ca_system_rollup.R"))
 
 if (!exists("REPORT_KIND") || !exists("REPORT_ID")) {
   stop("Set REPORT_KIND ('state' or 'territory') and REPORT_ID before sourcing R/report.R")
@@ -54,6 +55,7 @@ bay_inland_n <- NA_integer_
 bay_inland_share <- NA_integer_
 reconciliation_note <- ""
 
+ca_system_rollup <- NULL
 if (ca_mode) {
   rec <- ca_reconciliation(meta)
   sf_n <- rec$sf_n
@@ -63,6 +65,7 @@ if (ca_mode) {
   reconciliation_note <- rec$note
   CA_TOTAL <- SCOPE_N
   CA_CBSA_N <- SCOPE_CBSA_N
+  ca_system_rollup <- compute_ca_system_rollup(hospitals, scope_n = SCOPE_N)
 }
 
 build_fig1_fig2(meta, REPORT_KIND)

@@ -18,9 +18,9 @@ format:
     mainfont: "DM Sans"
     fontsize: 10.5pt
     font-paths:
-      - ../../fonts
+      - fonts
     include-in-header:
-      - ../../styles/preamble.typ
+      - styles/preamble.typ
     title-block-style: none
     keep-typ: false
 execute:
@@ -72,7 +72,7 @@ Draft briefing ported from the Rainfall TEAM website guide and wired to the live
 #page(margin: (x: 0.7in, y: 0.75in), footer: none)[
   #set text(font: "DM Sans", fill: rgb("#1e293b"))
   #align(right)[
-    #box(height: 22pt, image("../../assets/rainfall-logo.png"))
+    #box(height: 22pt, image("assets/rainfall-logo.png"))
   ]
   #v(0.7in)
   #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[REGION BRIEFING]

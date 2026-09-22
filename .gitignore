@@ -5,10 +5,13 @@
 .quarto
 _site/
 _output/
+**/netlify/
 states/*/index.html
 regions/*/index.html
+newsletter/*/index.html
 states/*/index_files/
 regions/*/index_files/
+newsletter/*/index_files/
 states/california/california.html
 states/california/california_files/
 **/*.pdf
@@ -19,8 +22,17 @@ states/california/california_files/
 outputs/
 renv/library/
 renv/staging/
+states/*/renv/
+regions/*/renv/
 data/cache/
 .DS_Store
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Local Netlify folder
+.netlify
+
+# Combined drop-on-Netlify site, fully regenerated from per-report netlify/
+# staging output by tools/build_website.py -- not a source, don't track it.
+/website/

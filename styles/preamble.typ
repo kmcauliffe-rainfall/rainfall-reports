@@ -1,4 +1,4 @@
-/* Quarto Typst preamble — DM Sans, logo footer (Mia checklist) */
+/* Quarto Typst preamble — DM Sans, logo footer */
 
 #set text(font: "DM Sans", size: 10.5pt, fill: rgb("#1e293b"))
 
@@ -12,13 +12,12 @@
   footer: context {
     if counter(page).get().first() > 1 {
       set text(size: 8pt, fill: rgb("#64748b"), font: "DM Sans")
-      // Mia: logo asset only — no wordmark "Rainfall" / "Rainfall Health" in footer
       grid(
         columns: (1fr, auto, 1fr),
         align: (left, center, right),
         [CMS TEAM briefing],
         counter(page).display("1"),
-        box(height: 13pt, image("../../assets/rainfall-logo.png")),
+        box(height: 13pt, image("assets/rainfall-logo.png")),
       )
     }
   },

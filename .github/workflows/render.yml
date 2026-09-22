@@ -45,11 +45,11 @@ jobs:
         with:
           version: "1.9.38"
 
-      - name: Render Quarto site
+      - name: Render California report
+        working-directory: states/california
         run: quarto render
 
-      - name: Check key outputs
+      - name: Check California outputs
         run: |
-          test -f _site/index.html
-          test -f _site/states/california/index.html
-          test -f _site/states/california/index.pdf
+          test -f states/california/california.html
+          test -f states/california/california.pdf

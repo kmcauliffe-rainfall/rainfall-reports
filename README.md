@@ -1,95 +1,84 @@
 # Rainfall CMS TEAM reports
 
-Quarto + R source for Rainfall Health **CMS TEAM** whitepapers and draft state/territory briefings. Hospital rosters and most charts rebuild from vendored CMS data on every render.
+Quarto + R source for Rainfall Health **CMS TEAM** whitepapers and draft state/territory briefings. Open **`states/<name>/`** or **`regions/<name>/`** — each folder is its own Quarto project with local render output and a **`netlify/`** staging folder for deploy (gitignored).
 
 **Repository:** [github.com/kmcauliffe-rainfall/rainfall-reports](https://github.com/kmcauliffe-rainfall/rainfall-reports)
 
-## What’s in here
+## Report folders
 
-| Area | Contents |
-|------|----------|
-| `states/california/` | Full California whitepaper; every figure rebuilds from vendored CMS data |
-| `california/` | Symlink to `states/california/` for Finder / RStudio |
-| `states/*` | Draft state briefings (CO, FL, LA, MA, MN, NJ, NY, PA, TN) |
-| `regions/*` | Draft Territory 1–4 briefings |
-| `R/` | Shared loaders, tables, and ggplot figures |
-| `data/team_participant_list.csv` | CMS TEAM participant list, parsed from the CMS `.xlsx` (CCN-keyed) |
-| `data/hrrp_condition_summary.csv` | Condition-level HRRP summary for California, derived from dataset `9n3s-kdb3` |
-| `data/territoryHospitals.json` | Older name-and-CBSA roster extract, retained as a fallback |
+| Folder | Main file | Status |
+|--------|-----------|--------|
+| [`states/california/`](states/california/) | `california.qmd` | Whitepaper (Netlify-ready) |
+| [`states/colorado/`](states/colorado/) … [`states/tennessee/`](states/tennessee/) | `index.qmd` | Drafts |
+| [`regions/norcal-pnw-rockies/`](regions/norcal-pnw-rockies/) … [`regions/south-midwest/`](regions/south-midwest/) | `index.qmd` | Drafts |
 
-No report presents modelled episode dollars: hospital-level TEAM target prices and
-episode spending are not published by CMS, so the reports stop at what the public
-files support.
+Shared code and CMS data: [`R/`](R/), [`data/`](data/), [`styles/`](styles/), [`assets/`](assets/). Each report folder also has `assets/`, `fonts/`, and `styles/` (from `tools/link_report_assets.sh`).
+
+Every report folder includes:
+
+- `_quarto.yml`, `{name}.Rproj`, `.Rprofile` (uses repo-root renv)
+- `deploy-netlify.sh` → renders and stages **`netlify/`** for upload
+- `netlify.toml` (California has full headers; drafts use minimal config)
+
+Deployed sites use **`robots.txt` (Disallow: /)**, **`noindex`** meta, and **`X-Robots-Tag`** — unlisted, not search-engine friendly. Anyone with the URL can still view the page.
+
+## One-time setup
+
+From the **repo root**:
+
+```bash
+Rscript -e 'renv::restore(prompt = FALSE)'
+./tools/link_report_assets.sh
+```
+
+## Work on California
+
+```bash
+cd states/california
+quarto render                    # california.html + california.pdf in this folder
+open california.html             # local preview
+./deploy-netlify.sh              # builds netlify/ for upload
+```
+
+**Listen along:** The web player uses [`audio/california-narration.mp3`](states/california/audio/california-narration.mp3). The **script** is [`california-narration.txt`](states/california/california-narration.txt), rebuilt on every `quarto render` from `R/write_ca_narration.R` (sections 01–06, aligned with the article). The **MP3 does not update automatically** — after render, paste the new `.txt` into ElevenLabs, export audio to `states/california/audio/california-narration.mp3`, then `./deploy-netlify.sh`.
+
+Drag **`states/california/netlify/`** to [app.netlify.com/drop](https://app.netlify.com/drop), or use the Netlify CLI (no global install required):
+
+```bash
+cd states/california
+npx netlify-cli login          # once, opens browser
+npx netlify-cli deploy --prod --dir=netlify
+```
+
+Optional: `brew install netlify-cli` or `npm install -g netlify-cli`, then `netlify deploy --prod --dir=netlify`.
+
+Draft states/regions: same pattern inside their folder (`quarto render`, `./deploy-netlify.sh`).
+
+## Render all projects
+
+```bash
+Rscript R/render_all.R
+Rscript R/render_all.R pdf
+```
 
 ## Refreshing CMS data
 
-Both vendored datasets are refreshed deliberately rather than at render time, so
-published figures change only through a reviewable diff. Both steps need network
-access.
+From repo root with renv active:
 
 ```r
 source("R/00_setup.R"); source("R/06_cms_roster.R")
 source("R/01_load_data.R"); source("R/05_cms_hrrp.R")
-
-# 1. Participant list (quarterly CMS update)
 refresh_team_roster(list_label = "TEAM Participant List - 2026Q3")
-
-# 2. Condition-level HRRP summary for the California roster
 refresh_hrrp_summary(load_team_hospitals("CA")$ccn)
 ```
 
-The HRRP raw file is cached under `data/cache/` (git-ignored) to avoid re-downloading
-it; deleting that directory only forces a fresh download on the next refresh.
-
 ## Prerequisites
 
-- [Quarto](https://quarto.org/docs/get-started/) ≥ 1.5 (Typst bundled)
-- [R](https://cran.r-project.org/) ≥ 4.3 (developed on **R 4.6.x**)
-
-```bash
-quarto --version
-R --version
-```
-
-## Setup (renv)
-
-From the repo root:
-
-```bash
-Rscript -e 'renv::restore(prompt = FALSE)'
-Rscript -e 'renv::status()'
-```
-
-You want `renv::status()` to report a **consistent** library. If restore fails, try:
-
-```bash
-Rscript R/install_deps.R --no-renv
-```
-
-## Open in RStudio
-
-1. Open **`rainfall-reports.Rproj`** at the **repo root** (not a subfolder only).
-2. Edit **`states/california/california.qmd`** or **`california/california.qmd`** (same file).
-3. Preview: **Render** or `quarto preview california/california.qmd`.
-
-## Render outputs
-
-```bash
-quarto render                 # HTML site → _site/
-Rscript R/render_all.R pdf     # Typst PDF beside each report index.qmd
-```
-
-- **Site home:** `_site/index.html`
-- **California HTML:** `_site/states/california/california.html`
+- [Quarto](https://quarto.org/docs/get-started/) ≥ 1.5
+- [R](https://cran.r-project.org/) ≥ 4.3
 
 ## Regenerate draft copy from website MDX
-
-If source MDX lives in `/tmp/team-blogs`:
 
 ```bash
 python3 tools/build_draft_reports.py
 ```
-
-## Branches
-
-Default branch is **`main`**. There are no long-lived feature branches; work on `main` or short-lived branches as needed.
