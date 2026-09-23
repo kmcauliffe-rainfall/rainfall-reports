@@ -35,6 +35,24 @@ STATES = [
         "The second-largest state roster in the TEAM model — and where the readmissions story everyone repeats turns out to be wrong.",
         REPO_ROOT / "states" / "new-york" / "netlify",
     ),
+    (
+        "new-jersey",
+        "New Jersey",
+        "The worst readmissions profile of any large state roster in the TEAM model — verified against live CMS data, not the headline number that circulates.",
+        REPO_ROOT / "states" / "new-jersey" / "netlify",
+    ),
+    (
+        "massachusetts",
+        "Massachusetts",
+        "Strong on hip and knee replacement, hot on everything else — not the academic-medicine paradox the old headline number suggested.",
+        REPO_ROOT / "states" / "massachusetts" / "netlify",
+    ),
+    (
+        "florida",
+        "Florida",
+        "The largest readmissions gap of any state checked so far isn't hip and knee — it's heart attack, at nearly twice the national rate.",
+        REPO_ROOT / "states" / "florida" / "netlify",
+    ),
 ]
 
 REGIONS = []  # No region report is finished yet -- all carry draft: true.
@@ -69,6 +87,18 @@ ESSAYS = [
         "San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market.",
         "Los Angeles stayed a mandatory CJR market for nine years for being expensive. San Francisco got downgraded to voluntary in 2018. Under TEAM's own, separate lottery, LA drew one hospital, voluntarily. San Francisco drew 37, mandatorily -- the most of any market in California.",
         REPO_ROOT / "newsletter" / "cjr-history-team-selection" / "netlify",
+    ),
+    (
+        "modesto-the-market-that-lost-twice",
+        "Modesto and San Francisco Had the Same CJR History. One Got 37 TEAM Hospitals. The Other Got Zero.",
+        "San Francisco and Modesto both lost mandatory CJR status in 2018 and kept running the program voluntarily through its final day -- the same trajectory, right up to TEAM's own separate lottery. San Francisco drew 37 hospitals, mandatorily. Modesto drew none, not even a single voluntary joiner.",
+        REPO_ROOT / "newsletter" / "modesto-the-market-that-lost-twice" / "netlify",
+    ),
+    (
+        "the-one-hospital-towns",
+        "Two California Markets Have Exactly One TEAM Hospital Each — Because That's All There Is",
+        "Los Angeles has one hospital in Medicare's TEAM model because a huge metro got skipped by the lottery and one CJR veteran volunteered in. Crescent City and Hanford-Corcoran have one hospital each too — for the opposite reason: there's only one hospital in either market, and this time the lottery actually caught them.",
+        REPO_ROOT / "newsletter" / "the-one-hospital-towns" / "netlify",
     ),
 ]
 

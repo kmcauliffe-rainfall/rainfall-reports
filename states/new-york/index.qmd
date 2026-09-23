@@ -27,6 +27,7 @@ format:
     include-after-body:
       text: |
         <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
     open-graph:
       title: "CMS TEAM in New York: 78 Mandated Hospitals, the Nation's Largest Bundled-Payment Market"
       description: "New York carries the second-largest state roster in CMS's Transforming Episode Accountability Model. What the live CMS roster and readmissions data actually show."

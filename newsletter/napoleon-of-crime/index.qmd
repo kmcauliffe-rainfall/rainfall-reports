@@ -29,6 +29,7 @@ format:
     include-after-body:
       text: |
         <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
     open-graph:
       title: "The Thief Who Ran a Company Without Ever Naming It One"
       description: "For twenty years, Adam Worth was the most wanted man in Europe and almost nobody knew his real name. What he actually built, underneath the theft, was a business."

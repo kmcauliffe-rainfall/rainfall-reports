@@ -9,6 +9,26 @@ ca_system_affiliations_path <- function() {
   file.path(DATA_DIR, "ca_team_system_affiliations.csv")
 }
 
+# Multi-state investor-owned chains that rebrand hospitals under local names,
+# so the chain's own name never appears in the CMS-registered hospital name
+# and name-regex matching in ca_system_label_from_name() cannot find them.
+# Verified hospital-by-hospital against public ownership records (Sept 2026
+# review); see essays/rainfall-team-cjrx-research/data/ownership-concentration-findings.md
+# for the source per hospital. Checked before the name-based fallback below.
+CA_SYSTEM_CCN_OVERRIDES <- c(
+  "050022" = "HCA Healthcare",
+  "050586" = "Prime Healthcare",
+  "050709" = "Prime Healthcare",
+  "050758" = "Prime Healthcare",
+  "050024" = "Prime Healthcare",
+  "050329" = "Southwest Healthcare (UHS)",
+  "050701" = "Southwest Healthcare (UHS)",
+  "050775" = "Southwest Healthcare (UHS)",
+  "050390" = "KPC Health",
+  "050684" = "KPC Health",
+  "050517" = "KPC Health"
+)
+
 #' Assign a system label from a Medicare hospital name (California TEAM roster).
 ca_system_label_from_name <- function(hospital_name) {
   n <- toupper(trimws(as.character(hospital_name)))
@@ -35,7 +55,15 @@ ca_system_label_from_name <- function(hospital_name) {
 #' Build or refresh the vendored CCN → system map for California TEAM hospitals.
 refresh_ca_system_affiliations <- function(hospitals = load_team_hospitals("CA")) {
   rows <- lapply(seq_len(nrow(hospitals)), function(i) {
-    label <- ca_system_label_from_name(hospitals$hospital[i])
+    ccn <- hospitals$ccn[i]
+    override_label <- unname(CA_SYSTEM_CCN_OVERRIDES[ccn])
+    if (!is.na(override_label)) {
+      label <- override_label
+      source_note <- "CCN-verified ownership override — name-regex matching misses chains that rebrand hospitals locally (Sept 2026 review)"
+    } else {
+      label <- ca_system_label_from_name(hospitals$hospital[i])
+      source_note <- "Hospital name on CMS TEAM participant list matched to public system branding (Sept 2026 review)"
+    }
     system_id <- if (is.na(label)) {
       "independent"
     } else {
@@ -43,11 +71,11 @@ refresh_ca_system_affiliations <- function(hospitals = load_team_hospitals("CA")
     }
     system_label <- if (is.na(label)) "Independent / other" else label
     tibble::tibble(
-      ccn = hospitals$ccn[i],
+      ccn = ccn,
       hospital = hospitals$hospital[i],
       system_id = system_id,
       system_label = system_label,
-      source_note = "Hospital name on CMS TEAM participant list matched to public system branding (Sept 2026 review)"
+      source_note = source_note
     )
   })
   out <- dplyr::bind_rows(rows)

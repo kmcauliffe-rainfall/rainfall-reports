@@ -58,6 +58,14 @@ else
   echo "WARNING: ${BASE}_files/ not found — chart images may be missing." >&2
 fi
 
+# Reports that pre-render charts with save_wp_fig() (R/00_setup.R) and embed
+# them via knitr::include_graphics("figures/...") reference a top-level
+# figures/ directory directly in the HTML, rather than a knitr-captured
+# figure-html/ path under ${BASE}_files/ — so it needs its own copy step.
+if [[ -d "$REPORT_DIR/figures" ]]; then
+  cp -R "$REPORT_DIR/figures" "$STAGE/figures"
+fi
+
 if [[ -d "$DATA_SRC" ]]; then
   cp -R "$DATA_SRC" "$STAGE/"
 fi
@@ -87,7 +95,7 @@ fi
 
 if [[ -d "$REPORT_DIR/scripts" ]]; then
   mkdir -p "$STAGE/scripts"
-  for js in listen-along.js references-ui.js; do
+  for js in listen-along.js references-ui.js highlight-notes.js; do
     if [[ -f "$REPORT_DIR/scripts/$js" ]]; then
       cp "$REPORT_DIR/scripts/$js" "$STAGE/scripts/"
     fi

@@ -49,6 +49,7 @@ format:
     include-after-body:
       text: |
         <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
         <script src="scripts/references-ui.js" defer></script>
     # Social / link-preview metadata so the paper presents properly when
     # shared on LinkedIn, in email, or in Slack.

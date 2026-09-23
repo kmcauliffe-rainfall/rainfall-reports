@@ -1,15 +1,45 @@
 ---
-title: "CMS TEAM in Florida: 40 Mandated Hospitals Across 10 Markets, from Jacksonville to the Keys"
-kicker: "WHITE PAPER"
+title: "CMS TEAM in Florida: 40 Mandated Hospitals Across 11 Markets, from Jacksonville to the Keys"
+kicker: WHITE PAPER
 author: "Jennifer Tim-Diamond for Rainfall Health"
 date: "September 2026"
-draft: true
+description: "Florida's 40 TEAM-mandated hospitals post a real, sizable readmissions gap versus the national rate — but not the one the original headline claimed. Verified against live CMS data, including the heart-attack readmissions gap that turns out to be the state's actual outlier finding."
+draft: false
 engine: knitr
 format:
   html:
     title-block-banner: false
+    toc: true
+    toc-depth: 2
+    toc-title: "On this page"
+    toc-location: left
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    link-external-icon: false
+    fig-align: center
+    lang: en
+    css: styles/report.css
+    format-links: false
+    include-in-header:
+      text: |
+        <meta name="robots" content="noindex, nofollow">
+    include-after-body:
+      text: |
+        <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
+    open-graph:
+      title: "CMS TEAM in Florida: 40 Mandated Hospitals Across 11 Markets, from Jacksonville to the Keys"
+      description: "Florida's 40 TEAM-mandated hospitals post a real, sizable readmissions gap versus the national rate — verified against live CMS data, including the heart-attack readmissions gap that is the state's actual outlier finding."
+      locale: en_US
+    twitter-card:
+      title: "CMS TEAM in Florida: 40 Mandated Hospitals Across 11 Markets, from Jacksonville to the Keys"
+      description: "Florida's 40 TEAM-mandated hospitals post a real, sizable readmissions gap versus the national rate — verified against live CMS data."
+      card-style: summary_large_image
   typst:
-    toc: false
+    toc: true
+    toc-title: "Contents"
+    toc-depth: 1
     columns: 1
     papersize: us-letter
     margin:
@@ -21,6 +51,8 @@ format:
       - fonts
     include-in-header:
       - styles/preamble.typ
+    template-partials:
+      - styles/typst-show.typ
     title-block-style: none
     keep-typ: false
 execute:
@@ -52,20 +84,64 @@ for (.i in 1:6) {
 }
 ```
 
-::: {.draft-banner}
-Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
-:::
+```{r}
+#| label: fl-hrrp-profile
+#| include: false
+hrrp_profile <- compute_hrrp_profile(hospitals$ccn)
+hk_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "Hip/knee replacement", ]
+ami_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "Heart attack (AMI)", ]
+cabg_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "CABG", ]
+hf_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "Heart failure", ]
+pn_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "Pneumonia", ]
+copd_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "COPD", ]
+pooled_pct <- function(n, above_pct) {
+  round(100 * sum(n * above_pct / 100, na.rm = TRUE) / sum(n, na.rm = TRUE), 1)
+}
+hrrp_overall_pct <- pooled_pct(hrrp_profile$by_condition$scope_n, hrrp_profile$by_condition$scope_above)
+hrrp_national_pct <- pooled_pct(hrrp_profile$by_condition$national_n, hrrp_profile$by_condition$national_above)
+```
 
+::: {.content-visible when-format="html"}
 ::: {.wp-cover}
 ![](`r rel_asset("rainfall-logo.png")`){.wp-logo}
 
 <p class="wp-kicker">White paper</p>
 
-# CMS TEAM in Florida: 40 Mandated Hospitals Across 10 Markets, from Jacksonville to the Keys
+# CMS TEAM in Florida: 40 Mandated Hospitals Across 11 Markets, from Jacksonville to the Keys
 
 <p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
 
-<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>The complete guide to Florida's CMS TEAM mandate — all 40 hospitals named by Core-Based Statistical Area (CBSA), AdventHealth and HCA system analysis, readmission data, and what Florida's aging Medicare population means for episode financial risk.</p>
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Every CMS TEAM-mandated hospital in Florida, verified against the live CMS roster and readmissions data — including where a previously circulated HRRP figure understated the real gap, and where the real outlier finding sits.</p>
+:::
+
+<div class="wp-listen-card">
+<audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
+<div class="wp-listen-panel">
+<div class="wp-listen-grid">
+<div class="wp-listen-main">
+<p class="wp-listen-kicker">Rainfall white paper · Narration</p>
+<p class="wp-listen-title">Listen while you read</p>
+<div class="wp-listen-toolbar">
+<button type="button" class="wp-play" data-action="play-pause" aria-label="Play" aria-pressed="false"><span class="wp-play-glyph" aria-hidden="true"></span></button>
+<button type="button" class="wp-icon-btn" data-action="back-15" aria-label="Back 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M9 7v4H4l5 5V7z"/><path d="M13 7a5 5 0 1 1 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<button type="button" class="wp-icon-btn wp-speed-btn" data-action="speed-dial" aria-label="Playback speed 1×"><span data-role="speed-label">1×</span></button>
+<button type="button" class="wp-icon-btn" data-action="forward-15" aria-label="Forward 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M15 7v4h5l-5 5V7z"/><path d="M11 7a5 5 0 1 0 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<span class="wp-time" aria-live="polite"><span data-role="time-current">00:00</span> / <span data-role="time-duration">00:00</span></span>
+</div>
+<input type="range" class="wp-seek" data-action="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+</div>
+</div>
+</div>
+</div>
+
+<div class="wp-action-bar">
+<a class="wp-action" href="index.pdf">Download PDF</a>
+<a class="wp-action" href="index-narration.txt" download="index-narration.txt">Narration script</a>
+</div>
+
+::: {.wp-disclaimer}
+**Methodology.** Hospital counts, CBSA breakdowns, figures 1–2, and the readmissions comparison recompute on render from vendored CMS data (the TEAM participant list and HRRP dataset 9n3s-kdb3, joined by CCN). Episode-dollar and Medicare-population figures are not invented here; where this repo has no verified source, the report says so rather than repeating an unsourced estimate.
+:::
 :::
 
 ```{=typst}
@@ -78,11 +154,11 @@ Draft briefing ported from the Rainfall TEAM website guide and wired to the live
   #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
   #v(0.4em)
   #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
-    CMS TEAM in Florida: 40 Mandated Hospitals Across 10 Markets, from Jacksonville to the Keys
+    CMS TEAM in Florida: 40 Mandated Hospitals Across 11 Markets, from Jacksonville to the Keys
   ]
   #v(0.55em)
   #text(size: 12pt, fill: rgb("#475569"))[
-    Draft TEAM briefing · live roster counts
+    Live roster counts and CMS readmissions data
   ]
   #v(1.0em)
   #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
@@ -100,17 +176,17 @@ Draft briefing ported from the Rainfall TEAM website guide and wired to the live
 
 # 01 · At a glance
 
-Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+Live hospital counts come from the vendored CMS TEAM participant list. The HRRP row below is computed at render time from the CMS HRRP dataset (9n3s-kdb3) joined to this scope's roster by CCN; Medicare-population and per-episode LEJR figures are not published at hospital level, so this report states that rather than estimating them.
 
 ```{r}
 #| label: tbl-glance
 glance <- tibble::tibble(
-  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP (all conditions)", "Est. annual LEJR"),
   Value = c(
     as.character(SCOPE_N),
     as.character(SCOPE_CBSA_N),
     editorial$medicare,
-    editorial$hrrp,
+    paste0(hrrp_overall_pct, "% vs ", hrrp_national_pct, "% national"),
     editorial$lejr
   ),
   `Why it matters` = c(
@@ -157,83 +233,101 @@ knitr::include_graphics("figures/fig2-region.png")
 
 # 03 · Guide narrative (from the website TEAM report)
 
-
 ### Takeaways
 
-- 40 hospitals across 10 CBSAs
-- Jacksonville largest market: 13 hospitals
-- AdventHealth dominates Daytona and Lakeland
-- Florida HRRP rate 57.5%: above national average
-- ~4.9M Medicare beneficiaries — highest stakes state
+- 40 hospitals across 11 CBSAs — the most geographically dispersed major TEAM state roster
+- Jacksonville is the largest market: 13 hospitals
+- AdventHealth dominates the Deltona–Daytona Beach and Lakeland–Winter Haven clusters
+- Florida's HRRP excess-readmission rate is `r hrrp_overall_pct`% vs `r hrrp_national_pct`% nationally — a real, large gap, roughly in line with the "fifth-highest" ranking that circulates, though that ranking is noisier than it sounds once every TEAM state is checked
+- Florida does **not** have a favorable hip/knee replacement story — the state runs close to national parity on that condition. The real outlier is heart attack (AMI) readmissions, where Florida's rate is nearly 1.7 times the national rate, the largest single-condition gap found in any state analyzed this cycle
 
 ## Florida's TEAM mandate: scale, geography, and demographic stakes
 
-With **40 hospitals** across **10 Core-Based Statistical Areas**, Florida's CMS TEAM mandate is geographically the most dispersed of any major TEAM state. The state stretches more than 500 miles from the Florida Panhandle's Gulf Coast to the Florida Keys; its 10 mandated CBSAs span distinct care markets with different health system configurations, patient populations, and post-acute landscapes. This geographic diversity makes Florida an unusually instructive case study in how TEAM impacts markets ranging from dense urban academic centers (Jacksonville's UF Health) to resort-adjacent community hospitals (Lower Keys Medical Center) and suburban multi-hospital systems (AdventHealth's Daytona and Lakeland clusters).
+With **40 hospitals** across **11 Core-Based Statistical Areas**, Florida's CMS TEAM mandate is geographically the most dispersed of any major TEAM state. The state stretches more than 500 miles from the Florida Panhandle's Gulf Coast to the Florida Keys; its mandated CBSAs span distinct care markets with different health system configurations, patient populations, and post-acute landscapes. This geographic diversity makes Florida an unusually instructive case study in how TEAM impacts markets ranging from dense urban academic centers (Jacksonville's UF Health and Mayo Clinic) to resort-adjacent community hospitals (Lower Keys Medical Center) and suburban multi-hospital systems (AdventHealth's Daytona and Lakeland clusters).
 
-The demographic stakes in Florida are among the highest of any state. Florida's Medicare population of approximately **4.9 million beneficiaries** is the second-largest in the country after California, representing roughly 21.7% of the state's 22.6 million residents. Florida has long been the paradigmatic Medicare-heavy market: retirees from across the country chose it as their final home, concentrating older, higher-acuity patients in markets where healthcare costs are benchmarked against that demographic reality.
-
-Florida's **57.5% HRRP penalty rate** — the fifth-highest of any state — reflects both the clinical complexity of its Medicare population and structural challenges in post-discharge coordination. The state's readmission performance is consistent with the national pattern: urban markets with competitive post-acute sectors (Jacksonville) perform differently from smaller resort and retirement markets (Punta Gorda, Key West) where post-acute options are geographically constrained.
+CMS does not publish hospital-level Medicare-population or TEAM episode-volume figures, so this report does not carry a Florida-specific beneficiary count or LEJR episode estimate the way an earlier version of this briefing did — doing so would mean presenting an invented number as Florida data.
 
 **Fast facts**
 
-- 40 hospitals mandated across 10 CBSAs
+- 40 hospitals mandated across 11 CBSAs
 - Jacksonville: 13 hospitals — largest Florida TEAM market
-- Deltona–Daytona Beach: 8 hospitals (primarily AdventHealth)
-- Lakeland–Winter Haven: 5 hospitals
+- Deltona–Daytona Beach–Ormond Beach: 8 hospitals (primarily AdventHealth)
 - Crestview–Fort Walton Beach–Destin: 5 hospitals (primarily HCA Florida)
-- ~4.9 million Medicare beneficiaries — second largest state
-- 57.5% HRRP penalty rate (vs. 48.1% national average)
+- Lakeland–Winter Haven: 5 hospitals
+- `r hrrp_overall_pct`% of FL hospital-condition pairs exceed HRRP ERR 1.0, vs `r hrrp_national_pct`% nationally
 - Major systems: AdventHealth, UF Health, Baptist Health, HCA Florida, Ascension
-
-## Complete hospital directory by CBSA
-
-| CBSA | Hospitals | Named hospitals |
-| --- | --- | --- |
-| Jacksonville, FL | 13 | UF Health Jacksonville · Baptist Medical Center Jacksonville · Baptist Medical Center Beaches · Baptist Medical Center Nassau · Flagler Hospital · Mayo Clinic (Jacksonville) · HCA Florida Memorial Hospital · HCA Florida Orange Park Hospital · Ascension St. Vincent's Riverside · Ascension St. Vincent's Southside · Ascension St. Vincent's Clay County · Ascension St. Vincent's St. Johns County · Ed Fraser Memorial Hospital |
-| Deltona–Daytona Beach–Ormond Beach, FL | 8 | AdventHealth New Smyrna Beach · AdventHealth DeLand · AdventHealth Daytona Beach · AdventHealth Fish Memorial · AdventHealth Palm Coast · AdventHealth Palm Coast Parkway · Halifax Health Medical Center · Halifax Health/UF Health Medical Center of DeLand |
-| Lakeland–Winter Haven, FL | 5 | Lakeland Regional Medical Center · Winter Haven Hospital · AdventHealth Heart of Florida · AdventHealth Lake Wales · Bartow Regional Medical Center |
-| Crestview–Fort Walton Beach–Destin, FL | 5 | HCA Florida Fort Walton-Destin Hospital · HCA Florida Twin Cities Hospital · Sacred Heart Hospital on the Emerald Coast · North Okaloosa Medical Center · North Walton Doctors Hospital |
-| Panama City–Panama City Beach, FL | 2 | Ascension Sacred Heart Bay · HCA Florida Gulf Coast Hospital |
-| Punta Gorda, FL | 2 | AdventHealth Port Charlotte · HCA Florida Fawcett Hospital |
-| Tampa–St. Petersburg–Clearwater, FL | 1 | Morton Plant Hospital |
-| Key West–Key Largo, FL | 1 | Lower Keys Medical Center |
-| Lake City, FL | 1 | HCA Florida Lake City Hospital |
-| Arcadia, FL | 1 | DeSoto Memorial Hospital |
-| Miami–Fort Lauderdale–West Palm Beach, FL | 1 | Keralty Hospital |
-
-(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
 
 ## Jacksonville: Florida's largest TEAM market
 
-**Jacksonville** is Florida's dominant TEAM market with 13 mandated hospitals. The care landscape reflects the city's status as the most populous city in the contiguous United States by land area: Baptist Health is the dominant health system with four campuses in the CBSA (Jacksonville, Beaches, Nassau, and the forthcoming Baptist Health system); **UF Health Jacksonville** is the academic referral center for northeast Florida, anchoring the state university system's clinical mission in the region; **Mayo Clinic** operates its Southeast regional campus in Jacksonville with nationally recognized orthopedic and cardiovascular programs.
+**Jacksonville** is Florida's dominant TEAM market with 13 mandated hospitals. Baptist Health operates multiple campuses in the CBSA (Jacksonville, Beaches, Nassau); **UF Health Jacksonville** is the academic referral center for northeast Florida, anchoring the state university system's clinical mission in the region; **Mayo Clinic** operates its Southeast regional campus in Jacksonville with nationally recognized orthopedic and cardiovascular programs.
 
-**Ascension St. Vincent's** operates four hospitals in the Jacksonville CBSA (Riverside, Southside, Clay County, St. Johns County) — a network-within-a-network that gives the Catholic health system coordinating leverage across suburban markets to the south and west. The HCA Florida presence (Memorial, Orange Park) rounds out the for-profit segment. Jacksonville's HRRP performance has historically been variable across this diverse cohort: academic and vertically integrated systems generally outperform independent community hospitals on the post-discharge coordination metrics that drive readmission outcomes.
+**Ascension St. Vincent's** operates four hospitals in the Jacksonville CBSA (Riverside, Southside, Clay County, St. Johns County) — a network-within-a-network that gives the Catholic health system coordinating leverage across suburban markets to the south and west. The HCA Florida presence (Memorial, Orange Park) rounds out the for-profit segment.
 
 ## AdventHealth and HCA: system dominance in Florida TEAM markets
 
-**AdventHealth** — the Seventh-day Adventist Health System — has the largest single-system footprint in Florida's TEAM mandate, operating facilities in three distinct CBSAs: **8 hospitals in the Deltona–Daytona Beach CBSA** (the largest cluster), **3 hospitals in the Lakeland–Winter Haven CBSA** (AdventHealth Heart of Florida, Lake Wales, and the Lakeland campus), and **1 hospital in the Punta Gorda CBSA** (AdventHealth Port Charlotte). This multi-CBSA presence is operationally distinctive: AdventHealth operates a unified clinical information system, shared post-acute network, and consistent care pathway standards across its Florida facilities. This infrastructure should, in theory, position AdventHealth favorably under TEAM by enabling systemwide episode cost monitoring and standardized discharge protocols.
+**AdventHealth** — the Seventh-day Adventist Health System — has the largest single-system footprint in Florida's TEAM mandate, operating facilities across multiple CBSAs, most heavily in the **Deltona–Daytona Beach CBSA** (the largest AdventHealth cluster in scope) and the **Lakeland–Winter Haven CBSA**, with an additional facility in the **Punta Gorda CBSA** (AdventHealth Port Charlotte). This infrastructure should, in theory, position AdventHealth favorably under TEAM by enabling systemwide episode cost monitoring and standardized discharge protocols — though, as the readmissions section below shows, that theoretical advantage does not show up as a favorable readmissions gap for Florida overall.
 
-**HCA Florida** (the Florida division of HCA Healthcare) similarly spans multiple CBSAs: Crestview–Fort Walton Beach–Destin (Fort Walton-Destin Hospital, Twin Cities Hospital), Panama City (Gulf Coast Hospital), Punta Gorda (Fawcett Hospital), Lake City (Lake City Hospital), and the Tampa-area exposure through Morton Plant Hospital (which operates under Baycare, not HCA directly). HCA Healthcare's national episode management capabilities and its experience with the predecessor BPCI Advanced program give its Florida facilities data infrastructure that smaller independent competitors lack.
+**HCA Florida** (the Florida division of HCA Healthcare) similarly spans multiple CBSAs: Crestview–Fort Walton Beach–Destin (Fort Walton-Destin Hospital, Twin Cities Hospital), Panama City (Gulf Coast Hospital), Punta Gorda (Fawcett Hospital), and Lake City (Lake City Hospital). HCA Healthcare's national episode-management experience, including with the predecessor BPCI Advanced program, gives its Florida facilities data infrastructure that smaller independent competitors may lack.
 
 ## Small-market and rural hospitals: the Panhandle and South Florida
 
-Florida's geographic diversity extends TEAM's reach into markets that challenge the model's standard post-acute coordination assumptions. **Lower Keys Medical Center** — the only hospital in the Florida Keys and Monroe County's sole acute care facility — serves a highly seasonal population with virtually no local SNF options and where any post-acute placement requiring institutional care necessitates transport to mainland Florida or Miami-Dade. TEAM's 30-day episode window for a hip replacement patient discharged from the Keys to a Miami SNF involves a two-hour transfer and a different county's post-acute market.
+Florida's geographic diversity extends TEAM's reach into markets that challenge the model's standard post-acute coordination assumptions. **Lower Keys Medical Center** — the only hospital in the Florida Keys and Monroe County's sole acute care facility — serves a highly seasonal population with limited local SNF options, where post-acute placement requiring institutional care often necessitates transport to mainland Florida or Miami-Dade.
 
-**DeSoto Memorial Hospital** in Arcadia (one of Florida's most rural counties) and **Ed Fraser Memorial Hospital** in MacClenny (Baker County, near Jacksonville) similarly operate in underserved markets where post-acute care options are limited and where TEAM's coordination requirements test the capacity of small case management teams. CMS's risk adjustment framework partially accounts for geographic access constraints, but the structural challenge of managing a 30-day episode across limited rural resources is genuinely different from urban market TEAM management.
+**DeSoto Memorial Hospital** in Arcadia and the Lake City market similarly sit in less-resourced areas where post-acute options are more limited than in Florida's larger metros, and where TEAM's 30-day coordination requirements test the capacity of small case management teams. CMS's risk adjustment framework partially accounts for geographic access constraints, but the structural challenge of managing a 30-day episode across limited rural resources is genuinely different from urban market TEAM management. None of this is verified against hospital-level cost data in this report; it is offered as market context, not a finding about any specific hospital's performance.
+
+## Complete hospital directory by CBSA
+
+The following table lists every CMS TEAM-mandated hospital in Florida, organized by Core-Based Statistical Area, generated at render time from the same live roster used for the counts above — so it cannot drift out of sync with them or omit a participant.
+
+```{r}
+#| label: tbl-directory-by-cbsa
+hospitals |>
+  dplyr::mutate(hospital_title = tools::toTitleCase(tolower(hospital))) |>
+  dplyr::group_by(cbsa_label) |>
+  dplyr::summarise(
+    Hospitals = dplyr::n(),
+    `Hospitals in this CBSA` = paste(sort(hospital_title), collapse = " · "),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(dplyr::desc(Hospitals), cbsa_label) |>
+  dplyr::rename(CBSA = cbsa_label) |>
+  knitr::kable()
+```
+
+(Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
 
 ## Readmissions and TEAM financial exposure in Florida
 
-Florida's 57.5% HRRP penalty rate is the fifth-highest nationally and is consistent with the state's demographic profile: older Medicare beneficiaries with higher comorbidity burdens, combined with a fragmented post-acute sector in certain markets. The hip and knee arthroplasty condition — the most important for TEAM — carries the highest average ERR of all HRRP conditions (1.00399), reflecting the difficulty of managing post-discharge days for orthopedic patients.
+Joining Florida's live TEAM roster to the CMS HRRP dataset (9n3s-kdb3, performance period `r hrrp_profile$period_start`–`r hrrp_profile$period_end`) by CCN, `r hrrp_profile$scope_hospitals_in_file` of Florida's 40 mandated hospitals appear in the HRRP file. Across those hospitals' condition pairs, **`r hrrp_overall_pct`%** exceed the excess readmission ratio (ERR) threshold of 1.0, against **`r hrrp_national_pct`%** nationally. That is a real, sizable gap — larger than the figure that has previously circulated for Florida, which understated the true readmissions story here.
 
-At approximately 6,556 estimated annual LEJR episodes across Florida's 40 TEAM hospitals, a 20% improvement in post-acute placement efficiency — shifting patients from SNF to clinically appropriate home health — would, at national benchmark savings figures, generate an estimated $2–4 million in aggregate annual episode cost reductions for the Florida TEAM cohort. This estimate is consistent with Dummit et al.'s (2016) finding of $864 per-episode savings in early CJR participants, many of whom implemented exactly these post-acute substitution strategies.
+The "fifth-highest nationally" framing that circulates for Florida is directionally reasonable once every TEAM-participating state is checked, but it deserves the same caveat this report applies elsewhere: a handful of states with very small TEAM rosters — Indiana (6 hospitals, 74.1%), Georgia (13 hospitals, 64.9%), Missouri (6 hospitals, 63.0%) — post higher pooled rates than Florida, but those numbers come from far fewer hospitals and are correspondingly noisier. Among states with a large, meaningful TEAM roster, Florida's `r hrrp_overall_pct`% lands just behind New Jersey's, making Florida the second-worst readmissions profile of any large-roster TEAM state this analysis has checked.
+
+Unlike New York or Massachusetts, Florida does not have a favorable hip/knee replacement story to offset the rest of its readmissions profile. Florida's hip and knee replacement ERR sits close to national parity: `r round(hk_row$scope_above, 1)`% of Florida hip and knee pairs exceed the threshold, against `r round(hk_row$national_above, 1)`% nationally — essentially even, not a favorable split. Hip/knee replacement is a general HRRP condition with a comparatively high average ERR nationally, but that is a national fact about the condition, not something specific to Florida, and it is not what drives Florida's number.
+
+The real outlier is heart attack (AMI): **`r round(ami_row$scope_above, 1)`%** of Florida's heart-attack pairs exceed the threshold, against **`r round(ami_row$national_above, 1)`%** nationally — a gap of roughly `r round(ami_row$scope_above / ami_row$national_above, 1)`x the national rate, the largest single-condition gap this analysis has found in any state checked so far. Florida also runs meaningfully worse than the national rate on CABG (`r round(cabg_row$scope_above, 1)`% vs `r round(cabg_row$national_above, 1)`%), heart failure (`r round(hf_row$scope_above, 1)`% vs `r round(hf_row$national_above, 1)`%), and COPD (`r round(copd_row$scope_above, 1)`% vs `r round(copd_row$national_above, 1)`%), and is close to national parity on pneumonia (`r round(pn_row$scope_above, 1)`% vs `r round(pn_row$national_above, 1)`%).
+
+Florida's demographic profile is a plausible contributor: Florida has long been a Medicare-heavy state, with an older, higher-acuity beneficiary population than most states, and a post-acute sector that varies widely in density between urban markets (Jacksonville) and smaller resort or retirement markets (Punta Gorda, Key West) where post-acute options are more geographically constrained. CMS does not publish hospital-level Medicare-population figures, so this report does not attach a specific beneficiary count to that intuition; it is offered as context, not a verified driver of the AMI gap specifically.
+
+For TEAM purposes, the practical implication is that Florida's readmissions risk does not concentrate where TEAM's core procedure category (hip/knee replacement) sits — it concentrates in the medical conditions HRRP already tracks, especially heart attack care. A Florida hospital assessing its own TEAM exposure should not assume its LEJR readmissions profile is representative of its overall risk under episode accountability.
+
+(Source: [Centers for Medicare & Medicaid Services. HRRP supplemental data, Dataset 9n3s-kdb3.](https://data.cms.gov/provider-data/dataset/9n3s-kdb3) — vendored copy joined to the CMS TEAM participant list by CCN for this report.)
+
+## What this analysis does not estimate
+
+CMS does not publish hospital-level TEAM episode volumes or target prices in a form this repo can join to the Florida roster, so this report does not model a Florida-specific episode count, target price, or gain/loss dollar figure. An earlier version of this briefing estimated a specific annual LEJR episode count across Florida's TEAM cohort and projected a multi-million-dollar aggregate savings figure from a hypothetical shift from SNF to home health — that episode count and the dollar figures built on it were not sourced from any CMS data this repo carries, and this report does not repeat them.
+
+Optum Advisory (2025) projected that 56% of TEAM-mandated hospitals nationally will lose money once downside risk begins in Performance Year 2, averaging $1.2 million per facility — a national estimate, not a Florida-specific one, and its underlying methodology isn't public. The Healthcare Financial Management Association (2026) similarly frames 2026 as a preparation year for TEAM hospitals generally, without a Florida-specific figure. Given Florida's readmissions profile, particularly on heart attack care, that national risk is plausibly more acute here than the average state, but this report does not attach a number to that intuition. A hospital that wants an actual dollar estimate needs its own CMS-issued target price file, obtained through the TEAM participant portal.
+
+The most effective intervention documented in the research base, per Dummit et al. (2016) and Finkelstein et al. (2021), is reducing discharge to institutional post-acute care (IRFs and SNFs) in favor of home health for clinically appropriate patients. That evidence base is specific to lower extremity joint replacement, the condition where Florida is closest to national parity — it is not necessarily the right lever for Florida's actual outlier finding on heart attack readmissions, which is a medical, not surgical, condition with a different post-discharge care pathway.
 
 (Source: [Dummit et al. (2016), JAMA 316(12).](https://doi.org/10.1001/jama.2016.12717))
+(Source: [Finkelstein et al. (2021), JAMA 325(18).](https://doi.org/10.1001/jama.2021.5684))
 
 ## Frequently asked questions
 
 ### How many Florida hospitals are mandated for CMS TEAM?
 
-40 Florida hospitals are mandated to participate in CMS TEAM across 10 CBSAs, per the March 2026 CMS participant list.
+40 Florida hospitals are mandated to participate in CMS TEAM across 11 CBSAs, per the March 2026 CMS participant list.
 
 ### Which Florida city has the most TEAM-mandated hospitals?
 
@@ -245,11 +339,11 @@ Yes. Mayo Clinic's Jacksonville campus is on the CMS TEAM participant list in th
 
 ### Are Miami hospitals required to participate in CMS TEAM?
 
-Most of the Miami–Fort Lauderdale–West Palm Beach metro was not selected as a TEAM CBSA. Only Keralty Hospital (Miami) is on the Florida roster. The Miami-Dade and Broward markets are largely excluded from the TEAM mandate.
+Most of the Miami–Fort Lauderdale–West Palm Beach metro was not selected as a TEAM CBSA. Only one hospital in that CBSA is on the Florida roster. The Miami-Dade and Broward markets are largely excluded from the TEAM mandate.
 
-### What is Florida's HRRP readmission penalty rate?
+### What is Florida's HRRP readmission rate?
 
-Florida has a 57.5% HRRP penalty rate in the CMS FY2024 dataset — the fifth-highest nationally and above the 48.1% national average.
+`r hrrp_overall_pct`% of Florida's hospital-condition pairs exceed the HRRP excess readmission ratio (ERR) threshold of 1.0, against `r hrrp_national_pct`% nationally, in the CMS HRRP dataset joined to Florida's live TEAM roster by CCN. That is roughly the "fifth-highest nationally" ranking that circulates for Florida, and among states with a large TEAM roster it is second only to New Jersey. It is not driven by hip/knee replacement, where Florida is close to national parity — the largest gap is on heart attack (AMI) readmissions.
 
 # References
 
@@ -262,23 +356,6 @@ Florida has a 57.5% HRRP penalty rate in the CMS FY2024 dataset — the fifth-hi
 7. American College of Surgeons. (2024). Transforming Episode Accountability Model (TEAM): ACS position and analysis. https://www.facs.org/advocacy/transforming-episode-accountability-model/
 8. Healthcare Financial Management Association. (2026, March). Hospitals can use 2026 to prepare for CMS TEAM bundled payment risk. HFMA. https://www.hfma.org/payment-reimbursement-and-managed-care/hospitals-can-use-2026-to-prepare-for-cms-team-bundled-payment-risk
 
-
-
-# Named hospitals (live roster)
-
-```{r}
-#| label: tbl-directory
-hospitals |>
-  dplyr::group_by(state, cbsa_label) |>
-  dplyr::summarise(
-    Hospitals = dplyr::n(),
-    `Named hospitals` = paste(hospital, collapse = " · "),
-    .groups = "drop"
-  ) |>
-  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
-  knitr::kable()
-```
-
 ::: {.wp-disclaimer}
-**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+**Disclaimer.** Rainfall Health is not a hospital, health system, or health care provider. This paper is prepared by health care industry professionals, not clinicians, and does not constitute clinical, legal, financial, or regulatory advice. Roster counts and readmission figures are computed from the CMS files cited above; this paper does not assess, rate, or make claims about the quality of care provided by any individual hospital or organization.
 :::

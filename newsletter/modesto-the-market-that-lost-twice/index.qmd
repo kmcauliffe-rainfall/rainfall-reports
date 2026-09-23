@@ -1,0 +1,223 @@
+---
+title: "Modesto and San Francisco Had the Same CJR History. One Got 37 TEAM Hospitals. The Other Got Zero."
+kicker: NEWSLETTER
+author: "Rainfall Health"
+date: "September 2026"
+description: "San Francisco and Modesto both lost mandatory CJR status in 2018 and kept running the program voluntarily through its final day -- the same trajectory, right up to TEAM's own separate lottery. San Francisco drew 37 hospitals, mandatorily. Modesto drew none, not even a single voluntary joiner."
+draft: false
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+    toc: false
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    link-external-icon: false
+    fig-align: center
+    lang: en
+    css: styles/report.css
+    format-links: false
+    include-in-header:
+      text: |
+        <style>
+          /* Bare source URLs are unbreakable tokens and force horizontal
+             scroll on phones. The shared .ref-link rule only covers the
+             JS-built references hub, which this article does not use. */
+          a.uri { word-break: break-all; }
+        </style>
+    include-after-body:
+      text: |
+        <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
+    open-graph:
+      title: "Modesto and San Francisco Had the Same CJR History. One Got 37 TEAM Hospitals. The Other Got Zero."
+      description: "San Francisco and Modesto both lost mandatory CJR status in 2018 and kept running the program voluntarily through its final day -- the same trajectory, right up to TEAM's own separate lottery. San Francisco drew 37 hospitals, mandatorily. Modesto drew none, not even a single voluntary joiner."
+      locale: en_US
+    twitter-card:
+      title: "Modesto and San Francisco Had the Same CJR History. One Got 37 TEAM Hospitals. The Other Got Zero."
+      description: "San Francisco and Modesto both lost mandatory CJR status in 2018 and kept running the program voluntarily through its final day -- the same trajectory, right up to TEAM's own separate lottery. San Francisco drew 37 hospitals, mandatorily. Modesto drew none, not even a single voluntary joiner."
+      card-style: summary_large_image
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# ---------------------------------------------------------------
+# Reuse the repo's roster loader rather than re-reading the CSV,
+# same pattern as the other newsletter/ pieces. flatten_roster()
+# does not carry cbsa_code (only hospital, cbsa, cbsa_label, state,
+# ccn, participation, start_date, end_date, newly_identified), so
+# Modesto is filtered on the cbsa name text instead. One-off
+# supporting facts not in the shared loader (Stanislaus County's
+# hospital count, the PLOS ONE citation, the BPCI Advanced check,
+# TEAM's stratification factors) are cited directly in prose and in
+# the Sources section instead.
+# ---------------------------------------------------------------
+
+.d <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+for (.i in 1:6) {
+  if (file.exists(file.path(.d, "R", "00_setup.R"))) break
+  .p <- dirname(.d)
+  if (identical(.p, .d)) stop("Could not find rainfall-reports repo root.")
+  .d <- .p
+}
+source(file.path(.d, "R", "00_setup.R"))
+source(file.path(.d, "R", "01_load_data.R"))
+
+roster <- flatten_roster()
+ca <- roster[roster$state == "CA", ]
+
+n_national <- nrow(roster)
+n_ca       <- nrow(ca)
+n_vol_natl <- sum(roster$participation == "Voluntary", na.rm = TRUE)
+
+la_rows <- ca[grepl("Los Angeles", ca$cbsa_label), ]
+sf_rows <- ca[grepl("San Francisco", ca$cbsa_label), ]
+modesto_rows <- roster[grepl("Modesto", roster$cbsa) | grepl("Modesto", roster$cbsa_label), ]
+
+n_la       <- nrow(la_rows)
+n_sf       <- nrow(sf_rows)
+n_modesto  <- nrow(modesto_rows)
+
+la_hospital <- tools::toTitleCase(tolower(la_rows$hospital[1]))
+la_ccn      <- la_rows$ccn[1]
+
+num_word <- function(n) {
+  words <- c("zero", "one", "two", "three", "four", "five", "six",
+             "seven", "eight", "nine", "ten", "eleven", "twelve")
+  if (!is.na(n) && n >= 0 && n <= (length(words) - 1)) words[n + 1] else format(n, big.mark = ",")
+}
+n_modesto_word      <- tools::toTitleCase(num_word(n_modesto))
+n_modesto_word_lower <- num_word(n_modesto)
+
+roster_label <- (team_roster_provenance()$list_label %||% "CMS TEAM participant list")
+render_date  <- format(Sys.Date(), "%B %e, %Y") |> trimws()
+```
+
+::: {.content-visible when-format="html"}
+::: {.wp-cover}
+![](assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">Newsletter</p>
+
+# Modesto and San Francisco Had the Same CJR History. One Got 37 TEAM Hospitals. The Other Got Zero.
+
+<p class="wp-dek">San Francisco and Modesto both lost mandatory CJR status in 2018 and kept running the program voluntarily through its final day — the same trajectory, right up to TEAM's own separate lottery. San Francisco drew 37 hospitals, mandatorily. Modesto drew none, not even a single voluntary joiner.</p>
+
+<p class="wp-meta">Rainfall Health · September 2026</p>
+:::
+
+<div class="wp-listen-card">
+<audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
+<div class="wp-listen-panel">
+<div class="wp-listen-grid">
+<div class="wp-listen-main">
+<p class="wp-listen-kicker">Rainfall Health · Narration</p>
+<p class="wp-listen-title">Listen while you read</p>
+<div class="wp-listen-toolbar">
+<button type="button" class="wp-play" data-action="play-pause" aria-label="Play" aria-pressed="false"><span class="wp-play-glyph" aria-hidden="true"></span></button>
+<button type="button" class="wp-icon-btn" data-action="back-15" aria-label="Back 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M9 7v4H4l5 5V7z"/><path d="M13 7a5 5 0 1 1 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<button type="button" class="wp-icon-btn wp-speed-btn" data-action="speed-dial" aria-label="Playback speed 1×"><span data-role="speed-label">1×</span></button>
+<button type="button" class="wp-icon-btn" data-action="forward-15" aria-label="Forward 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M15 7v4h5l-5 5V7z"/><path d="M11 7a5 5 0 1 0 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<span class="wp-time" aria-live="polite"><span data-role="time-current">00:00</span> / <span data-role="time-duration">00:00</span></span>
+</div>
+<input type="range" class="wp-seek" data-action="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+</div>
+</div>
+</div>
+</div>
+
+<div class="wp-action-bar">
+<a class="wp-action" href="index-narration.txt" download="index-narration.txt">Narration script</a>
+</div>
+:::
+
+Los Angeles has one hospital in Medicare's TEAM model, and it's there because it volunteered. San Francisco has 37, the most of any market in California, and every one of them is mandatory. Modesto has zero — not mandatory, not voluntary, none.
+
+Los Angeles' history is different from the other two. It was one of only 34 markets CMS kept mandatory in an older joint-replacement bundle, CJR, when the program narrowed its list in 2018 — staying in for all nine years of CJR's run, 2016 through 2024. San Francisco and Modesto share a different history: both were downgraded out of mandatory status in that same 2018 cut, and both kept running CJR voluntarily through the program's final day. Same drop, same continuation, the identical nine years in some form. One of them is now the largest TEAM market in California. The other has nothing.
+
+## What TEAM asks of a hospital
+
+TEAM, the Transforming Episode Accountability Model, is a five-year Medicare program that makes a hospital financially responsible for the cost and outcomes of a patient's care for 30 days after five kinds of surgery: lower-extremity joint replacement, spinal fusion, coronary artery bypass grafting, surgical hip and femur fracture treatment, and major bowel procedures. `r n_national` hospitals are on the mandatory roster nationwide, selected not by application but by geography: any hospital paid under the Inpatient Prospective Payment System with a CMS Certification Number address inside one of 188 metropolitan or micropolitan areas CMS drew by stratified random sample, out of roughly 803 eligible areas, is in. Outside those 188 areas, a narrow voluntary pathway lets a small number of additional hospitals opt in anyway, if they ran a mandatory bundle of their own — CJR through December 31, 2024, or BPCI Advanced through December 31, 2025. `r n_vol_natl` hospitals did, nationwide.
+
+Three California markets ran CJR for nine years, in different mixes of mandatory and voluntary status. Their outcomes on TEAM's separate, later lottery could not be more different.
+
+## Three markets, one history, three outcomes
+
+California had three MSAs in CJR's original 2016 mandatory lottery: Los Angeles-Long Beach-Anaheim, San Francisco-Oakland-Hayward (renamed San Francisco-Oakland-Fremont under the current OMB delineation), and Modesto. All three ran under mandatory CJR from 2016 through 2018. In 2018, CMS cut mandatory CJR participation to the 34 markets with the highest historical episode spending; Los Angeles' spending was high enough to stay in, while San Francisco and Modesto dropped to CJR's voluntary-continuation tier. All three, including the two that dropped tiers, kept running CJR episodes through the model's final day, December 31, 2024 — a hospital only needed to have run the model at some point through that date to qualify later for TEAM's voluntary opt-in, and CJR's own hospital-list spreadsheets show hospitals in all three markets doing exactly that.
+
+Then TEAM ran its own, unrelated stratified draw in 2024, and the three markets split three ways:
+
+| Market | CJR status (2018 onward) | TEAM hospitals | TEAM participation |
+|---|---|---|---|
+| Los Angeles-Long Beach-Anaheim | Mandatory | `r n_la` (`r la_hospital`) | Voluntary |
+| San Francisco-Oakland-Fremont | Voluntary-continuation | `r n_sf` | Mandatory |
+| Modesto | Voluntary-continuation | `r n_modesto_word_lower` | Not selected, no voluntary joiner |
+
+Los Angeles' one hospital, `r la_hospital` (CCN `r la_ccn`), is there because it used the voluntary opt-in built for hospitals with prior mandatory-bundle history. San Francisco's 37 are there because CMS's 2024 draw happened to select that CBSA outright, mandatorily, for reasons unrelated to its CJR history. Modesto's CBSA wasn't drawn, and unlike Los Angeles, no hospital inside it used the voluntary pathway to join anyway. Every plausible route onto TEAM's roster came up empty for a market that ran the same nine-year CJR program as the other two, under the same voluntary-continuation status San Francisco also carried after 2018.
+
+## Confirming the zero
+
+This finding rests on checking every row of CMS's own roster, not just the mandatory ones. CMS's TEAM Participant List — the same file this article's other figures are computed from, and the same file CMS republishes quarterly — carries `r n_national` hospitals total, mandatory and voluntary combined. None of them list a CBSA of Modesto, CA (CBSA code 33700). A fresh pull of that same file directly from CMS's website, dated August 18, 2026 and carrying 722 hospitals (two more than the `r render_date` vendored copy this article otherwise uses, which is dated April 15, 2026 and carries 720), shows the identical result: zero Modesto rows, and the same one-hospital Los Angeles and 37-hospital San Francisco counts. The finding isn't an artifact of a stale file.
+
+It also isn't an artifact of Modesto having no hospitals to send. CMS's Hospital General Information file — pulled fresh from CMS's provider-data API for this article — lists five acute-care hospitals in Stanislaus County, the single county that makes up the Modesto CBSA: Doctors Medical Center and Memorial Medical Center in Modesto, Stanislaus Surgical Hospital in Modesto, Emanuel Medical Center in Turlock, and Oak Valley Hospital District in Oakdale. None of the five appears anywhere on TEAM's participant list, mandatory or voluntary.
+
+The voluntary pathway specifically requires prior CJR or BPCI Advanced history through the program's own final performance year. None of the five Stanislaus County hospitals shows up in CMS's Model Year 7 BPCI Advanced participant list either — the roster covering the model's last performance period, which ran through December 31, 2025. So the gap isn't that a Modesto hospital was eligible to volunteer and chose not to. On the record CMS has published, no hospital in Modesto's CBSA had a BPCI Advanced pathway available to it at all, and the one pathway that was available — CJR history — went unused.
+
+## Why markets with the same history landed differently
+
+TEAM's selection wasn't blind to CJR history. CMS's own final rule sorted every eligible CBSA into a stratum based on the median of four factors: average historical episode spending, the number of IPPS-paid acute-care hospitals in the area, the number of safety-net hospitals with qualifying episode volume, and — the factor that matters here — past exposure to CMS's own bundled-payment models, including CJR and BPCI Advanced, between October 2013 and December 2022. CMS said explicitly, in the rule proposing this design, that it intended to oversample CBSAs with *low* past bundled-payment exposure, while still giving some high-exposure CBSAs a chance of selection rather than excluding them outright. A market with nine years of CJR participation — mandatory the whole way, like Los Angeles, or mandatory at first and voluntary after 2018, like San Francisco and Modesto — would plausibly land in the higher-exposure stratum CMS deliberately gave lower draw odds, not zero odds: San Francisco proves the higher-exposure stratum can still be drawn, but at lower odds than a market with no bundled-payment history at all.
+
+That mechanism explains the general pattern already documented elsewhere in this research: former-mandatory CJR markets nationwide were selected into TEAM at 35.3%, well above the roughly 23.5 percent national baseline rate for all eligible CBSAs, metro and micro combined. Former-voluntary-tier markets — San Francisco and Modesto's own group — landed close to that baseline, at 21.2%. It does not explain why San Francisco drew and Modesto didn't, despite sharing the identical voluntary-tier history; that's the ordinary variance of a probabilistic draw, and CMS has not published, and this article did not independently reconstruct, the exact selection probability assigned to Modesto's specific stratum.
+
+Size is the more concrete difference. Stanislaus County's five acute-care hospitals are a small fraction of the hospital count in Los Angeles or San Francisco's much larger CBSAs, and the number of IPPS-paid hospitals in a CBSA is itself one of CMS's four stratification factors. Modesto's metro population is about 557,000, roughly a fortieth of Los Angeles' and a tenth of San Francisco's-Oakland's, and smaller than any of the three biggest one-hospital-TEAM markets this research has already covered elsewhere (Los Angeles, Miami, and Tampa, whose metro Medicare-enrollment footprints run from roughly 770,000 up to 2.3 million). A market this size sits far more plausibly in whatever "low" bucket several of TEAM's four stratification factors define than a market the size of Los Angeles or San Francisco does — a plausible contributor to lower selection odds, though not one this article can isolate cleanly from the past-exposure factor above, since CMS classifies CBSAs on all four factors jointly rather than one at a time.
+
+## What isn't established here
+
+CMS has not published a hospital-by-hospital reconstruction of exactly which selection probability Modesto's CBSA carried, so this article cannot say precisely how unlikely a zero outcome was, only that it fits a documented, deliberate oversampling design rather than an obvious error. The 2018 cut of CJR's original 67 mandatory MSAs down to 34 is independently well documented for Los Angeles, San Francisco, and Modesto specifically, but the full 34-MSA list is this research bank's own reconstruction, built by reapplying CMS's stated criterion to CMS's own historical payment data, not a verbatim CMS-published table — see this project's prior published article on the broader 67-market pattern for that caveat in full. And nothing here should be read as CMS being unaware of, or having erred regarding, Modesto's absence from TEAM; a stratified random draw is expected to produce outcomes like this one for some markets, by design.
+
+---
+
+::: {.wp-disclaimer}
+**About the data.** Hospital and roster figures in this article are computed at render time from the `r roster_label`, the same file Medicare publishes as the official TEAM participant roster. A fresh pull of that file directly from CMS, retrieved September 23, 2026 and dated August 18, 2026 (722 hospitals, versus the vendored copy's 720), was checked against it and produced the same Los Angeles, San Francisco, and Modesto figures; both are cited below. CMS Hospital General Information and BPCI Advanced participant-list figures were pulled directly from CMS's provider-data API and cms.gov, respectively, and archived alongside this project's research files. Built `r render_date`.
+
+**Disclaimer.** Rainfall Health is not a hospital, health system, or health care provider. This article is prepared by health care industry professionals, not clinicians, and does not constitute clinical, legal, financial, or regulatory advice. It does not assess, rate, or make claims about the quality of care provided by any individual hospital or organization, and it does not allege that CMS did anything improper — a stratified random draw producing a zero result for one market is an expected outcome of the method CMS itself published, not evidence of an error.
+:::
+
+## Sources
+
+Centers for Medicare & Medicaid Services. (2026). *Transforming Episode Accountability Model participant list* (`r roster_label`). <https://www.cms.gov/team-model-participant-list>
+
+Centers for Medicare & Medicaid Services. *TEAM Participant List*, fresh pull retrieved September 23, 2026, dated August 18, 2026 (722 hospitals). Same URL as above; archived at `essays/rainfall-team-cjrx-research/sources/modesto-raw/team_participant_list_fresh.xlsx`.
+
+Centers for Medicare & Medicaid Services. *Transforming Episode Accountability Model (TEAM)*. <https://www.cms.gov/priorities/innovation/innovation-models/team-model>
+
+Centers for Medicare & Medicaid Services. (2024). *Hospital inpatient prospective payment systems for acute care hospitals, fiscal year 2025 rates* (Final rule). 89 Fed. Reg. 68986. Establishes the 188 selected mandatory CBSAs and the stratified sampling methodology, including the four stratification factors (episode spend, IPPS hospital count, safety-net hospital count, and past bundled-payment exposure). <https://www.federalregister.gov/d/2024-17021>
+
+Centers for Medicare & Medicaid Services. (2024). *Hospital inpatient prospective payment systems for acute care hospitals, fiscal year 2025 rates* (Proposed rule). 89 Fed. Reg. 36654 (May 2, 2024). States CMS's intent to oversample CBSAs with low past exposure to CMS's prior bundled-payment models (including CJR and BPCI Advanced) while still selecting some high-exposure CBSAs, as summarized in Hall Render's May 10, 2024 client alert. <https://www.govinfo.gov/content/pkg/FR-2024-05-02/pdf/2024-07567.pdf>
+
+Hall Render. (2024, May 10). *CMS Announces Proposed Rule: Transforming Episode Accountability Model "TEAM"*. Quotes the proposed rule's oversampling language for low-bundled-payment-exposure CBSAs. <https://hallrender.com/2024/05/10/cms-announces-proposed-rule-transforming-episode-accountability-model-team/>
+
+Kim, N., & Jacobson, M. (2025, April 17). *The spillover effects of Medicare's comprehensive care for joint replacement (CJR) model in California*. PLOS ONE. Identifies San Francisco-Oakland-Hayward, Modesto, and Los Angeles-Long Beach-Anaheim as California's three mandatory CJR MSAs (of 67 nationally, selected 2016). <https://doi.org/10.1371/journal.pone.0319582>
+
+Centers for Medicare & Medicaid Services. *Comprehensive Care for Joint Replacement Model Policy Changes and Cancellation of Episode Payment Models* (fact sheet, November 30, 2017). Describes the 2018 cut to 34 mandatory MSAs, selected by highest historical episode payment; Los Angeles stayed mandatory, San Francisco and Modesto moved to the voluntary-continuation tier. <https://www.cms.gov/newsroom/fact-sheets/comprehensive-care-joint-replacement-model-policy-changes-and-cancellation-episode-payment-models>
+
+Centers for Medicare & Medicaid Services. *Hospital General Information* (Care Compare provider data, dataset xubh-q36u). Lists five acute-care hospitals in Stanislaus County, CA: Doctors Medical Center (CCN 050464), Memorial Medical Center (CCN 050557), Stanislaus Surgical Hospital (CCN 050726), Emanuel Medical Center (CCN 050179), and Oak Valley Hospital District (CCN 050067). <https://data.cms.gov/provider-data/dataset/xubh-q36u>
+
+Centers for Medicare & Medicaid Services. *BPCI Advanced Model Year 7 Participants* (final performance period, through December 31, 2025). Lists no organization located in Modesto, Turlock, or Oakdale, CA, and no organization matching any of the five Stanislaus County hospitals above. <https://www.cms.gov/files/document/bpcia-my7-participants.xlsx>
+
+*Voluntary opt-in participation*, 42 C.F.R. § 512.510 (2026). Sets the two-part eligibility test — CJR through December 31, 2024, or BPCI Advanced through December 31, 2025 — for opting into TEAM from outside a mandatory CBSA. <https://www.law.cornell.edu/cfr/text/42/512.510>
+
+U.S. Census Bureau. (2025). *Vintage 2024 population and housing unit estimates for metropolitan and micropolitan statistical areas*. Ranks the Modesto, CA metropolitan statistical area 105th nationally, population approximately 557,000, versus Los Angeles-Long Beach-Anaheim (2nd, 12,927,614) and San Francisco-Oakland-Fremont. <https://www.census.gov/newsroom/press-releases/2025/population-estimates-counties-metro-micro.html>
+
+Rainfall Health internal research. *Why Do Miami, Tampa, and Los Angeles Each Have Only One Hospital in Medicare's TEAM Model?* Metro Medicare-enrollment figures for Los Angeles, Miami, and Tampa (770,000 to 2.3 million) used here for size comparison. `newsletter/the-lotterys-biggest-misses/index.qmd`
+
+Rainfall Health internal research. *San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market.* Source of the 35.3%/21.2%/23.5% former-mandatory/former-voluntary/national-baseline TEAM selection rates cited above, and of the reconstructed 34-MSA mandatory-CJR list's own sourcing caveats. `newsletter/cjr-history-team-selection/index.qmd`
+
+Further reading on the model is available at [rainfallhealth.com/cms-team](https://www.rainfallhealth.com/cms-team/).

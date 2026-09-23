@@ -12,9 +12,9 @@
     "why_hospitals": "Mountain-west TEAM density"
   },
   "FL": {
-    "medicare": "~4.9M",
-    "hrrp": "57.5% vs 48.1% national",
-    "lejr": "~6,556",
+    "medicare": "Not computed in this pipeline",
+    "hrrp": "61.4% vs 48.1% national (5th-worst among TEAM states)",
+    "lejr": "Not published at hospital level",
     "why_hospitals": "Most geographically dispersed major TEAM state"
   },
   "LA": {
@@ -24,9 +24,9 @@
     "why_hospitals": "Second-largest T2 state footprint"
   },
   "MA": {
-    "medicare": "See state guide",
-    "hrrp": "Cited in state guide (CMS HRRP)",
-    "lejr": "See state guide",
+    "medicare": "Not computed in this pipeline",
+    "hrrp": "57.9% vs 48.1% national (favorable on hip/knee, worse on medical conditions)",
+    "lejr": "Not published at hospital level",
     "why_hospitals": "Academic Boston concentration"
   },
   "MN": {
@@ -36,9 +36,9 @@
     "why_hospitals": "Twin Cities + statewide roster"
   },
   "NJ": {
-    "medicare": "See state guide",
-    "hrrp": "Cited in state guide (CMS HRRP)",
-    "lejr": "See state guide",
+    "medicare": "Not computed in this pipeline",
+    "hrrp": "61.9% vs 48.1% national (worst among large-roster TEAM states)",
+    "lejr": "Not published at hospital level",
     "why_hospitals": "NY\u2013NJ metro overlap"
   },
   "NY": {

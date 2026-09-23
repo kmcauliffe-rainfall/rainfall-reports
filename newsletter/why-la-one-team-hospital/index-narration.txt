@@ -60,15 +60,15 @@ Nine years of prior participation put Los Angeles in a group with lower odds. Th
 
 The proof that it's chance, not a rule.
 
-It would be easy to stop there and conclude that Los Angeles was screened out for having already served its time. That conclusion is wrong, and the evidence against it is one state away.
+It would be easy to stop here and conclude Los Angeles was screened out for having already served its time. That's not quite right, and the correction runs the opposite direction from what it looks like at first.
 
-San Francisco and Oakland was also a mandatory market in that earlier program. Same nine years, same history, same prior exposure profile, the very thing supposed to have kept Los Angeles out.
+San Francisco and Oakland went through the same CJR lottery Los Angeles did, but not the same nine years. When Medicare narrowed CJR's mandatory list to the thirty-four highest spending markets in twenty eighteen, Los Angeles stayed in. San Francisco didn't, CMS's own hospital list records show it drop from thirty-five mandatory hospitals before that cut to zero by CJR's final year. San Francisco's mandatory exposure ended in twenty eighteen. Los Angeles' ran nine years straight through.
 
-It is now the largest participating market in California, with 37 hospitals, and one of the largest in the country.
+So when TEAM's own, separate lottery ran, San Francisco actually carried less recent mandatory bundle history than Los Angeles, and it was drawn anyway, with thirty-seven hospitals, mandatorily, the largest single market in the state. That isn't a counterexample to the less exposure, better odds logic from the last section. It's that logic landing exactly where it predicted.
 
-Medicare said as much in the rule itself: it intended to include some heavily exposed areas, because a sample made up only of untested markets would not tell it what it wanted to know. Prior exposure lowered the odds. It did not disqualify anyone.
+The real evidence that Los Angeles' absence wasn't a rule comes from a wider look, not a single comparison. Of the thirty-four markets CJR kept mandatory in twenty eighteen, the tier Los Angeles was in, roughly a third landed on TEAM's mandatory list anyway, despite carrying the same kind of high prior exposure. High exposure lowered the odds. It didn't zero them out. Los Angeles was in the majority that didn't land, not because the outcome was fixed against markets like it, but because a low probability outcome still happens, just less often than a high probability one. A companion piece works through the full sixty-seven market picture, San Francisco and Los Angeles both included: San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market.
 
-Which leaves the honest version of the answer. Los Angeles was in a lower probability group, and within that group it lost a draw that San Francisco won. There is no policy judgment underneath it to appeal or object to. The two largest hospital markets in California went opposite directions because of the difference between a 20 percent chance and a 50 percent chance, resolved once, by sampling.
+Which leaves the honest version of the answer. Los Angeles was in a lower probability group, and it landed on the side of that probability that doesn't make the roster. There is no policy judgment underneath it to appeal or object to, the two largest hospital markets in California went opposite directions because they were sitting in different odds to begin with, and the draw did what draws do.
 
 The hospital that signed up anyway.
 

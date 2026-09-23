@@ -29,6 +29,7 @@ format:
     include-after-body:
       text: |
         <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
     open-graph:
       title: "Why Is a Nursing Home With No Operating Room on Medicare's Mandatory Surgery List?"
       description: "Laguna Honda Hospital has no emergency room and, by CMS's own quality data, performs none of the five surgeries Medicare's TEAM model is built around. It's on the mandatory roster anyway, for a reason that has nothing to do with what the hospital does."

@@ -1,15 +1,45 @@
 ---
-title: "CMS TEAM in New Jersey: 44 Hospitals, the Country's Highest HRRP Penalty Rate, and the NY–NJ Market Paradox"
-kicker: "WHITE PAPER"
+title: "CMS TEAM in New Jersey: 44 Hospitals and the Nation's Worst Readmissions Profile Among Large TEAM States"
+kicker: WHITE PAPER
 author: "Jennifer Tim-Diamond for Rainfall Health"
 date: "September 2026"
-draft: true
+description: "New Jersey's 44 TEAM-mandated hospitals post the worst readmissions profile of any large state roster in CMS's Transforming Episode Accountability Model — verified against live CMS data, not the 'nation's highest' headline number that circulates."
+draft: false
 engine: knitr
 format:
   html:
     title-block-banner: false
+    toc: true
+    toc-depth: 2
+    toc-title: "On this page"
+    toc-location: left
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    link-external-icon: false
+    fig-align: center
+    lang: en
+    css: styles/report.css
+    format-links: false
+    include-in-header:
+      text: |
+        <meta name="robots" content="noindex, nofollow">
+    include-after-body:
+      text: |
+        <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
+    open-graph:
+      title: "CMS TEAM in New Jersey: 44 Hospitals and the Nation's Worst Readmissions Profile Among Large TEAM States"
+      description: "New Jersey's 44 TEAM-mandated hospitals post the worst readmissions profile of any large state roster in CMS's Transforming Episode Accountability Model — verified against live CMS data."
+      locale: en_US
+    twitter-card:
+      title: "CMS TEAM in New Jersey: 44 Hospitals and the Nation's Worst Readmissions Profile Among Large TEAM States"
+      description: "New Jersey's 44 TEAM-mandated hospitals post the worst readmissions profile of any large state roster in CMS's Transforming Episode Accountability Model — verified against live CMS data."
+      card-style: summary_large_image
   typst:
-    toc: false
+    toc: true
+    toc-title: "Contents"
+    toc-depth: 1
     columns: 1
     papersize: us-letter
     margin:
@@ -21,6 +51,8 @@ format:
       - fonts
     include-in-header:
       - styles/preamble.typ
+    template-partials:
+      - styles/typst-show.typ
     title-block-style: none
     keep-typ: false
 execute:
@@ -52,20 +84,61 @@ for (.i in 1:6) {
 }
 ```
 
-::: {.draft-banner}
-Draft briefing ported from the Rainfall TEAM website guide and wired to the live CMS TEAM roster in this repo. Hospital counts and figures 1–2 recompute on render. Episode-dollar models are not invented here.
-:::
+```{r}
+#| label: nj-hrrp-profile
+#| include: false
+hrrp_profile <- compute_hrrp_profile(hospitals$ccn)
+hk_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "Hip/knee replacement", ]
+cabg_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "CABG", ]
+pn_row <- hrrp_profile$by_condition[hrrp_profile$by_condition$condition == "Pneumonia", ]
+pooled_pct <- function(n, above_pct) {
+  round(100 * sum(n * above_pct / 100, na.rm = TRUE) / sum(n, na.rm = TRUE), 1)
+}
+hrrp_overall_pct <- pooled_pct(hrrp_profile$by_condition$scope_n, hrrp_profile$by_condition$scope_above)
+hrrp_national_pct <- pooled_pct(hrrp_profile$by_condition$national_n, hrrp_profile$by_condition$national_above)
+```
 
+::: {.content-visible when-format="html"}
 ::: {.wp-cover}
 ![](`r rel_asset("rainfall-logo.png")`){.wp-logo}
 
 <p class="wp-kicker">White paper</p>
 
-# CMS TEAM in New Jersey: 44 Hospitals, the Country's Highest HRRP Penalty Rate, and the NY–NJ Market Paradox
+# CMS TEAM in New Jersey: 44 Hospitals and the Nation's Worst Readmissions Profile Among Large TEAM States
 
-<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSAs · before PY2 (2027)</p>
+<p class="wp-dek">`r SCOPE_N` mandated hospitals · `r SCOPE_CBSA_N` CBSA · before PY2 (2027)</p>
 
-<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Every CMS TEAM-mandated hospital in New Jersey named — all within the New York metro Core-Based Statistical Area (CBSA) — plus a data-driven analysis of why the state with the nation's highest readmission penalty rate is one of TEAM's highest-risk markets.</p>
+<p class="wp-meta">Jennifer Tim-Diamond for Rainfall Health · September 2026<br/>Every CMS TEAM-mandated hospital in New Jersey, verified against the live CMS roster and readmissions data — including where the widely repeated "nation's highest" HRRP claim overstates, and understates, the real story.</p>
+:::
+
+<div class="wp-listen-card">
+<audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
+<div class="wp-listen-panel">
+<div class="wp-listen-grid">
+<div class="wp-listen-main">
+<p class="wp-listen-kicker">Rainfall white paper · Narration</p>
+<p class="wp-listen-title">Listen while you read</p>
+<div class="wp-listen-toolbar">
+<button type="button" class="wp-play" data-action="play-pause" aria-label="Play" aria-pressed="false"><span class="wp-play-glyph" aria-hidden="true"></span></button>
+<button type="button" class="wp-icon-btn" data-action="back-15" aria-label="Back 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M9 7v4H4l5 5V7z"/><path d="M13 7a5 5 0 1 1 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<button type="button" class="wp-icon-btn wp-speed-btn" data-action="speed-dial" aria-label="Playback speed 1×"><span data-role="speed-label">1×</span></button>
+<button type="button" class="wp-icon-btn" data-action="forward-15" aria-label="Forward 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M15 7v4h5l-5 5V7z"/><path d="M11 7a5 5 0 1 0 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<span class="wp-time" aria-live="polite"><span data-role="time-current">00:00</span> / <span data-role="time-duration">00:00</span></span>
+</div>
+<input type="range" class="wp-seek" data-action="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+</div>
+</div>
+</div>
+</div>
+
+<div class="wp-action-bar">
+<a class="wp-action" href="index.pdf">Download PDF</a>
+<a class="wp-action" href="index-narration.txt" download="index-narration.txt">Narration script</a>
+</div>
+
+::: {.wp-disclaimer}
+**Methodology.** Hospital counts, CBSA breakdowns, figures 1–2, and the readmissions comparison recompute on render from vendored CMS data (the TEAM participant list and HRRP dataset 9n3s-kdb3, joined by CCN). Episode-dollar and Medicare-population figures are not invented here; where this repo has no verified source, the report says so rather than repeating an unsourced estimate.
+:::
 :::
 
 ```{=typst}
@@ -78,11 +151,11 @@ Draft briefing ported from the Rainfall TEAM website guide and wired to the live
   #text(size: 11pt, weight: 500, fill: rgb("#2b62e7"))[WHITE PAPER]
   #v(0.4em)
   #text(size: 22pt, weight: "bold", fill: rgb("#1e293b"))[
-    CMS TEAM in New Jersey: 44 Hospitals, the Country's Highest HRRP Penalty Rate, and the NY–NJ Market Paradox
+    CMS TEAM in New Jersey: 44 Hospitals and the Nation's Worst Readmissions Profile Among Large TEAM States
   ]
   #v(0.55em)
   #text(size: 12pt, fill: rgb("#475569"))[
-    Draft TEAM briefing · live roster counts
+    Live roster counts and CMS readmissions data
   ]
   #v(1.0em)
   #text(size: 10.5pt)[Jennifer Tim-Diamond for Rainfall Health]
@@ -100,17 +173,17 @@ Draft briefing ported from the Rainfall TEAM website guide and wired to the live
 
 # 01 · At a glance
 
-Live hospital counts come from `data/territoryHospitals.json` (March 2026 CMS TEAM participant extract). Editorial context (Medicare population, HRRP, LEJR) is carried from the published Rainfall guide and is **not** recomputed from claims.
+Live hospital counts come from the vendored CMS TEAM participant list. The HRRP row below is computed at render time from the CMS HRRP dataset (9n3s-kdb3) joined to this scope's roster by CCN; Medicare-population and per-episode LEJR figures are not published at hospital level, so this report states that rather than estimating them.
 
 ```{r}
 #| label: tbl-glance
 glance <- tibble::tibble(
-  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP", "Est. annual LEJR"),
+  Signal = c("Mandated hospitals", "CBSAs", "Medicare beneficiaries", "HRRP (all conditions)", "Est. annual LEJR"),
   Value = c(
     as.character(SCOPE_N),
     as.character(SCOPE_CBSA_N),
     editorial$medicare,
-    editorial$hrrp,
+    paste0(hrrp_overall_pct, "% vs ", hrrp_national_pct, "% national"),
     editorial$lejr
   ),
   `Why it matters` = c(
@@ -160,105 +233,65 @@ knitr::include_graphics("figures/fig2-region.png")
 
 ### Takeaways
 
-- 44 hospitals — all in NY–NJ metro
-- NJ leads nation: 65.4% HRRP penalty rate
-- Hackensack, RWJBarnabas both in scope
-- Shared CBSA with 65 New York hospitals
-- TEAM readmission exposure compounds HRRP penalties
+- 44 hospitals — all in the NY–NJ metro CBSA
+- New Jersey's HRRP excess-readmission rate is `r hrrp_overall_pct`% vs `r hrrp_national_pct`% nationally — the worst of any large-roster TEAM state, though not literally the single highest nationally once every TEAM state is checked
+- Unlike New York, New Jersey runs *above* the national rate on hip/knee replacement, TEAM's core procedure category — the one condition where a favorable split would matter most, and New Jersey doesn't have it
+- Hackensack Meridian Health and RWJBarnabas Health are the two largest systems in scope
+- Shared CBSA with 65 New York hospitals, all competing for the same post-acute capacity
 
 ## New Jersey's TEAM mandate: one CBSA, all 44 hospitals
 
 All 44 CMS TEAM-mandated hospitals in New Jersey fall within a single Core-Based Statistical Area: the **New York–Newark–Jersey City, NY–NJ metropolitan CBSA**. This is not a planning anomaly but a reflection of economic geography: northern and central New Jersey form a single integrated labor market, commuter economy, and care delivery system with New York City. Patients from Bergen County may receive surgical care at Hackensack University Medical Center, recover at a New Jersey SNF, and receive outpatient follow-up from a Manhattan specialist — all within one TEAM episode window.
 
-The implications for TEAM management are significant. New Jersey hospitals compete for post-acute placements — skilled nursing facilities, inpatient rehabilitation facilities, home health agencies — with 65 simultaneously mandated New York hospitals in the same metro area. The shared CBSA does not mean shared target prices: CMS sets hospital-specific targets based on each institution's own historical spending blend with regional benchmarks. But it does mean that the post-acute market these hospitals depend on is simultaneously under pressure from 109 hospitals all trying to reduce episode costs.
+The implications for TEAM management are significant. New Jersey hospitals compete for post-acute placements — skilled nursing facilities, inpatient rehabilitation facilities, home health agencies — with 65 simultaneously mandated New York hospitals in the same metro area. The shared CBSA does not mean shared target prices: CMS sets hospital-specific targets based on each institution's own historical spending blend with regional benchmarks. But it does mean that the post-acute market these hospitals depend on is simultaneously under pressure from 109 hospitals all trying to reduce episode costs at once.
 
-New Jersey's TEAM participation represents approximately **7,200 estimated annual LEJR episodes** at its 44 mandated hospitals — roughly 6% of the national TEAM total. These episodes, disproportionately concentrated in high-cost northern New Jersey suburban markets, carry average financial stakes consistent with the national average ($24,540 per LEJR episode) but with labor and facility cost structures that strain the discount factor.
+CMS does not publish hospital-level TEAM episode volumes, so this report does not model a New Jersey-specific episode count the way an earlier version of this briefing did — doing so would mean presenting an invented number as New Jersey data.
 
 **Fast facts**
 
-- 44 hospitals mandated — all in New York–Newark–Jersey City, NY–NJ CBSA
-- 65.4% of NJ hospital-condition pairs exceed HRRP ERR 1.0 — highest of any state
-- ~7,200 estimated annual LEJR episodes at NJ TEAM hospitals
-- ~1.6 million Medicare beneficiaries in New Jersey
-- Major systems in scope: Hackensack Meridian Health, RWJBarnabas Health, Atlantic Health System, Virtua Health, Inspira Health, University Hospital
-- NJ average episode costs run above national average due to labor and facility costs
+- 44 hospitals mandated — all in the New York–Newark–Jersey City, NY–NJ CBSA
+- `r hrrp_overall_pct`% of NJ hospital-condition pairs exceed HRRP ERR 1.0, vs `r hrrp_national_pct`% nationally — worst among large-roster TEAM states
+- CMS does not publish hospital-level LEJR episode volumes; this report does not estimate one for New Jersey
+- Major systems in scope: Hackensack Meridian Health, RWJBarnabas Health, Atlantic Health System
 
 ## The NJ paradox: high resources, high penalties
 
-New Jersey's **65.4% HRRP penalty rate** — the highest of any state in the CMS FY2024 dataset — is analytically striking because New Jersey is neither poor nor under-resourced. **Hackensack Meridian Health** is a $7 billion+ health system with 17 hospitals, physician networks, and post-acute partnerships. **RWJBarnabas Health** has 12 hospitals and approximately 36,000 employees. These are not under-staffed community hospitals with no quality infrastructure. They are major integrated systems that, by the HRRP evidence, are still readmitting patients at higher-than-expected rates across AMI, heart failure, pneumonia, COPD, hip/knee, and CABG conditions.
+Joining New Jersey's live TEAM roster to the CMS HRRP dataset (9n3s-kdb3, performance period `r hrrp_profile$period_start`–`r hrrp_profile$period_end`) by CCN, all `r hrrp_profile$scope_hospitals_in_file` of New Jersey's 44 mandated hospitals appear in the HRRP file. Across those hospitals' condition pairs, **`r hrrp_overall_pct`%** exceed the excess readmission ratio (ERR) threshold of 1.0, against **`r hrrp_national_pct`%** nationally. That gap is real — this is the worst readmissions profile of any state with a large TEAM roster (20-plus mandated hospitals) that this repo has checked.
 
-Several hypotheses explain the NJ paradox. First, **density creates competition for post-acute placements**: in a market with 109 competing TEAM hospitals all trying to place patients in lower-cost post-acute settings, skilled nursing facilities and home health agencies face capacity constraints that push marginal placements toward higher-cost options or premature discharge home. Second, **patient complexity in urban NJ markets** is high: Hudson County, Essex County, and Passaic County hospitals serve dense, ethnically diverse populations with multiple comorbidities, though HRRP's risk adjustment is designed to account for this. Third, **care coordination infrastructure** may not have kept pace with the administrative scale of large systems.
+It is worth being precise about the "nation's highest" framing that circulates for New Jersey, because checking it against every TEAM-participating state changes the story slightly. A handful of states with very small TEAM rosters — Indiana (6 hospitals), Georgia (13), Missouri (6) — post higher pooled rates than New Jersey, but a rate computed from a handful of hospitals is far noisier than one computed from 44. Among states with a roster large enough for the number to mean something, New Jersey's `r hrrp_overall_pct`% is the worst this analysis found.
 
-For TEAM purposes, the NJ paradox creates a compounding risk: high HRRP penalty rates predict high 30-day post-discharge spending, which predicts above-target episode costs. A hospital that struggled to manage readmissions under HRRP is structurally at risk of exceeding TEAM target prices for the same clinical reason — the 30-day episode window captures what HRRP merely penalizes in isolation.
+Unlike New York, whose readmissions story splits favorably on hip and knee replacement specifically, New Jersey's version of that split runs the other way. New Jersey's hip and knee replacement ERR runs *above* the national rate: `r round(hk_row$scope_above, 1)`% of NJ hip and knee pairs exceed the threshold, against `r round(hk_row$national_above, 1)`% nationally — the opposite of what New York shows. Pneumonia is the widest gap of all, at `r round(pn_row$scope_above, 1)`% against `r round(pn_row$national_above, 1)`% nationally. The one exception is CABG, where New Jersey actually runs *below* the national rate (`r round(cabg_row$scope_above, 1)`% vs `r round(cabg_row$national_above, 1)`%) — but CABG is a small slice of New Jersey's TEAM volume, and it doesn't offset the pattern on hip and knee, the procedure category TEAM weights most heavily.
 
-(Source: [Centers for Medicare & Medicaid Services (2024). HRRP FY2025 data, Dataset 9n3s-kdb3.](https://data.cms.gov/provider-data/dataset/9n3s-kdb3))
+New Jersey is not under-resourced. **Hackensack Meridian Health** and **RWJBarnabas Health** are both large integrated systems with extensive post-acute partnerships, not under-staffed community hospitals with no quality infrastructure. Several hypotheses could explain the gap despite that scale. First, **density creates competition for post-acute placements**: in a market with 109 TEAM-mandated hospitals (44 in New Jersey, 65 in New York) all trying to place patients in lower-cost post-acute settings at once, skilled nursing and home health capacity constraints can push marginal placements toward higher-cost options or premature discharge home. Second, **patient complexity in urban NJ markets** is high, though HRRP's risk adjustment is designed to account for this. Neither hypothesis is verified against hospital-level data in this report; they are offered as plausible explanations, not findings.
+
+For TEAM purposes, the practical risk is straightforward: a hospital that already runs hot on HRRP readmissions across every tracked condition, including the ones TEAM prices directly, is structurally exposed to the same clinical failure pattern showing up as above-target episode costs once two-sided risk begins.
+
+(Source: [Centers for Medicare & Medicaid Services. HRRP supplemental data, Dataset 9n3s-kdb3.](https://data.cms.gov/provider-data/dataset/9n3s-kdb3) — vendored copy joined to the CMS TEAM participant list by CCN for this report.)
 
 ## Complete hospital directory
 
-All 44 New Jersey hospitals mandated for CMS TEAM are listed below. All are within the New York–Newark–Jersey City, NY–NJ CBSA.
+All 44 New Jersey hospitals mandated for CMS TEAM are listed below, generated at render time from the same live roster used for the counts above.
 
-| Hospital | City/County | Primary system affiliation |
-| --- | --- | --- |
-| Hackensack University Medical Center | Bergen County | Hackensack Meridian Health |
-| Hackensack Meridian Mountainside Medical | Essex County | Hackensack Meridian Health |
-| Hackensack Meridian Health Pascack Valley | Bergen County | Hackensack Meridian Health |
-| Robert Wood Johnson University Hospital | Middlesex County | RWJBarnabas Health |
-| Robert Wood Johnson University Hospital Rahway | Union County | RWJBarnabas Health |
-| Robert Wood Johnson University Hospital Somerset | Somerset County | RWJBarnabas Health |
-| Cooperman Barnabas Medical Center | Essex County | RWJBarnabas Health |
-| Monmouth Medical Center | Monmouth County | RWJBarnabas Health |
-| Monmouth Medical Center Southern Campus | Monmouth County | RWJBarnabas Health |
-| Community Medical Center | Ocean County | RWJBarnabas Health |
-| Jersey Shore University Medical Center | Monmouth County | RWJBarnabas Health |
-| Southern Ocean Medical Center | Ocean County | RWJBarnabas Health |
-| Bayshore Medical Center | Monmouth County | RWJBarnabas Health |
-| Morristown Medical Center | Morris County | Atlantic Health System |
-| Overlook Medical Center | Union County | Atlantic Health System |
-| Newton Medical Center | Sussex County | Atlantic Health System |
-| Chilton Medical Center | Morris County | Atlantic Health System |
-| Riverview Medical Center | Monmouth County | Hackensack Meridian Health |
-| Ocean University Medical Center | Ocean County | Hackensack Meridian Health |
-| Valley Hospital | Bergen County | Valley Health System |
-| Englewood Hospital | Bergen County | Englewood Health |
-| Holy Name Medical Center | Bergen County | Holy Name Health |
-| Palisades Medical Center | Hudson County | Hackensack Meridian Health |
-| Bayonne University Hospital | Hudson County | CareWell Health |
-| CareWell Health Medical Center | Essex County | CareWell Health |
-| Jersey City Medical Center | Hudson County | RWJBarnabas Health |
-| Hoboken University Hospital | Hudson County | RWJBarnabas Health |
-| Secaucus University Hospital | Hudson County | RWJBarnabas Health |
-| Heights University Hospital | Hudson County | Independent |
-| University Hospital | Essex County | State of New Jersey (public) |
-| Newark Beth Israel Medical Center | Essex County | RWJBarnabas Health |
-| Saint Peter's University Hospital | Middlesex County | Independent / Catholic Health |
-| Saint Michael's Medical Center | Essex County | Prime Healthcare |
-| Saint Clare's Hospital | Morris County | Prime Healthcare |
-| St. Joseph's University Medical Center | Passaic County | Trinity Health |
-| St. Mary's General Hospital | Passaic County | Prime Healthcare |
-| Trinitas Regional Medical Center | Union County | Trinitas Health |
-| Penn Medicine Princeton Medical Center | Mercer County | Penn Medicine |
-| JFK University Medical Center | Middlesex County | Hackensack Meridian Health |
-| CentraState Medical Center | Monmouth County | CentraState Healthcare System |
-| Hunterdon Medical Center | Hunterdon County | Hunterdon Healthcare |
-| Clara Maass Medical Center | Essex County | RWJBarnabas Health |
-| Raritan Bay Medical Center | Middlesex County | Hackensack Meridian Health |
-| Bergen New Bridge Medical Center | Bergen County | Bergen County |
+```{r}
+#| label: tbl-directory-nj
+hospitals |>
+  dplyr::mutate(hospital_title = tools::toTitleCase(tolower(hospital))) |>
+  dplyr::arrange(hospital_title) |>
+  dplyr::transmute(Hospital = hospital_title, CCN = ccn) |>
+  knitr::kable()
+```
 
 (Source: [Centers for Medicare & Medicaid Services (2026). TEAM participant list.](https://www.cms.gov/priorities/innovation/innovation-models/team-model))
 
 ## Health system concentration and TEAM leverage
 
-**Hackensack Meridian Health** has the largest footprint on the New Jersey TEAM roster, with at least 9 mandated facilities including Hackensack University Medical Center, Jersey Shore University Medical Center, Ocean University Medical Center, Riverview Medical Center, Palisades Medical Center, JFK University Medical Center, Bayshore Medical Center, Raritan Bay Medical Center, and Hackensack Meridian Mountainside. This concentration gives the system potential leverage in TEAM management: vertically integrated post-acute networks, shared EHR infrastructure, and systemwide quality protocols can be deployed consistently across a large episode volume.
+**Hackensack Meridian Health** and **RWJBarnabas Health** are the two largest systems represented on the New Jersey TEAM roster, each with roughly nine or more mandated facilities, including Hackensack Meridian's flagship Hackensack University Medical Center and RWJBarnabas's flagship Cooperman Barnabas Medical Center. This repo doesn't carry a verified, CCN-level system-affiliation map for New Jersey the way California's report does for its systems, so exact per-system counts here are approximate, not audited — a hospital's own system membership should be confirmed directly rather than taken from this table. Directionally, that concentration still matters for TEAM management: vertically integrated post-acute networks and shared quality protocols can be deployed consistently across a large system's episode volume in a way a standalone community hospital cannot match.
 
-**RWJBarnabas Health** similarly has 9–10 TEAM-mandated facilities, including flagship Cooperman Barnabas Medical Center (formerly Saint Barnabas Medical Center), Robert Wood Johnson University Hospital, Monmouth Medical Center, and Community Medical Center. The system's academic medical center affiliation with Rutgers University adds research and quality improvement capacity that smaller independent hospitals in the CBSA cannot match.
+**University Hospital**, the only publicly-owned academic medical center in New Jersey (the clinical partner of Rutgers New Jersey Medical School), and **Bergen New Bridge Medical Center** (county-owned) are the safety-net facilities in the NJ TEAM cohort. Institutions like these typically serve a higher share of Medicaid and uninsured patients, which is worth flagging as a Track 2 eligibility question for those specific hospitals, though this report doesn't have verified payer-mix data to confirm eligibility.
 
-**University Hospital** — the only publicly-owned academic medical center in New Jersey, operated by the State as the clinical partner of Rutgers New Jersey Medical School — and **Bergen New Bridge Medical Center** (County-owned) present the safety-net dimension of the NJ TEAM cohort. These institutions serve disproportionately high shares of Medicaid and uninsured patients, complicating Medicare-focused TEAM episode management and potentially qualifying them for Track 2 consideration.
+## What this analysis does not estimate
 
-## Financial exposure and the 2027 penalty cliff
-
-New Jersey's combination of high episode costs (driven by metro-area labor markets), above-average HRRP penalty rates (signaling post-discharge management gaps), and TEAM mandated participation creates an acute financial inflection point when downside risk begins in PY2 (2027). Optum Advisory's (2025) national projection — 56% of TEAM hospitals expected to lose money once two-sided risk begins — may understate the NJ risk given the state's structural readmission challenges.
-
-Under Track 3 stop-loss limits (20%), a NJ hospital with 300 annual LEJR episodes averaging $24,540 targets faces a maximum downside of roughly $1.47 million from LEJR alone if all episodes miss target by the maximum amount. More realistically, a hospital where 35% of LEJR episodes exceed target prices by $5,000 each would face a net loss of approximately $514,500 per year from LEJR — before accounting for the other four episode types.
+CMS does not publish hospital-level TEAM episode volumes or target prices in a form this repo can join to the New Jersey roster, so this report does not model a New Jersey-specific episode count, target price, or gain/loss dollar figure. Optum Advisory (2025) projected that 56% of TEAM-mandated hospitals nationally will lose money once downside risk begins in Performance Year 2, averaging $1.2 million per facility — a national estimate, not a New Jersey-specific one, and its underlying methodology isn't public. Given New Jersey's readmissions profile, that national risk is plausibly more acute here than the average state, but this report does not attach a number to that intuition. A hospital that wants an actual dollar estimate needs its own CMS-issued target price file, obtained through the TEAM participant portal.
 
 The most effective intervention, supported by both the Dummit et al. (2016) and Finkelstein et al. (2021) research bases, is reducing discharge to institutional post-acute care (IRFs and SNFs) in favor of home health for clinically appropriate patients. In New Jersey, where IRF and SNF placement rates have historically been high given proximity to facilities and physician incentive structures, this represents both the largest opportunity and the most organizationally challenging change.
 
@@ -272,7 +305,7 @@ The most effective intervention, supported by both the Dummit et al. (2016) and 
 
 ### Does New Jersey have the worst readmission performance under HRRP?
 
-Yes. At 65.4% of hospital-condition pairs exceeding ERR 1.0, New Jersey has the highest HRRP penalty rate of any state in the CMS FY2024 dataset, above Massachusetts (62.5%) and Mississippi (61.1%).
+Among states with a large TEAM roster, yes. `r hrrp_overall_pct`% of New Jersey's hospital-condition pairs exceed the ERR 1.0 threshold in the CMS HRRP dataset, versus `r hrrp_national_pct`% nationally — the worst of any state with 20 or more TEAM-mandated hospitals that this analysis checked, ahead of Florida and Massachusetts. A few states with very small TEAM rosters (Indiana, Georgia, Missouri) post higher rates still, but those are computed from a handful of hospitals each, which is a much noisier number than New Jersey's 44.
 
 ### Are all New Jersey hospitals in the same CBSA?
 
@@ -298,26 +331,9 @@ Research suggests several factors: competitive post-acute markets where capacity
 4. Dummit, L. A., Kahvecioglu, D., Marrufo, G., Rajkumar, R., Marshall, J., Tan, E., Le, S. T., Terebelo, S., Hearld, L., Xian, Y., Morishima, C., Pittman, P., Barzee, B., & Conway, P. H. (2016). Association between hospital participation in a Medicare bundled payment initiative and payments and quality outcomes for lower extremity joint replacement episodes. JAMA, 316(12), 1267–1278. https://doi.org/10.1001/jama.2016.12717
 5. Finkelstein, A., Ji, Y., Mahoney, N., & Skinner, J. (2021). Mandatory Medicare bundled payment program for lower extremity joint replacement and discharge to institutional postacute care. JAMA, 325(18), 1879–1890. https://doi.org/10.1001/jama.2021.5684
 6. Zuckerman, R. B., Sheingold, S. H., Orav, E. J., Ruhter, J., & Epstein, A. M. (2016). Readmissions, observation, and the Hospital Readmissions Reduction Program. New England Journal of Medicine, 374(16), 1543–1551. https://doi.org/10.1056/NEJMsa1513024
-9. Navathe, A. S., Liao, J. M., Emanuel, E. J., & Press, M. J. (2020). Opening a two-way street for bundled payments. JAMA, 323(2), 121–122. https://doi.org/10.1001/jama.2019.19040
-10. Optum Advisory. (2025, November). What hospitals need to know about TEAM for 2026. Advisory.com. https://www.advisory.com/topics/policy-and-payment/hospitals-need-to-know-team
-
-
-
-# Named hospitals (live roster)
-
-```{r}
-#| label: tbl-directory
-hospitals |>
-  dplyr::group_by(state, cbsa_label) |>
-  dplyr::summarise(
-    Hospitals = dplyr::n(),
-    `Named hospitals` = paste(hospital, collapse = " · "),
-    .groups = "drop"
-  ) |>
-  dplyr::arrange(state, dplyr::desc(Hospitals), cbsa_label) |>
-  knitr::kable()
-```
+7. Navathe, A. S., Liao, J. M., Emanuel, E. J., & Press, M. J. (2020). Opening a two-way street for bundled payments. JAMA, 323(2), 121–122. https://doi.org/10.1001/jama.2019.19040
+8. Optum Advisory. (2025, November). What hospitals need to know about TEAM for 2026. Advisory.com. https://www.advisory.com/topics/policy-and-payment/hospitals-need-to-know-team
 
 ::: {.wp-disclaimer}
-**Disclaimer.** Draft for internal briefing. Counts follow the vendored CMS participant file. Not legal, financial, regulatory, or clinical advice.
+**Disclaimer.** Rainfall Health is not a hospital, health system, or health care provider. This paper is prepared by health care industry professionals, not clinicians, and does not constitute clinical, legal, financial, or regulatory advice. Roster counts and readmission figures are computed from the CMS files cited above; this paper does not assess, rate, or make claims about the quality of care provided by any individual hospital or organization.
 :::

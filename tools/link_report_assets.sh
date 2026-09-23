@@ -4,6 +4,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 REPO_STYLES="$ROOT/styles"
+REPO_SCRIPTS="$ROOT/scripts"
 
 link_dir() {
   local report="$1"
@@ -20,6 +21,15 @@ link_dir() {
   cp "$REPO_STYLES/typst-show.typ" styles/typst-show.typ
   if [[ -f "$REPO_STYLES/report.css" ]]; then
     cp "$REPO_STYLES/report.css" styles/report.css
+  fi
+
+  # Same copy-not-symlink treatment as styles/ above, and for the same
+  # reason -- this is a real directory each report edits its own copy of
+  # scripts into (e.g. listen-along.js is per-report already), so only the
+  # shared, canonical files get overwritten here, not the whole directory.
+  mkdir -p scripts
+  if [[ -f "$REPO_SCRIPTS/highlight-notes.js" ]]; then
+    cp "$REPO_SCRIPTS/highlight-notes.js" scripts/highlight-notes.js
   fi
 }
 

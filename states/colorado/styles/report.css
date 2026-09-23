@@ -30,6 +30,8 @@
   --rain-line: #e2e8f0;
   --rain-bg: #f8fafc;
   --rain-card: #eff6ff;
+  --rain-highlight: #fde68a;
+  --rain-highlight-border: #f5c518;
 }
 
 body {
@@ -542,5 +544,202 @@ figure figcaption,
     margin-left: 0;
     width: 100%;
     text-align: right;
+  }
+}
+
+/* Highlight, note, and export feature (scripts/highlight-notes.js). */
+
+.rf-highlight {
+  background: var(--rain-highlight);
+  border-bottom: 2px solid var(--rain-highlight-border);
+  cursor: pointer;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+
+.rf-highlight-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--rain-navy);
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  z-index: 1200;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}
+.rf-highlight-btn:hover {
+  background: var(--rain-blue);
+}
+
+.rf-note-popover {
+  z-index: 1200;
+  width: min(280px, 80vw);
+  background: #fff;
+  border: 1px solid var(--rain-line);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
+  padding: 0.6rem;
+}
+.rf-note-popover textarea {
+  width: 100%;
+  min-height: 64px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--rain-navy);
+  border: 1px solid var(--rain-line);
+  border-radius: 6px;
+  padding: 0.4rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.rf-note-popover-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.rf-note-popover-row button {
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  border: 1px solid var(--rain-line);
+  background: var(--rain-bg);
+  color: var(--rain-navy);
+}
+.rf-note-popover-row button:first-child {
+  background: var(--rain-blue);
+  border-color: var(--rain-blue);
+  color: #fff;
+}
+.rf-note-delete {
+  color: #b91c1c !important;
+}
+
+.rf-notes-fab {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: none;
+  background: var(--rain-navy);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 1100;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.rf-notes-fab:hover {
+  background: var(--rain-blue);
+}
+.rf-notes-fab-count {
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.rf-notes-panel {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 5rem;
+  width: min(320px, 85vw);
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--rain-line);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.rf-notes-panel-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.rf-notes-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 1px solid var(--rain-line);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--rain-navy);
+}
+.rf-notes-panel-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--rain-muted);
+}
+.rf-notes-panel-list {
+  overflow-y: auto;
+  padding: 0.6rem 0.9rem;
+  flex: 1;
+}
+.rf-notes-item {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px dashed var(--rain-line);
+}
+.rf-notes-item:last-child {
+  border-bottom: none;
+}
+.rf-notes-item blockquote {
+  margin: 0 0 0.3rem;
+  font-size: 0.85rem;
+  color: var(--rain-navy);
+  border-left: 3px solid var(--rain-highlight-border);
+  padding-left: 0.5rem;
+}
+.rf-notes-item-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--rain-slate);
+}
+.rf-notes-empty {
+  font-size: 0.85rem;
+  color: var(--rain-muted);
+  margin: 0;
+}
+.rf-notes-export {
+  margin: 0.6rem 0.9rem 0.9rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--rain-blue);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .rf-notes-fab {
+    right: 1rem;
+    bottom: 1rem;
+  }
+  .rf-notes-panel {
+    right: 1rem;
+    bottom: 4.5rem;
+    width: calc(100vw - 2rem);
   }
 }

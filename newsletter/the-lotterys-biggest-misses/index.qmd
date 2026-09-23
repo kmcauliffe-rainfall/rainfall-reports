@@ -29,6 +29,7 @@ format:
     include-after-body:
       text: |
         <script src="scripts/listen-along.js" defer></script>
+        <script src="scripts/highlight-notes.js" defer></script>
     open-graph:
       title: "Why Do Miami, Tampa, and Los Angeles Each Have Only One Hospital in Medicare's TEAM Model?"
       description: "Three of the country's biggest, most recognizable hospital markets came up almost empty in Medicare's newest mandatory payment program. In every case, the same kind of hospital volunteered to fill the gap."
