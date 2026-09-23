@@ -118,9 +118,6 @@ render_date  <- format(Sys.Date(), "%B %e, %Y") |> trimws()
 <audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
 <div class="wp-listen-panel">
 <div class="wp-listen-grid">
-<div class="wp-listen-art">
-<img src="assets/rainfall-logo.png" width="88" height="88" alt="">
-</div>
 <div class="wp-listen-main">
 <p class="wp-listen-kicker">Rainfall Health · Narration</p>
 <p class="wp-listen-title">Listen while you read</p>
@@ -216,9 +213,15 @@ Which brings us back to `r la_short`.
 
 Medicare allowed a small number of hospitals outside the selected areas to join voluntarily. `r n_vol_natl_word` nationwide did. Exactly one of them is in California, and it is the one Los Angeles hospital on the roster.
 
+That path had its own rule, and the rule matters here. Federal regulation allowed a hospital to opt in only if two things were both true: its metro area had to be outside the mandatory list, and the hospital had to have already been running a mandatory bundle of its own — either CJR through its last day, December 31, 2024, or BPCI Advanced through December 31, 2025. `r la_short` satisfied both. Its metro area was never drawn, and its nine years in CJR carried straight through to the deadline. The opt-in path exists specifically for a hospital in exactly that position.
+
 It is worth being precise about what that means. Every other California hospital in this program was told to be there. `r la_short` looked at a five-year commitment to absorb financial risk for a month of care after major surgery, in a market where no competitor was under the same obligation, and chose it.
 
+Scale the stakes for a moment. Los Angeles County has more Medicare beneficiaries than any other county in the country — 1.7 million people, in the most recent federal count, nearly double the next-highest county. For the purposes of this specific program, all of that runs through one hospital's participation.
+
 There are reasonable readings of that decision. A hospital with nine years of bundled-payment experience already has the discharge planning, the post-acute relationships, and the cost data the model rewards, so the marginal cost of participating is low and the potential upside is real. There is also a strategic reading: the skills this program demands are ones Medicare has signaled it will require everywhere soon enough, and building them under a program you chose is easier than building them under one imposed on you.
+
+There's no public record of how CJR specifically performed for `r la_short` — Medicare doesn't publish hospital-level results under that program, and the hospital hasn't said. What is on the record is a different bundle: `r la_short` has run its own orthopedic program under BPCI Advanced, a related but separate Medicare model, since January 2021, and has said publicly that it moved that program from a penalty to a bonus. That isn't evidence about CJR, and it isn't a stated reason for the TEAM decision — but it does mean the hospital had recent, direct, and by its own account successful experience with exactly the kind of financial structure TEAM asks for, on top of nine years spent living under CJR's version of the same idea.
 
 ## Los Angeles didn't escape. It got deferred.
 
@@ -226,13 +229,15 @@ The last point is the one that matters most for anyone running a hospital in a m
 
 Medicare has already finalized a second mandatory bundled-payment program, this one specifically for joint replacement, starting January 1, 2028. It is nationwide. It covers essentially every acute-care hospital in the country that is *not* already in the current program — which is to say, it is aimed squarely at the markets the lottery passed over.
 
+The timing is worth laying out plainly, because it rules out one explanation before anyone raises it. `r la_short`'s CJR run ended December 31, 2024. The TEAM voluntary election window opened the next day and closed January 31, 2025. The program that will eventually reach the hospitals TEAM's lottery skipped was not proposed until April 14, 2026, and wasn't finalized until that July. When `r la_short` signed on to TEAM, that program did not exist yet, not even as a draft.
+
 Its episode window is 90 days, not 30.
 
 So the practical result of Los Angeles losing the draw is not exemption. It is a two-year delay, followed by enrollment in a program with an accountability window three times longer. Hospitals in the Bay Area will spend those two years learning to manage a 30-day window. Hospitals in Los Angeles will start in 2028 on a 90-day one.
 
 The one Los Angeles hospital that volunteered is exempt from the 2028 program, because participation in the current one excludes you from it.
 
-Whether that was the reasoning, only `r la_short` knows. But it is, at minimum, a defensible bet.
+Put all of it together and the shape of the case is unusual, not sinister. A stratified lottery left Los Angeles off the mandatory list. A narrow eligibility rule, built around metro-area status and prior bundled-payment history, is what let one hospital back onto the roster anyway. That hospital has recent, documented experience turning a comparable bundle profitable — though not this one, and not for this reason. And the program it might otherwise look like it was avoiding did not exist yet when it signed the paperwork. What's left is a single hospital carrying the entire program's footprint for the country's largest Medicare-enrollment county and its second-largest metro area — an outcome nobody designed, that one hospital chose to be part of anyway.
 
 ---
 
@@ -255,5 +260,17 @@ Centers for Medicare & Medicaid Services. *Comprehensive Care for Joint Replacem
 Centers for Medicare & Medicaid Services. *CJR-X (Comprehensive Care for Joint Replacement Expanded) Model*. <https://www.cms.gov/priorities/innovation/innovation-models/cjr-x>
 
 Kim, N., & Jacobson, M. (2025). The spillover effects of Medicare's comprehensive care for joint replacement (CJR) model in California. *PLOS ONE, 20*(4), e0319582. Identifies Los Angeles–Long Beach–Anaheim, San Francisco–Oakland–Hayward, and Modesto as California's three mandatory CJR markets. <https://doi.org/10.1371/journal.pone.0319582>
+
+*Voluntary opt-in participation*, 42 C.F.R. § 512.510 (2026). Sets the two-part eligibility test for opting into TEAM: a hospital's CBSA must not be one of the mandatory ones, and the hospital must have participated in CJR through December 31, 2024, or BPCI Advanced through December 31, 2025. <https://www.law.cornell.edu/cfr/text/42/512.510>
+
+Centers for Medicare & Medicaid Services. *Innovation Insight: Comprehensive Care for Joint Replacement (CJR) Model Generates Savings to Medicare*. Reports $112.7 million in aggregate national savings across Performance Years 2021–2023; does not publish hospital-level results. <https://www.cms.gov/priorities/innovation/innovation-insight-comprehensive-care-joint-replacement-cjr-model-generates-savings-medicare>
+
+Centers for Medicare & Medicaid Services. (2026). *Medicare program; hospital inpatient prospective payment systems for acute care hospitals and the long-term care hospital prospective payment system and policy changes and fiscal year 2027 rates* (Final rule, CMS-1849-F). 91 Fed. Reg. 49570. Finalizes the CJR-X model, effective January 1, 2028. <https://www.federalregister.gov/d/2026-15833>
+
+HQI Institute. *Achieving Excellence with Value-Based Care: Cedars-Sinai Orthopaedic Superbundles*. On Cedars-Sinai's BPCI Advanced orthopedic bundle, running since January 2021. <https://hqinstitute.org/events/achieving-excellence-with-value-based-care-cedar-sinai-orthopaedic-superbundles-report/>
+
+U.S. Census Bureau. (2025). *Vintage 2024 population and housing unit estimates for metropolitan and micropolitan statistical areas*. Confirms Los Angeles-Long Beach-Anaheim as the second-largest CBSA nationally (12,927,614), behind only New York (19,940,274). <https://www.census.gov/newsroom/press-releases/2025/population-estimates-counties-metro-micro.html>
+
+Centers for Medicare & Medicaid Services. *Medicare Geographic Variation — by National, State & County* (calendar year 2024 public use file). Los Angeles County has 1,718,250 Medicare beneficiaries, the most of any U.S. county. <https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-geographic-comparisons/medicare-geographic-variation-by-national-state-county>
 
 Further reading on the model is available at [rainfallhealth.com/cms-team](https://www.rainfallhealth.com/cms-team/).

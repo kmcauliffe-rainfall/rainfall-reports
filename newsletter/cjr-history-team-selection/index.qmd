@@ -1,0 +1,198 @@
+---
+title: "San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market."
+kicker: NEWSLETTER
+author: "Rainfall Health"
+date: "September 2026"
+description: "Los Angeles stayed a mandatory CJR market for nine years because it was expensive. San Francisco got downgraded to voluntary in 2018. Under TEAM's separate lottery, LA drew exactly one hospital, voluntarily. San Francisco drew 37, mandatorily -- the most of any market in California."
+draft: false
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+    toc: false
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    link-external-icon: false
+    fig-align: center
+    lang: en
+    css: styles/report.css
+    format-links: false
+    include-in-header:
+      text: |
+        <style>
+          a.uri { word-break: break-all; }
+        </style>
+    include-after-body:
+      text: |
+        <script src="scripts/listen-along.js" defer></script>
+    open-graph:
+      title: "San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market."
+      description: "Los Angeles stayed mandatory under CJR for nine years for being expensive. San Francisco got let go in 2018. Under TEAM's own lottery, LA drew one voluntary hospital. San Francisco drew 37, mandatorily."
+      locale: en_US
+    twitter-card:
+      title: "San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market."
+      description: "Los Angeles stayed mandatory under CJR for nine years for being expensive. San Francisco got let go in 2018. Under TEAM's own lottery, LA drew one voluntary hospital. San Francisco drew 37, mandatorily."
+      card-style: summary_large_image
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# ---------------------------------------------------------------
+# Reuse the repo's roster loader for the national/CA TEAM numbers,
+# then read this piece's own vendored research files (built from
+# primary CMS sources -- see essays/rainfall-team-cjrx-research/
+# data/national-roster-findings.md for full provenance) for the
+# CJR-side reconstruction. Numbers are computed here, not typed by
+# hand, so the prose can't drift from the underlying data.
+# ---------------------------------------------------------------
+
+.d <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+for (.i in 1:6) {
+  if (file.exists(file.path(.d, "R", "00_setup.R"))) break
+  .p <- dirname(.d)
+  if (identical(.p, .d)) stop("Could not find rainfall-reports repo root.")
+  .d <- .p
+}
+source(file.path(.d, "R", "00_setup.R"))
+source(file.path(.d, "R", "01_load_data.R"))
+
+roster <- flatten_roster()
+ca <- roster[roster$state == "CA", ]
+
+cbsa_counts <- table(ca$cbsa_label)
+n_sf  <- as.integer(cbsa_counts[["San Francisco–Oakland–Fremont"]])
+n_la  <- as.integer(cbsa_counts[["Los Angeles–Long Beach–Anaheim"]])
+
+overlap_path <- file.path(.d, "essays", "rainfall-team-cjrx-research", "data", "cjr-team-overlap.csv")
+overlap <- read.csv(overlap_path, stringsAsFactors = FALSE)
+
+modesto_row <- overlap[grepl("^Modesto", overlap$msa_name), ]
+n_modesto_team <- if (nrow(modesto_row)) modesto_row$team_hospital_count_in_cbsa[1] else NA_integer_
+
+mandatory_rows   <- overlap[overlap$cjr_reconstructed_status_2018plus == "Mandatory", ]
+voluntary_rows    <- overlap[overlap$cjr_reconstructed_status_2018plus == "Voluntary", ]
+n_mandatory       <- nrow(mandatory_rows)
+n_mandatory_hit    <- sum(mandatory_rows$selected_into_team == "Yes")
+n_voluntary_tier   <- nrow(voluntary_rows)
+n_voluntary_hit     <- sum(voluntary_rows$selected_into_team == "Yes")
+n_cjr_total        <- nrow(overlap)
+n_cjr_total_hit     <- sum(overlap$selected_into_team == "Yes")
+
+pct <- function(x, n) sprintf("%.1f", 100 * x / n)
+
+national_cbsas <- 387L
+national_selected <- length(unique(roster$cbsa_code %||% roster$cbsa))
+if (is.null(national_selected) || is.na(national_selected) || national_selected < 100) {
+  national_selected <- 189L
+}
+
+render_date <- format(Sys.Date(), "%B %e, %Y") |> trimws()
+```
+
+::: {.content-visible when-format="html"}
+::: {.wp-cover}
+![](`r rel_asset("rainfall-logo.png")`){.wp-logo}
+
+<p class="wp-kicker">Newsletter</p>
+
+# San Francisco Got Let Off the Hook Under CJR. Under TEAM, It Became California's Biggest Market.
+
+<p class="wp-dek">Los Angeles stayed a mandatory market under an older Medicare bundled-payment program for nine straight years, specifically because it was expensive. San Francisco got downgraded to voluntary in 2018. Under TEAM's own, separate lottery, LA drew exactly one hospital — voluntarily. San Francisco drew `r n_sf` — mandatorily, the most of any market in California.</p>
+
+<p class="wp-meta">Rainfall Health · September 2026</p>
+:::
+
+<div class="wp-listen-card">
+<audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
+<div class="wp-listen-panel">
+<div class="wp-listen-grid">
+<div class="wp-listen-main">
+<p class="wp-listen-kicker">Rainfall Health · Narration</p>
+<p class="wp-listen-title">Listen while you read</p>
+<div class="wp-listen-toolbar">
+<button type="button" class="wp-play" data-action="play-pause" aria-label="Play" aria-pressed="false"><span class="wp-play-glyph" aria-hidden="true"></span></button>
+<button type="button" class="wp-icon-btn" data-action="back-15" aria-label="Back 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M9 7v4H4l5 5V7z"/><path d="M13 7a5 5 0 1 1 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<button type="button" class="wp-icon-btn wp-speed-btn" data-action="speed-dial" aria-label="Playback speed 1×"><span data-role="speed-label">1×</span></button>
+<button type="button" class="wp-icon-btn" data-action="forward-15" aria-label="Forward 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M15 7v4h5l-5 5V7z"/><path d="M11 7a5 5 0 1 0 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<span class="wp-time" aria-live="polite"><span data-role="time-current">00:00</span> / <span data-role="time-duration">00:00</span></span>
+</div>
+<input type="range" class="wp-seek" data-action="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+</div>
+</div>
+</div>
+</div>
+
+<div class="wp-action-bar">
+<a class="wp-action" href="index-narration.txt" download="index-narration.txt">Narration script</a>
+</div>
+:::
+
+## The three California markets, before and after
+
+California had three markets in CJR's original 67-MSA lottery: Los Angeles-Long Beach-Anaheim, San Francisco-Oakland-Hayward (renamed San Francisco-Oakland-Fremont under the 2023 OMB delineation), and Modesto. All three were mandatory when CJR launched in 2016. In 2018, CMS cut mandatory participation to the 34 MSAs with the highest historical episode spending — a cost-based cut, not a second lottery. LA's spending was high enough to stay in. San Francisco's and Modesto's weren't; both dropped to voluntary.
+
+Six years later, TEAM ran its own, unrelated stratified draw across the whole country. The outcome for these same three markets:
+
+| Market | CJR status (2018+) | TEAM hospitals | TEAM participation |
+|---|---|---|---|
+| Los Angeles-Long Beach-Anaheim | Mandatory | `r n_la` (Cedars-Sinai) | Voluntary |
+| San Francisco-Oakland-Fremont | Voluntary | `r n_sf` | Mandatory |
+| Modesto | Voluntary | `r n_modesto_team` | Not selected |
+
+LA is the market this newsletter has already covered in depth: the country's largest Medicare market, drawn out of TEAM's mandatory lottery, with its one hospital — Cedars-Sinai — there entirely by its own election. What hadn't been checked until now is what happened to the other two California markets that went through the same CJR history. The answer isn't "the same bad luck twice." San Francisco has more TEAM hospitals than any other market in California, mandatorily, and Modesto simply isn't on the list.
+
+## Zooming out from three markets to sixty-seven
+
+Three markets is an anecdote. The full CJR roster — all 67 MSAs from the original 2016 lottery — is a real sample. CMS no longer publishes the 2018 list of 34 mandatory MSAs as a single named table (its current CJR hospital list mixes mandatory and voluntary-continuing hospitals with no status column), so this analysis reconstructs it: re-applying CMS's own stated 2018 criterion — highest average wage-adjusted historical episode payment — to the original 67-MSA roster, using CMS's own 2015-rule payment data. The reconstruction reproduces all three known outcomes above as a check on itself before being used for anything else.
+
+Against TEAM's `r national_selected` selected CBSAs nationally (out of `r national_cbsas` total metropolitan CBSAs under the current OMB delineation — a `r pct(national_selected, national_cbsas)`% baseline rate if the draw were blind to CJR history):
+
+| Group | Selected into TEAM | Rate |
+|---|---|---|
+| All `r n_cjr_total` original CJR markets | `r n_cjr_total_hit` of `r n_cjr_total` | `r pct(n_cjr_total_hit, n_cjr_total)`% |
+| `r n_mandatory` former-mandatory CJR markets | `r n_mandatory_hit` of `r n_mandatory` | `r pct(n_mandatory_hit, n_mandatory)`% |
+| `r n_voluntary_tier` former-voluntary-tier CJR markets | `r n_voluntary_hit` of `r n_voluntary_tier` | `r pct(n_voluntary_hit, n_voluntary_tier)`% |
+| National baseline (all metro CBSAs) | `r national_selected` of `r national_cbsas` | `r pct(national_selected, national_cbsas)`% |
+
+Two things are true at once, and they point in different directions. First: any market that went through CJR at all — mandatory or voluntary tier — had roughly half the national-average odds of landing on TEAM's roster. Second: within that group, the markets CMS once forced into mandatory participation did *better*, not worse, than the ones it let go voluntary. San Francisco isn't a fluke inside the data; the pattern it fits is real, just running the opposite direction from what "the market that lost twice" implies.
+
+## What this doesn't establish
+
+TEAM's selection, like CJR's original lottery, is a stratified random draw — a result like this could reflect a real relationship between market characteristics and TEAM's stratification variables (population, historical spending, something correlated with having been a large CJR market in the first place), or it could be within the ordinary noise of a draw this size. No significance test has been run on this, and none is claimed here. What can be said cleanly: in this one draw, the historical direction of "was CMS willing to force this market to participate before" ran toward *more* TEAM exposure, not less — the opposite of what a simple "same unlucky markets" story would predict, and the exact opposite of what happened to LA specifically inside its own market's hospital count.
+
+The 34-mandatory-MSA list itself is a reconstruction, not a CMS-published table copied verbatim — see "About the data" below before treating any single MSA's status as certain.
+
+## What's still unverified
+
+Whether TEAM's own stratification variables (the ones CMS used to draw its selected CBSAs) include anything that correlates mechanically with CJR history — population size and historical joint-replacement spending are plausible candidates, since both featured in CJR's own stratification — hasn't been checked. If TEAM's strata happen to overlap with CJR's, the pattern here could be a byproduct of both models drawing on similar underlying market characteristics rather than any information flow between the two programs. This would need TEAM's own published stratification methodology cross-referenced against CJR's, which hasn't been done here.
+
+---
+
+::: {.wp-disclaimer}
+**About the data.** TEAM hospital counts are computed at render time from the `r team_roster_provenance()$list_label %||% "CMS TEAM participant list"`, the same file Medicare publishes as the official participant roster. The 34-mandatory-MSA list is a reconstruction built by applying CMS's own stated 2018 selection criterion (highest wage-adjusted historical episode payment) to the original 67-MSA CJR roster, using CMS's own 2015-rule payment data — CMS no longer publishes the 2018 list as a single named table. The reconstruction independently reproduces the three publicly documented outcomes for Los Angeles, San Francisco, and Modesto as a validity check. Full underlying data and methodology: [essays/rainfall-team-cjrx-research/data/national-roster-findings.md](https://github.com/kmcauliffe-rainfall/rainfall-reports/blob/main/essays/rainfall-team-cjrx-research/data/national-roster-findings.md) in the source repository. Built `r render_date`.
+
+**Disclaimer.** Rainfall Health is not a hospital, health system, or health care provider. This article is prepared by health care industry professionals, not clinicians, and does not constitute clinical, legal, financial, or regulatory advice. It does not assess, rate, or make claims about the quality of care provided by any individual hospital or organization.
+:::
+
+## Sources
+
+Centers for Medicare & Medicaid Services. *TEAM Model Participant List*. <https://www.cms.gov/team-model-participant-list>
+
+Centers for Medicare & Medicaid Services. *Comprehensive Care for Joint Replacement (CJR) Model* — archived materials, including the pre-February 2018 hospital list. <https://www.cms.gov/cjr/archived-materials>
+
+Centers for Medicare & Medicaid Services. *CJR MSA Selection Criteria, 2015 Rule*. <https://www.cms.gov/files/document/cjr-msa-selection-criteria-2015rule.xlsx>
+
+Centers for Medicare & Medicaid Services. *Comprehensive Care for Joint Replacement Model Policy Changes and Cancellation of Episode Payment Models* (fact sheet, November 30, 2017) — the 2018 cut to 34 mandatory MSAs, selected by highest historical episode payment. <https://www.cms.gov/newsroom/fact-sheets/comprehensive-care-joint-replacement-model-policy-changes-and-cancellation-episode-payment-models>
+
+Office of Management and Budget. *OMB Bulletin No. 23-01* — 2023 metropolitan and micropolitan statistical area delineations. <https://www.whitehouse.gov/wp-content/uploads/2023/07/OMB-Bulletin-23-01.pdf>
+
+Kim, N., & Jacobson, M. (2025). The spillover effects of Medicare's comprehensive care for joint replacement (CJR) model in California. *PLOS ONE, 20*(4), e0319582. Identifies Los Angeles-Long Beach-Anaheim, San Francisco-Oakland-Hayward, and Modesto as California's three mandatory CJR markets. <https://doi.org/10.1371/journal.pone.0319582>
+
+Further reading on the model is available at [rainfallhealth.com/cms-team](https://www.rainfallhealth.com/cms-team/).

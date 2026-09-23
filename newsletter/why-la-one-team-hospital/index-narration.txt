@@ -76,9 +76,15 @@ Which brings us back to Cedars-Sinai.
 
 Medicare allowed a small number of hospitals outside the selected areas to join voluntarily. Ten nationwide did. Exactly one of them is in California, and it is the one Los Angeles hospital on the roster.
 
+That path had its own rule, and the rule matters here. Federal regulation allowed a hospital to opt in only if two things were both true: its metro area had to be outside the mandatory list, and the hospital had to have already been running a mandatory bundle of its own, either CJR through its last day, December thirty-first, twenty twenty-four, or a related program called BPCI Advanced through December thirty-first, twenty twenty-five. Cedars-Sinai satisfied both. Its metro area was never drawn, and its nine years in CJR carried straight through to the deadline. The opt-in path exists specifically for a hospital in exactly that position.
+
 It is worth being precise about what that means. Every other California hospital in this program was told to be there. Cedars-Sinai looked at a five-year commitment to absorb financial risk for a month of care after major surgery, in a market where no competitor was under the same obligation, and chose it.
 
+Scale the stakes for a moment. Los Angeles County has more Medicare beneficiaries than any other county in the country, one point seven million people, in the most recent federal count, nearly double the next highest county. For the purposes of this specific program, all of that runs through one hospital's participation.
+
 There are reasonable readings of that decision. A hospital with nine years of bundled payment experience already has the discharge planning, the post-acute relationships, and the cost data the model rewards, so the marginal cost of participating is low and the potential upside is real. There is also a strategic reading: the skills this program demands are ones Medicare has signaled it will require everywhere soon enough, and building them under a program you chose is easier than building them under one imposed on you.
+
+There's no public record of how CJR specifically performed for Cedars-Sinai, Medicare doesn't publish hospital-level results under that program, and the hospital hasn't said. What is on the record is a different bundle: Cedars-Sinai has run its own orthopedic program under BPCI Advanced, a related but separate Medicare model, since January twenty twenty-one, and has said publicly that it moved that program from a penalty to a bonus. That isn't evidence about CJR, and it isn't a stated reason for the TEAM decision, but it does mean the hospital had recent, direct, and by its own account successful experience with exactly the kind of financial structure TEAM asks for, on top of nine years spent living under CJR's version of the same idea.
 
 Los Angeles didn't escape. It got deferred.
 
@@ -86,12 +92,14 @@ The last point is the one that matters most for anyone running a hospital in a m
 
 Medicare has already finalized a second mandatory bundled payment program, this one specifically for joint replacement, starting January first, twenty twenty-eight. It is nationwide. It covers essentially every acute care hospital in the country that is not already in the current program, which is to say, it is aimed squarely at the markets the lottery passed over.
 
+The timing is worth laying out plainly, because it rules out one explanation before anyone raises it. Cedars-Sinai's CJR run ended December thirty-first, twenty twenty-four. The TEAM voluntary election window opened the next day and closed January thirty-first, twenty twenty-five. The program that will eventually reach the hospitals TEAM's lottery skipped was not proposed until April fourteenth, twenty twenty-six, and wasn't finalized until that July. When Cedars-Sinai signed on to TEAM, that program did not exist yet, not even as a draft.
+
 Its episode window is ninety days, not thirty.
 
 So the practical result of Los Angeles losing the draw is not exemption. It is a two-year delay, followed by enrollment in a program with an accountability window three times longer. Hospitals in the Bay Area will spend those two years learning to manage a thirty-day window. Hospitals in Los Angeles will start in twenty twenty-eight on a ninety-day one.
 
 The one Los Angeles hospital that volunteered is exempt from the twenty twenty-eight program, because participation in the current one excludes you from it.
 
-Whether that was the reasoning, only Cedars-Sinai knows. But it is, at minimum, a defensible bet.
+Put all of it together and the shape of the case is unusual, not sinister. A stratified lottery left Los Angeles off the mandatory list. A narrow eligibility rule, built around metro area status and prior bundled payment history, is what let one hospital back onto the roster anyway. That hospital has recent, documented experience turning a comparable bundle profitable, though not this one, and not for this reason. And the program it might otherwise look like it was avoiding did not exist yet when it signed the paperwork. What's left is a single hospital carrying the entire program's footprint for the country's largest Medicare enrollment county and its second largest metro area, an outcome nobody designed, that one hospital chose to be part of anyway.
 
 The full article, with sources and the underlying hospital roster, is on the Rainfall Health site.

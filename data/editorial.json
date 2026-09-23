@@ -42,9 +42,9 @@
     "why_hospitals": "NY\u2013NJ metro overlap"
   },
   "NY": {
-    "medicare": "See state guide",
-    "hrrp": "Cited in state guide (CMS HRRP)",
-    "lejr": "See state guide",
+    "medicare": "Not computed in this pipeline",
+    "hrrp": "48.7% vs 48.1% national (essentially at parity)",
+    "lejr": "Not published at hospital level",
     "why_hospitals": "Largest single-state TEAM market"
   },
   "PA": {

@@ -1,0 +1,208 @@
+---
+title: "Why Do Miami, Tampa, and Los Angeles Each Have Only One Hospital in Medicare's TEAM Model?"
+kicker: NEWSLETTER
+author: "Rainfall Health"
+date: "September 2026"
+description: "Three of the country's biggest, most recognizable hospital markets came up almost empty in Medicare's newest mandatory payment program. In every case, the same kind of hospital volunteered to fill the gap."
+draft: false
+engine: knitr
+format:
+  html:
+    title-block-banner: false
+    toc: false
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+    link-external-icon: false
+    fig-align: center
+    lang: en
+    css: styles/report.css
+    format-links: false
+    include-in-header:
+      text: |
+        <style>
+          /* Bare source URLs are unbreakable tokens and force horizontal
+             scroll on phones. The shared .ref-link rule only covers the
+             JS-built references hub, which this article does not use. */
+          a.uri { word-break: break-all; }
+        </style>
+    include-after-body:
+      text: |
+        <script src="scripts/listen-along.js" defer></script>
+    open-graph:
+      title: "Why Do Miami, Tampa, and Los Angeles Each Have Only One Hospital in Medicare's TEAM Model?"
+      description: "Three of the country's biggest, most recognizable hospital markets came up almost empty in Medicare's newest mandatory payment program. In every case, the same kind of hospital volunteered to fill the gap."
+      locale: en_US
+    twitter-card:
+      title: "Why Do Miami, Tampa, and Los Angeles Each Have Only One Hospital in Medicare's TEAM Model?"
+      description: "Three of the country's biggest, most recognizable hospital markets came up almost empty in Medicare's newest mandatory payment program. In every case, the same kind of hospital volunteered to fill the gap."
+      card-style: summary_large_image
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# ---------------------------------------------------------------
+# Reuse the repo's roster loader rather than re-reading the CSV,
+# same pattern as newsletter/why-la-one-team-hospital/index.qmd.
+# Filtered by CCN rather than CBSA label text, since the three
+# hospitals are already known and CCNs don't drift with punctuation.
+# ---------------------------------------------------------------
+
+.d <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+for (.i in 1:6) {
+  if (file.exists(file.path(.d, "R", "00_setup.R"))) break
+  .p <- dirname(.d)
+  if (identical(.p, .d)) stop("Could not find rainfall-reports repo root.")
+  .d <- .p
+}
+source(file.path(.d, "R", "00_setup.R"))
+source(file.path(.d, "R", "01_load_data.R"))
+
+roster <- flatten_roster()
+n_national <- nrow(roster)
+n_vol_natl <- sum(roster$participation == "Voluntary", na.rm = TRUE)
+
+three <- roster[roster$ccn %in% c("050625", "100127", "100284"), ]
+get_row <- function(ccn) three[three$ccn == ccn, ][1, ]
+
+la_row    <- get_row("050625")
+tampa_row <- get_row("100127")
+miami_row <- get_row("100284")
+
+la_hospital    <- tools::toTitleCase(tolower(la_row$hospital))
+tampa_hospital <- tools::toTitleCase(tolower(tampa_row$hospital))
+miami_hospital <- tools::toTitleCase(tolower(miami_row$hospital))
+
+num_word <- function(n) {
+  words <- c("one", "two", "three", "four", "five", "six",
+             "seven", "eight", "nine", "ten", "eleven", "twelve")
+  if (!is.na(n) && n >= 1 && n <= length(words)) words[n] else format(n, big.mark = ",")
+}
+n_vol_natl_word      <- tools::toTitleCase(num_word(n_vol_natl))  # sentence-initial
+n_vol_natl_word_lower <- num_word(n_vol_natl)                      # mid-sentence
+
+roster_label <- (team_roster_provenance()$list_label %||% "CMS TEAM participant list")
+render_date  <- format(Sys.Date(), "%B %e, %Y") |> trimws()
+```
+
+::: {.content-visible when-format="html"}
+::: {.wp-cover}
+![](assets/rainfall-logo.png){.wp-logo}
+
+<p class="wp-kicker">Newsletter</p>
+
+# Why Do Miami, Tampa, and Los Angeles Each Have Only One Hospital in Medicare's TEAM Model?
+
+<p class="wp-dek">Three of the country's biggest, most recognizable hospital markets came up almost empty in Medicare's newest mandatory payment program. In every case, the same kind of hospital volunteered to fill the gap.</p>
+
+<p class="wp-meta">Rainfall Health · September 2026</p>
+:::
+
+<div class="wp-listen-card">
+<audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
+<div class="wp-listen-panel">
+<div class="wp-listen-grid">
+<div class="wp-listen-main">
+<p class="wp-listen-kicker">Rainfall Health · Narration</p>
+<p class="wp-listen-title">Listen while you read</p>
+<div class="wp-listen-toolbar">
+<button type="button" class="wp-play" data-action="play-pause" aria-label="Play" aria-pressed="false"><span class="wp-play-glyph" aria-hidden="true"></span></button>
+<button type="button" class="wp-icon-btn" data-action="back-15" aria-label="Back 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M9 7v4H4l5 5V7z"/><path d="M13 7a5 5 0 1 1 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<button type="button" class="wp-icon-btn wp-speed-btn" data-action="speed-dial" aria-label="Playback speed 1×"><span data-role="speed-label">1×</span></button>
+<button type="button" class="wp-icon-btn" data-action="forward-15" aria-label="Forward 15 seconds"><svg class="wp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M15 7v4h5l-5 5V7z"/><path d="M11 7a5 5 0 1 0 0 10"/></svg><span class="wp-icon-tag">15</span></button>
+<span class="wp-time" aria-live="polite"><span data-role="time-current">00:00</span> / <span data-role="time-duration">00:00</span></span>
+</div>
+<input type="range" class="wp-seek" data-action="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+</div>
+</div>
+</div>
+</div>
+
+<div class="wp-action-bar">
+<a class="wp-action" href="index-narration.txt" download="index-narration.txt">Narration script</a>
+</div>
+:::
+
+Los Angeles has one hospital in Medicare's newest mandatory payment program. That fact alone is strange enough to write about — it's the country's second-largest metro area, and it's represented by a single hospital that didn't even have to be there.
+
+It turns out Los Angeles isn't alone in being alone. Miami has exactly one hospital in the same program. So does Tampa. All three are among the biggest, best-known hospital markets in the country. All three came up with a single participant. And in all three cases, that one hospital is there because it volunteered, not because Medicare required it.
+
+Three cities, three near-total absences, three volunteers. That's not a coincidence anymore. It's a pattern, and the pattern has a specific, traceable cause.
+
+## What the program asks of a hospital
+
+The program is the Transforming Episode Accountability Model, TEAM for short. It's a five-year Medicare initiative that makes a hospital financially responsible for everything that happens to a patient for thirty days after five kinds of surgery — hip and knee replacement, spinal fusion, heart bypass, hip fracture repair, and major bowel surgery. Spend more than Medicare expected across that window, or have the patient come back in, and the hospital's number moves. It is mandatory for the hospitals selected, and there is no opting out once selected.
+
+`r n_national` hospitals were selected this way. None of them applied. Medicare simply divided the country into metropolitan and micropolitan areas and drew 188 of roughly 803 eligible ones, using stratified random sampling weighted by a handful of characteristics. Every hospital sitting inside a drawn area was in. Every hospital outside one wasn't, with one narrow exception: a small number of hospitals outside the selected areas were allowed to join anyway, if they qualified. `r n_vol_natl_word` did, nationwide.
+
+Three of those `r n_vol_natl_word_lower` volunteers are the one-hospital cities this piece is about.
+
+## The same shape, three times
+
+`r la_hospital` represents all of Los Angeles. `r miami_hospital` represents all of Miami. `r tampa_hospital` represents all of Tampa. Each metro area has dozens of acute-care hospitals. Each has exactly one on the TEAM roster, and in each case it's the same story: the metro's area wasn't drawn into the mandatory list, and one hospital opted in through the program's narrow voluntary pathway.
+
+That pathway has a specific eligibility rule, and it's the same rule behind all three cases. A hospital can volunteer only if its metro area is outside the mandatory list, and only if it already ran a mandatory bundle of its own — either the Comprehensive Care for Joint Replacement model, CJR, through its last day, December 31, 2024, or a related program called BPCI Advanced through December 31, 2025. All three hospitals here qualify on the CJR side.
+
+This is where the pattern gets harder to wave off as chance. CMS's own CJR hospital-list spreadsheets, cross-checked directly rather than taken from a summary, show all three hospitals were mandatory CJR participants for years, right up to the program's final months. `r la_hospital` (CCN 050625) is on both the pre-2018 list and CMS's July 2024 list — nine straight years. `r tampa_hospital` (CCN 100127) is on both. `r miami_hospital` (CCN 100284) is on both too, though it shows up under a different name on the earlier one: it was Westchester General Hospital before the Keralty Group acquired it in 2020.
+
+So all three were mandatory CJR hospitals for essentially the program's entire run, in metro areas that CMS's 2018 restructuring specifically kept mandatory — the tier reserved for the markets with the highest historical episode spending in the country. Then, when TEAM's lottery drew its 188 areas, none of these three metros came up. And in every one of the three, a hospital that had just spent nine years under one mandatory bundle used the narrow window CMS left open to step into the next one, voluntarily, while the market around it sat out.
+
+## The scale of what one hospital is standing in for
+
+It's worth being precise about how much ground a single hospital is covering in each case, because the three cities aren't the same size.
+
+Los Angeles is the second-largest metro area in the country, behind only New York. Miami is sixth-largest, ahead of Atlanta and Washington, D.C. Tampa is seventeenth. Measured by Medicare enrollment across the counties each metro area covers, Los Angeles' footprint runs to roughly 2.3 million beneficiaries, Miami's to about 1.3 million, and Tampa's to about 770,000. Three very different scales, and in every one of them, TEAM's entire footprint is a single hospital's participation.
+
+That's the part that makes this more than a quirky coincidence. A lottery that happens to skip one huge market is a story. A lottery that skips three of the country's biggest markets, in a way that traces back to the exact same eligibility mechanism each time, is a pattern in how the selection interacts with prior bundled-payment history — even though nothing about the draw itself targeted these cities by name.
+
+## No hospital has said why
+
+None of the three has published anything explaining the decision. Medicare doesn't release hospital-level results from CJR, and none of `r la_hospital`, `r tampa_hospital`, or `r miami_hospital` has said publicly why it chose to keep going under a new program the moment the old one ended. That's true across all three cases, not just one, which suggests the honest answer isn't a hospital-specific secret. It's a structural one: nine years of running discharge planning and cost tracking under a mandatory bundle leaves a hospital with the infrastructure to do it again cheaply, whatever the individual reasoning was.
+
+## The one that got them all excluded is coming for them anyway
+
+None of the three markets actually escaped anything. Medicare has already finalized a second mandatory bundled-payment program, this one specifically for joint replacement, starting January 1, 2028, nationwide, on a 90-day window instead of 30. It reaches essentially every acute-care hospital not already in TEAM — which is precisely the hospitals in Los Angeles, Miami, and Tampa that the lottery passed over the first time.
+
+The three volunteers are exempt from that program, because participating in TEAM already excludes a hospital from it. So the practical effect of all three lottery misses is the same: a two-year deferral, then a landing in a longer, harder version of the same idea, for every hospital in these three markets except the one that already opted into the shorter one.
+
+Put the pieces together and none of it reads as coincidence. A stratified lottery skipped three of the biggest hospital markets in the country. All three had spent nine years under the same prior mandatory program, in the tier CMS had deliberately weighted away from resampling. In every one, a single hospital used the same narrow rule to opt back in anyway, without explaining why. And in every one, the market it stepped in for is now deferred, not exempt, from a longer program arriving in 2028. Three cities, one mechanism, working exactly the way it was built to work — just not the way most people would guess from the outside.
+
+---
+
+::: {.wp-disclaimer}
+**About the data.** Hospital and participation figures in this article are computed at render time from the `r roster_label`, the same file Medicare publishes as the official TEAM participant roster. CJR hospital-list figures are read directly from CMS's own hospital-list spreadsheets (cited below); Census and Medicare-enrollment figures are read directly from the primary Census Bureau and CMS datasets cited below. Built `r render_date`.
+
+**Disclaimer.** Rainfall Health is not a hospital, health system, or health care provider. This article is prepared by health care industry professionals, not clinicians, and does not constitute clinical, legal, financial, or regulatory advice. It does not assess, rate, or make claims about the quality of care provided by any individual hospital or organization.
+:::
+
+## Sources
+
+Centers for Medicare & Medicaid Services. (2026). *Transforming Episode Accountability Model participant list* (`r roster_label`). <https://www.cms.gov/team-model-participant-list>
+
+Centers for Medicare & Medicaid Services. *Transforming Episode Accountability Model (TEAM)*. <https://www.cms.gov/priorities/innovation/innovation-models/team-model>
+
+Centers for Medicare & Medicaid Services. (2024). *Hospital inpatient prospective payment systems for acute care hospitals, fiscal year 2025 rates* (Final rule). 89 Fed. Reg. 68986. Establishes the selected core-based statistical areas and the stratified sampling methodology. <https://www.federalregister.gov/d/2024-17021>
+
+Centers for Medicare & Medicaid Services. *Comprehensive Care for Joint Replacement (CJR) Model*. Ran April 2016 through December 31, 2024. <https://www.cms.gov/priorities/innovation/innovation-models/cjr>
+
+Centers for Medicare & Medicaid Services. *List of CJR hospitals, updated December 1, 2017* (pre-February 2018 mandatory list). Confirms CCN 100127 (Morton Plant Hospital, Tampa-St. Petersburg-Clearwater, FL) and CCN 100284 (Westchester General Hospital, Miami-Fort Lauderdale-West Palm Beach, FL) as mandatory CJR participants. <https://www.cms.gov/files/document/cjr-hospitallist-pre0218xlsx.xlsx>
+
+Centers for Medicare & Medicaid Services. *CJR Model Hospital List, updated July 1, 2024*. Confirms the same two CCNs remained mandatory participants through the program's final months; CCN 100284 appears under its current name, Keralty Hospital. <https://www.cms.gov/files/document/cjr-hospitallist-jul2024xls.xlsx>
+
+Commercial Observer. (2022, April). *Former Westchester General Hospital to open outpost nearby*. On the Keralty Group's 2020 acquisition of Westchester General Hospital. <https://commercialobserver.com/2022/04/former-westchester-general-hospital-to-open-outpost-nearby/>
+
+*Voluntary opt-in participation*, 42 C.F.R. § 512.510 (2026). Sets the two-part eligibility test for opting into TEAM. <https://www.law.cornell.edu/cfr/text/42/512.510>
+
+Centers for Medicare & Medicaid Services. (2026). *Medicare program; hospital inpatient prospective payment systems for acute care hospitals and the long-term care hospital prospective payment system and policy changes and fiscal year 2027 rates* (Final rule, CMS-1849-F). 91 Fed. Reg. 49570. Finalizes the CJR-X model, effective January 1, 2028. <https://www.federalregister.gov/d/2026-15833>
+
+U.S. Census Bureau. (2025). *Vintage 2024 population and housing unit estimates for metropolitan and micropolitan statistical areas*. Ranks Los Angeles-Long Beach-Anaheim 2nd (12,927,614), Miami-Fort Lauderdale-West Palm Beach 6th (6,457,988), and Tampa-St. Petersburg-Clearwater 17th (3,424,560) among U.S. metro areas. <https://www.census.gov/newsroom/press-releases/2025/population-estimates-counties-metro-micro.html>
+
+Centers for Medicare & Medicaid Services. *Medicare Geographic Variation — by National, State & County* (calendar year 2024 public use file). County-level Medicare beneficiary counts underlying the metro-area enrollment totals in this article. <https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-geographic-comparisons/medicare-geographic-variation-by-national-state-county>
+
+Further reading on the model is available at [rainfallhealth.com/cms-team](https://www.rainfallhealth.com/cms-team/).

@@ -1,0 +1,108 @@
+ccn,hospital,system_id,system_label
+050002,ST ROSE HOSPITAL,independent,Independent / other
+050006,PROVIDENCE ST JOSEPH HOSPITAL,providence,Providence
+050007,MILLS-PENINSULA MEDICAL CENTER,sutter_health,Sutter Health
+050008,CALIFORNIA PACIFIC MEDICAL CTR-DAVIES CAMPUS HOSP,sutter_health,Sutter Health
+050022,RIVERSIDE COMMUNITY HOSPITAL,independent,Independent / other
+050024,PARADISE VALLEY HOSPITAL,independent,Independent / other
+050025,UC SAN DIEGO HEALTH HILLCREST - HILLCREST MED CTR,university_of_california,University of California
+050026,GROSSMONT HOSPITAL,independent,Independent / other
+050028,MAD RIVER COMMUNITY HOSPITAL,independent,Independent / other
+050036,BAKERSFIELD MEMORIAL HOSPITAL,independent,Independent / other
+050038,SANTA CLARA VALLEY MEDICAL CENTER,independent,Independent / other
+050043,ALTA BATES SUMMIT MEDICAL CENTER,sutter_health,Sutter Health
+050047,CALIFORNIA PACIFIC MEDICAL CENTER- VAN NESS CAMPUS,sutter_health,Sutter Health
+050054,SAN GORGONIO MEMORIAL HOSPITAL,independent,Independent / other
+050055,CALIFORNIA PACIFIC MEDICAL CENTER - MISSION BERNAL,sutter_health,Sutter Health
+050070,KAISER FOUNDATION HOSPITAL - SOUTH SAN FRANCISCO,kaiser_permanente,Kaiser Permanente
+050071,KAISER FOUNDATION HOSPITAL-SANTA CLARA,kaiser_permanente,Kaiser Permanente
+050072,KAISER FOUNDATION HOSPITAL - WALNUT CREEK,kaiser_permanente,Kaiser Permanente
+050075,KAISER FOUNDATION HOSPITAL - OAKLAND/RICHMOND,kaiser_permanente,Kaiser Permanente
+050076,KAISER FOUNDATION HOSPITAL - SAN FRANCISCO,kaiser_permanente,Kaiser Permanente
+050077,SCRIPPS MERCY HOSPITAL,scripps_health,Scripps Health
+050089,COMMUNITY HOSPITAL OF SAN BERNARDINO,independent,Independent / other
+050090,SONOMA VALLEY HOSPITAL,independent,Independent / other
+050099,SAN ANTONIO REGIONAL HOSPITAL,independent,Independent / other
+050100,SHARP MEMORIAL HOSPITAL,sharp_healthcare,Sharp HealthCare
+050102,"DOCTORS HOSPITAL OF RIVERSIDE, LLC",independent,Independent / other
+050113,SAN MATEO MEDICAL CENTER,independent,Independent / other
+050115,PALOMAR HEALTH DOWNTOWN CAMPUS,palomar_health,Palomar Health
+050121,ADVENTIST HEALTH HANFORD,adventist_health,Adventist Health
+050128,TRI-CITY MEDICAL CENTER,independent,Independent / other
+050129,ST BERNARDINE MEDICAL CENTER,independent,Independent / other
+050131,NOVATO COMMUNITY HOSPITAL,sutter_health,Sutter Health
+050136,PETALUMA VALLEY HOSPITAL,independent,Independent / other
+050140,KAISER FOUNDATION HOSPITAL FONTANA,kaiser_permanente,Kaiser Permanente
+050152,UCSF HEALTH SAINT FRANCIS HOSPITAL,university_of_california,University of California
+050174,PROVIDENCE SANTA ROSA MEMORIAL HOSPITAL,providence,Providence
+050180,JOHN MUIR MEDICAL CENTER - WALNUT CREEK CAMPUS,john_muir_health,John Muir Health
+050195,WASHINGTON HOSPITAL,independent,Independent / other
+050197,SEQUOIA HOSPITAL,sutter_health,Sutter Health
+050211,ALAMEDA HOSPITAL,independent,Independent / other
+050222,SHARP CHULA VISTA MEDICAL CENTER,sharp_healthcare,Sharp HealthCare
+050228,ZUCKERBERG SAN FRANCISCO GENERAL HOSP & TRAUMA CTR,independent,Independent / other
+050232,FRENCH HOSPITAL MEDICAL CENTER,independent,Independent / other
+050234,SHARP CORONADO HOSPITAL AND HLTHCR CTR,sharp_healthcare,Sharp HealthCare
+050243,DESERT REGIONAL MEDICAL CENTER,independent,Independent / other
+050245,ARROWHEAD REGIONAL MEDICAL CENTER,independent,Independent / other
+050257,"GOOD SAMARITAN HOSPITAL, LP",independent,Independent / other
+050272,REDLANDS COMMUNITY HOSPITAL,independent,Independent / other
+050276,CONTRA COSTA REGIONAL MEDICAL CENTER,independent,Independent / other
+050279,HI-DESERT MEDICAL CENTER,independent,Independent / other
+050283,STANFORD HEALTH CARE TRI-VALLEY,stanford_medicine,Stanford Medicine
+050289,AHMC SETON MEDICAL CENTER,independent,Independent / other
+050291,SUTTER SANTA ROSA REGIONAL HOSPITAL,sutter_health,Sutter Health
+050292,RIVERSIDE UNIVERSITY HEALTH SYSTEM-MEDICAL CENTER,independent,Independent / other
+050295,MERCY HOSPITAL,independent,Independent / other
+050298,BARSTOW COMMUNITY HOSPITAL,independent,Independent / other
+050300,PROVIDENCE ST MARY MEDICAL CENTER,providence,Providence
+050305,ALTA BATES SUMMIT MEDICAL CENTER - ALTA BATES CAMP,sutter_health,Sutter Health
+050308,EL CAMINO HEALTH,el_camino_health,El Camino Health
+050315,KERN MEDICAL CENTER,independent,Independent / other
+050320,HIGHLAND HOSPITAL,independent,Independent / other
+050324,SCRIPPS MEMORIAL HOSPITAL LA JOLLA,scripps_health,Scripps Health
+050327,LOMA LINDA UNIVERSITY MEDICAL CENTER,loma_linda_university_health,Loma Linda University Health
+050329,CORONA REGIONAL MEDICAL CENTER,independent,Independent / other
+050360,MARINHEALTH MEDICAL CENTER,sutter_health,Sutter Health
+050380,GOOD SAMARITAN HOSPITAL,independent,Independent / other
+050390,HEMET GLOBAL MEDICAL CENTER,independent,Independent / other
+050407,CHINESE HOSPITAL,independent,Independent / other
+050417,SUTTER COAST HOSPITAL,sutter_health,Sutter Health
+050424,SCRIPPS GREEN HOSPITAL,scripps_health,Scripps Health
+050441,STANFORD HEALTH CARE,stanford_medicine,Stanford Medicine
+050454,UCSF MEDICAL CENTER,university_of_california,University of California
+050455,ADVENTIST HEALTH BAKERSFIELD,adventist_health,Adventist Health
+050457,UCSF HEALTH ST. MARY'S HOSPITAL,university_of_california,University of California
+050488,EDEN MEDICAL CENTER,sutter_health,Sutter Health
+050496,JOHN MUIR MEDICAL CENTER - CONCORD CAMPUS,john_muir_health,John Muir Health
+050503,SCRIPPS MEMORIAL HOSPITAL - ENCINITAS,scripps_health,Scripps Health
+050506,ADVENTIST HEALTH SIERRA VISTA,adventist_health,Adventist Health
+050510,KAISER FOUNDATION HOSPITAL,kaiser_permanente,Kaiser Permanente
+050512,KAISER FOUNDATION HOSPITAL - FREMONT,kaiser_permanente,Kaiser Permanente
+050515,KAISER FOUNDATION HOSPITAL - ZION,kaiser_permanente,Kaiser Permanente
+050517,VICTOR VALLEY GLOBAL MEDICAL CENTER,independent,Independent / other
+050523,SUTTER DELTA MEDICAL CENTER,sutter_health,Sutter Health
+050534,JOHN F KENNEDY MEMORIAL HOSPITAL,independent,Independent / other
+050541,KAISER FOUNDATION HOSPITAL - REDWOOD CITY,kaiser_permanente,Kaiser Permanente
+050573,EISENHOWER MEDICAL CENTER,independent,Independent / other
+050586,CHINO VALLEY MEDICAL CENTER,independent,Independent / other
+050604,KAISER FOUNDATION HOSPITAL-SAN JOSE,kaiser_permanente,Kaiser Permanente
+050608,ADVENTIST HEALTH DELANO,adventist_health,Adventist Health
+050625,CEDARS-SINAI MEDICAL CENTER,independent,Independent / other
+050633,ADVENTIST HEALTH TWIN CITIES,adventist_health,Adventist Health
+050636,PALOMAR MEDICAL CENTER POWAY,palomar_health,Palomar Health
+050668,LAGUNA HONDA HOSPITAL & REHABILITATION CENTER,independent,Independent / other
+050684,MENIFEE GLOBAL MEDICAL CENTER,independent,Independent / other
+050686,"KAISER FOUNDATION HOSPITAL, RIVERSIDE",kaiser_permanente,Kaiser Permanente
+050689,SAN RAMON REGIONAL MEDICAL CENTER,independent,Independent / other
+050690,KAISER FOUNDATION HOSPITAL-SANTA ROSA,kaiser_permanente,Kaiser Permanente
+050701,SOUTHWEST HEALTHCARE RANCHO SPRINGS HOSPITAL,independent,Independent / other
+050709,DESERT VALLEY HOSPITAL,independent,Independent / other
+050758,MONTCLAIR HOSPITAL MEDICAL CENTER,independent,Independent / other
+050760,KAISER FOUNDATION HOSPITAL - ANTIOCH,kaiser_permanente,Kaiser Permanente
+050765,KAISER FOUNDATION HOSPITAL-MORENO VALLEY,kaiser_permanente,Kaiser Permanente
+050770,LOMA LINDA UNIVERSITY MEDICAL CENTER-MURRIETA,loma_linda_university_health,Loma Linda University Health
+050775,TEMECULA VALLEY HOSPITAL,independent,Independent / other
+050777,KAISER FOUNDATION HOSPITAL - SAN LEANDRO,kaiser_permanente,Kaiser Permanente
+050778,LOMA LINDA UNIVERSITY CHILDREN'S HOSPITAL,loma_linda_university_health,Loma Linda University Health
+050855,KAISER FOUNDATION HOSPITAL - SAN MARCOS,kaiser_permanente,Kaiser Permanente

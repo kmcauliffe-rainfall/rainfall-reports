@@ -5,7 +5,9 @@
   if (!audio) return;
 
   var SKIP = 15;
-  var SPEEDS = [0.75, 1, 1.25, 1.5, 1.75, 2];
+  // Cycle order: normal speed, then progressively faster, with half speed as
+  // the last stop before wrapping back around to normal.
+  var SPEEDS = [1, 1.25, 1.5, 1.75, 2, 0.5];
   var STORAGE_KEY = "wp-audio-rate";
 
   function $(sel, root) {

@@ -1,0 +1,17 @@
+# Newsletter article project. HTML only — no Typst/PDF pass.
+# Run tools/link_report_assets.sh once so assets/, fonts/, and styles/ exist.
+project:
+  type: default
+  output-dir: .
+  render:
+    - index.qmd
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+
+knitr:
+  opts_chunk:
+    dev: png

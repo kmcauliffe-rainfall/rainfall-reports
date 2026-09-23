@@ -60,9 +60,6 @@ execute:
 <audio id="wp-audio" src="audio/index-narration.mp3" preload="metadata"></audio>
 <div class="wp-listen-panel">
 <div class="wp-listen-grid">
-<div class="wp-listen-art">
-<img src="assets/rainfall-logo.png" width="88" height="88" alt="">
-</div>
 <div class="wp-listen-main">
 <p class="wp-listen-kicker">Rainfall Health · Narration</p>
 <p class="wp-listen-title">Listen while you read</p>
