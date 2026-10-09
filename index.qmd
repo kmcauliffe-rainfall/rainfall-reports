@@ -1,0 +1,44 @@
+---
+title: "CMS TEAM Impact Report"
+page-layout: full
+format:
+  html:
+    toc: false
+---
+
+```{r}
+#| include: false
+source("R/facsimile_helpers.R")
+```
+
+::: {.hero-band}
+# CMS TEAM Impact Report · Rebuild portfolio
+
+Five timeline-ordered versions of Rainfall Health’s **CMS TEAM Impact Report** — from Annabelle’s **Jun 25, 2026** Word draft through the **Jul 27 published** PDF, audit redlines, and the **market-ready corrected final** (data-driven, fully cited).
+
+[Compare versions](compare.qmd){.btn-rain} [Audit materials](audit-materials.qmd){.btn-rain-outline}
+:::
+
+## Timeline
+
+```{=html}
+<div class="row g-3">
+<div class="col-md-4 col-lg-2"><div class="timeline-card"><div class="ver-num">Version 1</div><h3>Jun 25 draft</h3><p>Word draft as written — before Kyle’s citation pass. Reference-list author unconfirmed.</p><a class="btn-rain" href="versions/v1-jun25-draft.html">HTML</a><a class="btn-rain-outline" href="versions/v1-jun25-draft.pdf">PDF</a></div></div>
+<div class="col-md-4 col-lg-2"><div class="timeline-card"><div class="ver-num">Version 2</div><h3>Pre-publication redline</h3><p>Jun 25 → Jul 27 edits marked up (insertions, deletions, margin notes with attribution where known).</p><a class="btn-rain" href="versions/v2-redline-prepub.html">HTML</a><a class="btn-rain-outline" href="versions/v2-redline-prepub.pdf">PDF</a></div></div>
+<div class="col-md-4 col-lg-2"><div class="timeline-card"><div class="ver-num">Version 3</div><h3>Published Jul 27</h3><p>Facsimile of the Canva PDF (11 pages, US Letter) — errors preserved.</p><a class="btn-rain" href="versions/v3-published-jul27.html">HTML</a><a class="btn-rain-outline" href="versions/v3-published-jul27.pdf">PDF</a></div></div>
+<div class="col-md-4 col-lg-2"><div class="timeline-card"><div class="ver-num">Version 4</div><h3>Audit redline</h3><p>Published report with every audit fix marked; notes cite timing (wrong at pub / outdated / internal).</p><a class="btn-rain" href="versions/v4-redline-audit.html">HTML</a><a class="btn-rain-outline" href="versions/v4-redline-audit.pdf">PDF</a></div></div>
+<div class="col-md-4 col-lg-2"><div class="timeline-card"><div class="ver-num">Version 5</div><h3>Final</h3><p>All fixes applied; numbers from raw CMS/AHRQ/Census files; Vancouver superscript refs. No audit markup.</p><a class="btn-rain" href="versions/v5-final.html">HTML</a><a class="btn-rain-outline" href="versions/v5-final.pdf">PDF</a></div></div>
+</div>
+```
+
+## Reference & QA
+
+| Resource | Description |
+| --- | --- |
+| [Compare view](compare.qmd) | Side-by-side facsimile pages (e.g. v1 vs v3, v3 vs v5) |
+| [Decisions](decisions.qmd) | Judgment calls for Kyle to approve (checkbox list) |
+| [Calculations](calculations.qmd) | How each computed number was derived (not in v5 body) |
+| [Sources](sources.qmd) | `MANIFEST.md` — URLs, retrieval dates, downloads |
+| [Audit deck & summary](audit-materials.qmd) | 32-slide PPTX, 3-page PDF, narrated video link |
+
+**Local preview:** from `reports/cms-team-impact/`, run `bash scripts/stage_assets.sh && quarto preview` (see [README.md](README.md)).

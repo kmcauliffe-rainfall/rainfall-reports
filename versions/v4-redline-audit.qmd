@@ -1,0 +1,46 @@
+---
+title: "Version 4 · Audit redline"
+subtitle: "Published → corrected final (all audit fixes marked)"
+format:
+  html:
+    toc: false
+---
+
+```{r}
+#| include: false
+source("../R/facsimile_helpers.R")
+source("../R/impact_metrics.R")
+m <- compute_impact_metrics()
+```
+
+::: {.facsimile-toolbar}
+::: {.facsimile-meta}
+Margin notes tag **wrong at publication**, **outdated** (CJR-X only), **never existed**, or **internal**. Corrected values shown in **red**; computed numbers from data: CA **`r m$n_ca`**, CJR-X **`r m$n_cjrx`**, Track 3 cap **`r m$track3_cap_pct`%**.
+:::
+[Download PDF](v4-redline-audit.pdf){.btn-rain}
+:::
+
+::: {.facsimile-stack}
+```{r}
+#| echo: false
+#| results: asis
+html <- render_facsimile_html("v4")
+ov <- sprintf(
+  '<div class="rl-layer"><div class="rl-bubble" style="top:10%%;right:1%%;"><span class="rl-who">Audit #1 · wrong at pub</span><span class="rl-del">±30%% / 60 pts</span> <span class="rl-ins">±20%% cap every PY (40 pt spread)</span><span class="rl-tag">CMS-1808-F</span></div></div>'
+)
+html <- sub('id="page-1">', paste0('id="page-1">', ov), html, fixed = TRUE)
+ov8 <- sprintf(
+  '<div class="rl-layer"><div class="rl-bubble" style="top:15%%;right:1%%;"><span class="rl-who">Audit #6</span><span class="rl-del">110 hospitals / 26 counties</span> <span class="rl-ins">%d hospitals / %d metro areas</span><span class="rl-tag">CMS list</span></div></div>',
+  m$n_ca, m$n_ca_cbsa
+)
+html <- sub('id="page-8">', paste0('id="page-8">', ov8), html, fixed = TRUE)
+ov3 <- sprintf(
+  '<div class="rl-layer"><div class="rl-bubble" style="top:20%%;right:1%%;"><span class="rl-who">Audit #13 · outdated after Jul 31</span>CJR-X <span class="rl-del">Oct 2027 / 2,500+</span> <span class="rl-ins">Jan 1, 2028 / %s hospitals</span><span class="rl-tag">CMS-1849-F</span></div></div>',
+  format(m$n_cjrx, big.mark = ",")
+)
+html <- sub('id="page-3">', paste0('id="page-3">', ov3), html, fixed = TRUE)
+cat(html)
+```
+:::
+
+See [Decisions](../decisions.qmd) for judgment calls not strictly dictated by the audit.

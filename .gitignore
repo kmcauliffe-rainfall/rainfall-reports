@@ -1,0 +1,16 @@
+_site/
+renv/library/
+renv/staging/
+renv/sandbox/
+.netlify/
+netlify/
+.quarto/
+**/*.knit.md
+**/*.rmarkdown
+.Rproj.user
+.DS_Store
+_*.typ
+
+/.quarto/
+**/*.quarto_ipynb
+_fonttest*

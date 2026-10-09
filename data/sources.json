@@ -1,0 +1,25 @@
+{
+  "retrieved": "2026-10-09",
+  "files": {
+    "team_participant_list.xlsx": {
+      "url": "https://www.cms.gov/team-model-participant-list",
+      "description": "CMS TEAM participant list (authoritative roster)",
+      "path": "data/team_participant_list.xlsx"
+    },
+    "cjrx_participant_list.xlsx": {
+      "url": "https://www.cms.gov/priorities/innovation/files/cjrx-participant-list.xlsx",
+      "description": "CJR-X participant list",
+      "path": "data/cjrx_participant_list.xlsx"
+    },
+    "team_py1_prelim_target_prices.xlsx": {
+      "url": "https://www.cms.gov/priorities/innovation/files/team-py1-prlim-target-prices.xlsx",
+      "description": "CMS TEAM PY1 preliminary target prices",
+      "path": "data/team_py1_prelim_target_prices.xlsx"
+    },
+    "census_np2023_t2.xlsx": {
+      "url": "https://www2.census.gov/programs-surveys/popproj/tables/2023/2023-summary-tables/np2023-t2.xlsx",
+      "description": "U.S. Census Bureau 2023 National Population Projections, Table 2",
+      "path": "data/census_np2023_t2.xlsx"
+    }
+  }
+}

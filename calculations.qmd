@@ -1,0 +1,45 @@
+---
+title: "How each number was calculated"
+format:
+  html:
+    toc: true
+---
+
+```{r}
+#| include: false
+source("R/impact_metrics.R")
+source("R/validate_impact_metrics.R")
+m <- compute_impact_metrics()
+validate_impact_metrics(m)
+root <- normalizePath(".", winslash = "/", mustWork = TRUE)
+hcup <- jsonlite::fromJSON(file.path(root, "data/hcup_or_stay_age_shares.json"))
+```
+
+Computed metrics (**render fails** if any value disagrees with audit anchors in `R/validate_impact_metrics.R`).
+
+| Figure / claim | Source file | Filter / formula | Result |
+| --- | --- | --- | --- |
+| TEAM hospital count | `data/team_participant_list.xlsx` | Count rows with Mandatory/Voluntary CCN | **`r m$n_team`** |
+| California hospitals | same | `state == "CA"` | **`r m$n_ca`** |
+| California CBSAs | same | `length(unique(cbsa))` in CA | **`r m$n_ca_cbsa`** |
+| CJR-X hospitals | `data/cjrx_participant_list.xlsx` | Unique 5–6 digit CCNs | **`r m$n_cjrx`** |
+| DRG 331 min target price | `data/team_py1_prelim_target_prices.xlsx` sheet `Prelim_TP_DRG_Reg` | min(`Preliminary Target Price`) where MS-DRG = 331 | **`r sprintf("$%.2f", m$tp_min_331)`** |
+| DRG 426 max target price | same | max(price) where MS-DRG = 426 | **`r sprintf("$%.2f", m$tp_max_426)`** |
+| Track 3 cap | CMS-1808-F / 42 CFR 512.550 | Regulatory constant | **`r m$track3_cap_pct`%** |
+| 65+ share of OR stays | `sources/hcup/sb281-….pdf` + `data/hcup_or_stay_age_shares.json` | Fig 2 “with OR” bars: 65–74 from text + 75+ from chart crop | **`r m$pct_surgical_stays_65plus`%** |
+| 65+ population 2030 / 2050 | `data/census_np2023_t2.xlsx` | Row “.65 years and over”, cols 2030 / 2050 (thousands × 1000) | **`r format(m$pop_2030, big.mark=",")`** / **`r format(m$pop_2050, big.mark=",")`** |
+
+### HCUP extraction detail
+
+- **65–74 with OR:** `r hcup$pct_65_74_with_or`% — `r hcup$methods[["65_74"]]`
+- **75+ with OR:** `r hcup$pct_75_plus_with_or`% — `r hcup$methods[["75_plus"]]`
+
+### Hardcoded (no public data file)
+
+| Claim | Location | Notes |
+| --- | --- | --- |
+| California episode economics ($2.4M median, $14.5M peak, etc.) | v5 body | `config/internal_analysis.yml` — **internal Rainfall analysis** |
+| Five-year $14M+ exposure (non-Advisory) | v5 narrative | Same internal config |
+| $85M platform revenue | v5 narrative | MedCity CEO quote + internal projection label |
+
+Re-run data pull: `python3 scripts/fetch_all_sources.py` · HCUP shares: `python3 scripts/extract_hcup_figure2_shares.py`

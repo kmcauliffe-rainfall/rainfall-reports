@@ -1,0 +1,212 @@
+[
+  {
+    "path": "data/team_participant_list.xlsx",
+    "url": "https://www.cms.gov/team-model-participant-list",
+    "backs": "TEAM hospital counts (national, CA, CBSAs); refs 9, 13; cover stat boxes; Fig scope",
+    "license": "U.S. government work (CMS)",
+    "kind": "data",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 61430
+  },
+  {
+    "path": "data/cjrx_participant_list.xlsx",
+    "url": "https://www.cms.gov/priorities/innovation/files/cjrx-participant-list.xlsx",
+    "backs": "CJR-X hospital count (~2,217); ref 10; background stat box",
+    "license": "U.S. government work (CMS)",
+    "kind": "data",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 96199
+  },
+  {
+    "path": "data/team_py1_prelim_target_prices.xlsx",
+    "url": "https://www.cms.gov/priorities/innovation/files/team-py1-prlim-target-prices.xlsx",
+    "backs": "TEAM PY1 target prices; episode economics context (v5)",
+    "license": "U.S. government work (CMS)",
+    "kind": "data",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 49635
+  },
+  {
+    "path": "data/census_np2023_t2.xlsx",
+    "url": "https://www2.census.gov/programs-surveys/popproj/tables/2023/2023-summary-tables/np2023-t2.xlsx",
+    "backs": "Fig 1 population projections; ref 1; 71M / 82M by 2030/2050",
+    "license": "U.S. government work (Census Bureau)",
+    "kind": "data",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 41139
+  },
+  {
+    "path": "sources/cms/CMS-1808-F-TEAM-final-rule.pdf",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2024-08-28/pdf/2024-17021.pdf",
+    "backs": "Ref 9 (corrected); 20% cap; 188 CBSAs; $481M savings; 30-day episode; CJR mandatory context",
+    "license": "U.S. government work (Federal Register)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 49612911
+  },
+  {
+    "path": "sources/cms/CMS-1849-F-CJR-X-final-rule.pdf",
+    "url": "https://www.govinfo.gov/content/pkg/FR-2026-08-04/pdf/2026-15833.pdf",
+    "backs": "Ref 10 (corrected); CJR-X start Jan 1, 2028",
+    "license": "U.S. government work (Federal Register)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 35326930
+  },
+  {
+    "path": "sources/cms/team-model-overview.html",
+    "url": "https://www.cms.gov/priorities/innovation/innovation-models/team-model",
+    "backs": "TEAM overview; Track 1/3 context; participant count on CMS page",
+    "license": "U.S. government work (CMS)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 208075
+  },
+  {
+    "path": "sources/aamc/physician-workforce-projections-2024.pdf",
+    "url": "https://www.aans.org/wp-content/uploads/2024/05/aamc-2023-workforce-projections-report.pdf",
+    "backs": "Ref 7 (corrected text: 86k / 19.9k surgeons by 2036)",
+    "license": "AAMC report (third-party host copy); verify against aamc.org for redistribution",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 1457394
+  },
+  {
+    "path": "sources/hcup/sb281-operating-room-procedures-2018.pdf",
+    "url": "https://hcup-us.ahrq.gov/reports/statbriefs/sb281-Operating-Room-Procedures-During-Hospitalization-2018.pdf",
+    "backs": "Refs 2, 11; ~37% surgical stays 65+; Fig 2 procedure age shares",
+    "license": "AHRQ HCUP Statistical Brief (public domain U.S. gov)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 545570
+  },
+  {
+    "path": "sources/ajrr/AJRR-2024-Annual-Report.pdf",
+    "url": "https://connect.registryapps.net/hubfs/AJRR/AJRR%202024%20Annual%20Report.pdf",
+    "backs": "Ref 8 (corrected); THA/TKA LOS 3.0\u21921.1 days",
+    "license": "AJRR / AAOS registry report; check AAOS terms for reuse",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 10818222
+  },
+  {
+    "path": "sources/pmc/hewitt-2016-multimorbidity.pdf",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4823401/pdf/",
+    "backs": "Ref 3 (corrected); 74% multimorbidity; 83.7% over 85 (UK cohort)",
+    "license": "PMC open access (BMJ Open); CC BY",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 1817
+  },
+  {
+    "path": "sources/pmc/ho-2022-multimorbidity.html",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9047756/",
+    "backs": "Published ref 3 (wrong source for 74% claim); v1\u2013v3 faithful citation",
+    "license": "PMC open access",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 179370
+  },
+  {
+    "path": "sources/pmc/etzioni-2003-older-adults-discharges.pdf",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1422682/pdf/",
+    "backs": "Published ref 2 (misapplied 40% claim); v1\u2013v3 faithful citation",
+    "license": "PMC open access",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 1817
+  },
+  {
+    "path": "sources/pmc/gill-2022-frailty-surgery.html",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9582971/",
+    "backs": "Ref 4\u20136; frailty / dementia surgical mortality",
+    "license": "PMC open access (JAMA Surg)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 183554
+  },
+  {
+    "path": "sources/pmc/tang-2020-dementia-surgery.html",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7066523/",
+    "backs": "Ref 4\u20136; dementia and surgery",
+    "license": "PMC open access",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 178140
+  },
+  {
+    "path": "sources/pmc/bicket-2024-surgery-prevalence.pdf",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11191855/pdf/",
+    "backs": "New ref (Bicket); 19.4% surgery prevalence 65+",
+    "license": "PMC open access (Ann Surg Open)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 1817
+  },
+  {
+    "path": "sources/pubmed/burnett-2023-medicare-tka-outpatient.html",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/36535441/",
+    "backs": "Ref 8 (corrected); 57.2% Medicare TKA outpatient billing",
+    "license": "PubMed abstract (Elsevier full text may be paywalled)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 5591
+  },
+  {
+    "path": "sources/advisory-board/hospitals-need-to-know-team-2026.html",
+    "url": "https://www.advisory.com/topics/policy-and-payment/hospitals-need-to-know-team",
+    "backs": "Ref 12 (corrected); 56% lose money; $1.2M average",
+    "license": "Advisory Board web content; saved snapshot for citation verification",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 141433
+  },
+  {
+    "path": "sources/acs-iac/team-financial-analysis.html",
+    "url": "https://www.facs.org/advocacy/transforming-episode-accountability-model/",
+    "backs": "Ref 12 / Fig 3; ACS-IAC Table 1 averages; 204,014 cases",
+    "license": "ACS web content; saved snapshot",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 142873
+  },
+  {
+    "path": "sources/medcity/rainfall-health-funding-feb-2026.html",
+    "url": "https://medcitynews.com/2026/02/rainfall-health-funding/",
+    "backs": "Ref 15; company facts; $85M CEO quote (v5 labeled projection)",
+    "license": "MedCity News article snapshot",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "HTTP 403: Forbidden",
+    "bytes": null
+  },
+  {
+    "path": "sources/census/c2020br-07-65plus-growth.pdf",
+    "url": "https://www2.census.gov/library/publications/decennial/2020/census-briefs/c2020br-07.pdf",
+    "backs": "Demographic wave; 40.3M\u219255.8M 2010\u20132020; boomers 65+ by 2030",
+    "license": "U.S. government work (Census Bureau)",
+    "kind": "source",
+    "retrieved": "2026-10-09",
+    "status": "ok",
+    "bytes": 1763183
+  }
+]

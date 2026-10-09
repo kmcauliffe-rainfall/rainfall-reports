@@ -1,0 +1,73 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - compare.qmd
+    - audit-materials.qmd
+    - decisions.qmd
+    - calculations.qmd
+    - sources.qmd
+    - versions/v1-jun25-draft.qmd
+    - versions/v2-redline-prepub.qmd
+    - versions/v3-published-jul27.qmd
+    - versions/v4-redline-audit.qmd
+    - versions/v5-final.qmd
+
+execute:
+  echo: false
+  warning: false
+  message: false
+
+resources:
+  - assets/facsimile/**
+  - sources/**
+  - scripts/compare-view.js
+  - versions/*.pdf
+
+website:
+  title: "CMS TEAM Impact Report"
+  description: "Five-version portfolio — Jun 25 draft through audit-corrected final"
+  site-url: "/"
+  navbar:
+    background: "#203050"
+    foreground: "#f8fafc"
+    logo: assets/rainfall-logo.png
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Versions
+        menu:
+          - href: versions/v1-jun25-draft.qmd
+            text: "1 · Jun 25 draft"
+          - href: versions/v2-redline-prepub.qmd
+            text: "2 · Pre-pub redline"
+          - href: versions/v3-published-jul27.qmd
+            text: "3 · Published Jul 27"
+          - href: versions/v4-redline-audit.qmd
+            text: "4 · Audit redline"
+          - href: versions/v5-final.qmd
+            text: "5 · Final"
+      - href: compare.qmd
+        text: Compare
+      - href: audit-materials.qmd
+        text: Audit
+      - href: decisions.qmd
+        text: Decisions
+      - href: calculations.qmd
+        text: Calculations
+      - href: sources.qmd
+        text: Sources
+  page-footer:
+    center: "Rainfall Health · CMS TEAM Impact Report rebuild · For internal review"
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles/site.scss]
+    css:
+      - styles/impact-report.css
+      - styles/facsimile.css
+      - styles/redline.css
+    toc: false
+    anchor-sections: false

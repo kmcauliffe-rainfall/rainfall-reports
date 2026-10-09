@@ -1,0 +1,13 @@
+---
+title: "Decisions"
+format:
+  html:
+    toc: false
+---
+
+```{r}
+#| results: asis
+#| echo: false
+dec_path <- normalizePath("DECISIONS.md", mustWork = TRUE)
+cat(readLines(dec_path, warn = FALSE), sep = "\n")
+```

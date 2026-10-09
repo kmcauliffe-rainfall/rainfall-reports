@@ -1,0 +1,25 @@
+---
+title: "Compare versions"
+format:
+  html:
+    toc: false
+    include-after-body:
+      text: |
+        <script src="scripts/compare-view.js"></script>
+---
+
+Side-by-side **facsimile pages** (150 DPI PNGs). Defaults: **v1 vs v3** and **v3 vs v5** (v5 uses final HTML sections on page 1 — facsimile assets for chart pages where staged).
+
+::: {#compare-app}
+:::
+
+```{=html}
+<p class="text-muted">Pick two versions and a page number. Images load from <code>assets/facsimile/</code>.</p>
+<div id="compare-controls" class="facsimile-toolbar">
+  <label>Left <select id="cmp-left"><option value="v1-jun25">1 · Jun 25 draft</option><option value="v3-published" selected>3 · Published</option></select></label>
+  <label>Right <select id="cmp-right"><option value="v3-published">3 · Published</option><option value="v5-final" selected>5 · Final</option></select></label>
+  <label>Page <input id="cmp-page" type="number" min="1" max="12" value="1" style="width:4rem"></label>
+  <button type="button" id="cmp-go" class="btn-rain">Show</button>
+</div>
+<div id="compare-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:1100px;margin:1rem auto;"></div>
+```

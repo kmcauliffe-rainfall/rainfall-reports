@@ -1,0 +1,17 @@
+{
+  "california_episode_economics": {
+    "label": "internal Rainfall analysis",
+    "systems_analyzed": 17,
+    "median_five_year_impact_usd": 2400000,
+    "peak_five_year_impact_usd": 14500000,
+    "top_quartile_impact_usd": 8700000
+  },
+  "platform_projections": {
+    "label": "internal Rainfall analysis / CEO statements (MedCity ref 15)",
+    "medicare_revenue_upside_pct": 20,
+    "new_revenue_five_year_usd": 85000000
+  },
+  "rainfall_five_year_exposure_usd": 14000000,
+  "fig4_status_quo_usd": -6000000,
+  "fig4_worst_best_usd": 14500000
+}

@@ -1,0 +1,27 @@
+---
+title: "Version 1 · Jun 25, 2026 draft"
+subtitle: "As written before Kyle's citation edits (reference list author unconfirmed)"
+format:
+  html:
+    toc: false
+---
+
+```{r}
+#| include: false
+source("../R/facsimile_helpers.R")
+```
+
+::: {.facsimile-toolbar}
+::: {.facsimile-meta}
+**12 pages** · Facsimile of LibreOffice render of `00_2026-06-25_Impact-Report-Draft-Rainfall-Health.docx`. Typography: DM Sans + Roboto Mono (see `pdffonts` on source PDF).
+:::
+[Download PDF](v1-jun25-draft.pdf){.btn-rain}
+:::
+
+::: {.facsimile-stack}
+```{r}
+#| echo: false
+#| results: asis
+cat(render_facsimile_html("v1"))
+```
+:::

@@ -1,0 +1,11 @@
+{
+  "source_pdf": "sources/hcup/sb281-operating-room-procedures-2018.pdf",
+  "figure": "Figure 2 \u2014 Inpatient stays with OR procedures by age (2018)",
+  "pct_65_74_with_or": 19.7,
+  "pct_75_plus_with_or": 16.8,
+  "pct_65_plus_with_or": 36.5,
+  "methods": {
+    "65_74": "pdftotext / PDF text layer (prose paragraph)",
+    "75_plus": "Chart label 16.8% (Figure 2, with-OR bar, age 75+); OCR rejected: OCR sum 41.5 != 36.5"
+  }
+}

@@ -1,0 +1,27 @@
+---
+title: "Sources & data manifest"
+format:
+  html:
+    toc: false
+---
+
+Downloads live under `reports/cms-team-impact/` in git. Full table:
+
+```{=html}
+<div id="manifest"></div>
+<script>
+fetch("sources/MANIFEST.md").then(r=>r.text()).then(t=>{
+  document.getElementById("manifest").innerHTML = marked.parse(t);
+}).catch(()=>{
+  document.getElementById("manifest").innerHTML="<p>See <a href='sources/MANIFEST.md'>sources/MANIFEST.md</a>.</p>";
+});
+</script>
+```
+
+```{=html}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+```
+
+Manual mirrors (blocked automated download): AAMC via AANS PDF, Advisory/FACS/MedCity HTML, Burnett abstract HTML — see `sources/aamc/`, `sources/advisory-board/`, `sources/acs-iac/`, `sources/medcity/`, `sources/pubmed/`.
+
+Audit collateral: [Audit materials](audit-materials.qmd).

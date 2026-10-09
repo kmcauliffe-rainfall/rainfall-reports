@@ -1,0 +1,27 @@
+---
+title: "Version 3 · Published Jul 27, 2026"
+subtitle: "Facsimile of Canva PDF — errors preserved"
+format:
+  html:
+    toc: false
+---
+
+```{r}
+#| include: false
+source("../R/facsimile_helpers.R")
+```
+
+::: {.facsimile-toolbar}
+::: {.facsimile-meta}
+**11 pages** · US Letter portrait (612×792 pt). Source: `sources/layout/published-jul27-2026.pdf`. Fonts: DM Sans, Roboto Mono, Canva Sans (nearest free: DM Sans + Roboto Mono).
+:::
+[Download PDF](v3-published-jul27.pdf){.btn-rain}
+:::
+
+::: {.facsimile-stack}
+```{r}
+#| echo: false
+#| results: asis
+cat(render_facsimile_html("v3"))
+```
+:::

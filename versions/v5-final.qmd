@@ -1,0 +1,130 @@
+---
+title: "Version 5 · Final (market-ready)"
+subtitle: "Audit-corrected · data-driven · fully cited"
+bibliography: references.bib
+csl: vancouver.csl
+cite-method: citeproc
+reference-location: document
+format:
+  html:
+    toc: false
+  typst:
+    root: ..
+    font-paths:
+      - fonts
+    papersize: us-letter
+    margin:
+      x: 0.7in
+      y: 0.7in
+    include-in-header:
+      - ../styles/preamble-impact.typ
+    template-partials:
+      - ../styles/typst-show.typ
+    keep-typ: false
+---
+
+```{r}
+#| include: false
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(knitr)
+  library(jsonlite)
+})
+root <- normalizePath("..", winslash = "/", mustWork = TRUE)
+source(file.path(root, "R", "impact_metrics.R"))
+source(file.path(root, "R", "validate_impact_metrics.R"))
+source(file.path(root, "R", "impact_charts.R"))
+m <- compute_impact_metrics()
+validate_impact_metrics(m)
+internal <- jsonlite::fromJSON(file.path(root, "config", "internal_analysis.json"))
+fmt_n <- function(x) format(round(x), big.mark = ",", scientific = FALSE)
+fmt_usd <- function(x) paste0("$", format(round(x), big.mark = ",", scientific = FALSE))
+```
+
+::: {.hero-band style="margin-bottom:1.5rem;"}
+# CMS TEAM Impact Report
+
+**Financial field guide** for CMS’s first mandatory **multi-procedure** surgical episode model · **`r m$n_team`** hospitals · **`r m$n_ca`** in California (`r m$n_ca_cbsa` metro areas)
+
+Prepared by Christina Keny, PhD, MHA, RN, CPHQ · Rainfall Health · **July 2026**
+:::
+
+## Background
+
+By 2030, every Baby Boomer will be 65 or older, with nearly **`r fmt_n(m$pop_2030 / 1000)`** thousand Americans aged 65+ [@census2023np]. Adults 65+ account for about **`r round(m$pct_surgical_stays_65plus, 1)`%** of inpatient surgical stays with an OR procedure [@hcup2021sb281] — not 40% of all discharges.
+
+Multimorbidity affects roughly 74% of older emergency general surgery patients in a **UK cohort** [@hewitt2016]. Frailty and dementia sharply raise surgical mortality [@gill2022; @tang2020; @deiner2014].
+
+The AAMC projects a shortage of up to **86,000** physicians by **2036**, including up to **19,900** surgeons [@aamc2024]. Average THA/TKA length of stay fell from **3.0** to **1.1** days (2012–2023) [@ajrr2024]; more than half of Medicare TKAs are billed outpatient [@burnett2023].
+
+TEAM holds hospitals accountable for **30-day** episodes [@cms1808f]. **CJR-X** starts **January 1, 2028**, covering **`r fmt_n(m$n_cjrx)`** hospitals [@cms1849f]. About **`r fmt_n(m$n_team + m$n_cjrx)`** hospitals will sit in mandatory episode models by that date.
+
+::: {.callout-note}
+**Stat box (computed).** TEAM hospitals: **`r m$n_team`** · CJR-X: **`r fmt_n(m$n_cjrx)`** · 65+ OR-stay share: **`r round(m$pct_surgical_stays_65plus, 1)`%** · Surgery prevalence 65+: **19.4%** [@bicket2024]
+:::
+
+## Demographic wave
+
+```{r}
+#| fig-cap: "Figure 1. U.S. population age 65+ (Census 2023 projections)."
+#| fig-width: 7
+#| fig-height: 3.5
+fig1_demographic_wave(m)
+```
+
+## Surgical demand in older adults
+
+Nearly **1 in 5** adults 65+ had surgery in the past year — the highest prevalence of any age group [@bicket2024].
+
+```{r}
+#| fig-cap: "Figure 2. Age 65+ share by TEAM procedure (HCUP where verified)."
+#| fig-width: 7
+#| fig-height: 3.8
+fig2_procedure_age_shares(m)
+```
+
+## TEAM mandate
+
+**`r m$n_team`** mandated hospitals · CMS savings target **$481M** over five performance years [@cms1808f]. Up to **`r m$track3_cap_pct`%** of target spending at risk each year (Track 3).
+
+```{r}
+#| fig-cap: "Figure 3. Average gain vs loss per case (ACS/IAC 2023)."
+#| fig-width: 7
+#| fig-height: 3.8
+fig3_per_procedure_swing(root)
+```
+
+Advisory Board modeling: **56%** of mandatory participants projected to lose money under current criteria, averaging **$1.2M** each [@advisory2025team]. Five-year exposure above **$14M** is **internal Rainfall analysis** [@rainfall2026model].
+
+## Penalties & incentives
+
+Track 3 applies a flat **±`r m$track3_cap_pct`%** stop-loss/stop-gain on target price **every performance year** [@cms1808f] — not a 30% ramp to PY5.
+
+```{r}
+#| fig-cap: "Figure 4. Track 3 corridor (20% each year)."
+#| fig-width: 7
+#| fig-height: 3.2
+fig4_track3_cap(m)
+```
+
+PY1 preliminary target prices span **`r fmt_usd(m$tp_min_331)`** (DRG 331 minimum) to **`r fmt_usd(m$tp_max_426)`** (DRG 426 maximum) across regions (CMS TEAM PY1 workbook).
+
+## California
+
+**`r m$n_ca`** mandated hospitals across **`r m$n_ca_cbsa` metro areas** — largest state concentration [@cms1808f]. Region splits: **internal Rainfall analysis** [@rainfall2026cabr].
+
+## Episode economics (internal)
+
+Median five-year impact **`r fmt_usd(internal$california_episode_economics$median_five_year_impact_usd)`**; peak **`r fmt_usd(internal$california_episode_economics$peak_five_year_impact_usd)`** — **internal Rainfall analysis** [@rainfall2026model].
+
+## Rainfall Health platform
+
+San Francisco-based Rainfall Health (CEO Eddie Qureshi; **$15M** Series A, Two Bear Capital, February 2026) [@medcity2026]. **$85M** Medicare revenue projection over five years: **internal Rainfall analysis / CEO statements** [@medcity2026].
+
+## References
+
+::: {#refs}
+:::
+
+**Disclaimer.** This brief uses public data, published sources, and internal Rainfall Health analyses (refs 13–14). Not clinical, legal, financial, or regulatory advice.

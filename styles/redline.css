@@ -1,0 +1,56 @@
+/* Redline markup (versions 2 and 4 only) */
+
+.rl-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rl-bubble {
+  position: absolute;
+  max-width: 11rem;
+  font-size: 0.68rem;
+  line-height: 1.25;
+  background: #fff7ed;
+  border: 1px solid #fdba74;
+  border-left: 3px solid #ea580c;
+  padding: 0.35rem 0.45rem;
+  border-radius: 6px;
+  color: #7c2d12;
+  pointer-events: auto;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.rl-bubble .rl-who {
+  font-weight: 700;
+  color: #c2410c;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.rl-bubble .rl-tag {
+  display: inline-block;
+  margin-top: 0.2rem;
+  font-size: 0.62rem;
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
+  background: #ffedd5;
+}
+
+.rl-ins {
+  color: #b91c1c;
+  text-decoration: underline;
+  text-decoration-color: #f87171;
+}
+
+.rl-del {
+  color: #64748b;
+  text-decoration: line-through;
+}
+
+@media print {
+  .rl-bubble {
+    font-size: 7pt;
+    max-width: 1.65in;
+  }
+}

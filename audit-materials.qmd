@@ -1,0 +1,14 @@
+---
+title: "Audit materials"
+format:
+  html:
+    toc: false
+---
+
+| Asset | Download |
+| --- | --- |
+| **32-slide audit deck** | [Impact-Report-Full-Audit.pptx](sources/audit/Impact-Report-Full-Audit.pptx) |
+| **3-page audit summary** | [Impact-Report-Full-Audit-Summary.pdf](sources/audit/Impact-Report-Full-Audit-Summary.pdf) |
+| **Narrated audit video** | [Google Drive](https://drive.google.com/file/d/14fsKQSv-sM5WD0tn9iMLHYzk9A8UtWj0/view?usp=drivesdk) |
+
+Supporting research in repo: `full-audit.md` (uploaded audit bundle), `timing-framing.md`, `ref-history.md`.

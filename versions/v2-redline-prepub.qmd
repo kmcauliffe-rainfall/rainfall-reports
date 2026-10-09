@@ -1,0 +1,44 @@
+---
+title: "Version 2 · Pre-publication redline"
+subtitle: "Jun 25 draft → Jul 27 published (attributed where ref-history confirms)"
+format:
+  html:
+    toc: false
+---
+
+```{r}
+#| include: false
+source("../R/facsimile_helpers.R")
+```
+
+::: {.facsimile-toolbar}
+::: {.facsimile-meta}
+Red insertions (**red underline**) and deletions (~~strike~~) on facsimile pages; margin notes cite Kyle (Jun 26), Christina (Jun 29), or PR firm (Jul 1) when documented.
+:::
+[Download PDF](v2-redline-prepub.pdf){.btn-rain}
+:::
+
+::: {.facsimile-stack}
+```{r}
+#| echo: false
+#| results: asis
+html <- render_facsimile_html("v2")
+# Page 3 (index 3): 741→721, ref swaps — inject overlay on third wrap
+overlay_p3 <- '<div class="rl-layer"><div class="rl-bubble" style="top:8%;right:1%;"><span class="rl-who">Jul 8 · Carrie/Kyle</span>Hospital count <span class="rl-del">741</span> <span class="rl-ins">721</span> (CMS list).</div></div>'
+html <- sub('id="page-3">', paste0('id="page-3">', overlay_p3), html, fixed = TRUE)
+overlay_p1 <- '<div class="rl-layer"><div class="rl-bubble" style="top:6%;right:1%;"><span class="rl-who">Jul 1 · 120/80 cover rewrite</span>Added “First mandatory…”, “Year 1”, “30% by PY5” to cover.</div></div>'
+html <- sub('id="page-1">', paste0('id="page-1">', overlay_p1), html, fixed = TRUE)
+cat(html)
+```
+:::
+
+### Change log (high level)
+
+| When | Who | Change |
+| --- | --- | --- |
+| Jun 26 | Kyle | Citation review memo (Tarazi, AAMC, Becher, Bandeen-Roche) |
+| Jun 29 | Christina | Ho/Etzioni swap, cut Bandeen-Roche, add Deiner/Gill/Tang; disclaimer |
+| Jul 1 | PR firm | Cover rewrite (“first mandatory”, $1.2M Year 1, 30% PY5) |
+| Jul 8 | Team | 741 → 721 hospitals throughout |
+
+Other edits: **source of change unconfirmed** unless noted on a margin bubble.
