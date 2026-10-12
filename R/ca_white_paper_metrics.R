@@ -106,7 +106,11 @@ compute_ca_white_paper_metrics <- function(
     reporting_n = hrrp$scope_hospitals_in_file,
     non_reporting_n = hrrp$scope_hospitals_total - hrrp$scope_hospitals_in_file,
     hrrp_period = paste(pretty_month(hrrp$period_start), "–", pretty_month(hrrp$period_end)),
-    render_date = format(Sys.Date(), "%B %e, %Y") |> trimws() |> gsub(pattern = "  ", replacement = " ")
+    render_date = format(Sys.Date(), "%B %e, %Y") |> trimws() |> gsub(pattern = "  ", replacement = " "),
+    typst_cover_dek = paste0(
+      SCOPE_N, " participating hospitals · ", SCOPE_CBSA_N,
+      " CBSAs · Performance Year 2 begins January 2027"
+    )
   )
 
   if (!is.null(system_rollup)) {
@@ -116,6 +120,17 @@ compute_ca_white_paper_metrics <- function(
     metrics$largest_system_n <- system_rollup$largest_system_n
     metrics$largest_system_pct <- system_rollup$largest_system_pct
   }
+
+  cover_typ_path <- file.path(report_dir, "styles", "cover-dek.generated.typ")
+  dir.create(dirname(cover_typ_path), showWarnings = FALSE, recursive = TRUE)
+  writeLines(
+    sprintf(
+      '#text(size: 12.5pt, fill: rgb("#475569"))[%s]',
+      metrics$typst_cover_dek
+    ),
+    cover_typ_path,
+    useBytes = TRUE
+  )
 
   repo_root_path <- normalizePath(file.path(report_dir, "../.."), winslash = "/", mustWork = TRUE)
   source(file.path(repo_root_path, "R", "write_ca_narration.R"))

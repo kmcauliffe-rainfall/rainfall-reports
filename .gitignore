@@ -18,6 +18,7 @@ states/california/california_files/
 **/*.typ
 !**/styles/preamble.typ
 !**/styles/typst-show.typ
+**/styles/cover-dek.generated.typ
 **/figures/
 outputs/
 renv/library/

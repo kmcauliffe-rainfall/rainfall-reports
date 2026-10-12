@@ -1,0 +1,9 @@
+old_text,new_text,reason,source
+"California leads with 107 CMS TEAM hospitals (assignment check)","107 California rows in vendored roster; NY second at 78","Verified claim; counts computed from CSV","data/team_participant_list.csv; data/team_participant_list_source.json (TEAM Participant List 2026Q2 as of April 15 2026)"
+"107 participating hospitals · 11 CBSAs (PDF cover, hardcoded)","Dynamic string from SCOPE_N and SCOPE_CBSA_N at render","Formatting/build: cover could drift if roster refreshed","states/california/california.qmd Typst cover; R metrics pipeline"
+"National roster 720 hospitals","Unchanged; document vintage vs CMS marketing 716 active participants","Not wrong: repo uses vendored participant-list row count; CMS model page rounds differently by update","data/team_participant_list.csv (720 rows); CMS TEAM model page (716 active participants Sept 2026) — Kyle: align refresh cadence with marketing site (721 on rainfallhealth.com Jun 2026 snapshot)?"
+"2.9 percentage points lower institutional PAC discharge under mandatory CJR","Unchanged","Verified peer-reviewed statistic","Finkelstein et al. JAMA 2018;320(9):892-900 doi:10.1001/jama.2018.12346"
+"roughly $1,166 less per episode (BPCI)","Unchanged","Verified peer-reviewed statistic","Dummit et al. JAMA 2016;316(12):1267-1278 doi:10.1001/jama.2016.12717"
+"San Francisco-Oakland-Fremont is 2nd-largest TEAM CBSA nationally","Unchanged (37 hospitals; NY-NJ CBSA 109)","Verified from vendored roster aggregation","data/team_participant_list.csv via R/cbsa_national_ranks"
+"Em dashes in narrative prose","Replaced with commas, colons, or parentheses","Copy style: plain language, no em dashes","Rainfall editorial standard (How-I-Work-With-AI-GENERAL)"
+"Disclaimer block","Unchanged","Must remain; flagged for lawyer review","codex/COMPLIANCE.md"
